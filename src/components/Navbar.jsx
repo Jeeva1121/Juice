@@ -82,27 +82,12 @@ export default function Navbar() {
     )
   }, { scope: navRef })
 
-  // 2. Mobile Menu Reveal
-  const tlMobile = useRef(null)
-  useGSAP(() => {
-    gsap.set(menuRef.current, { autoAlpha: 0 })
-    
-    tlMobile.current = gsap.timeline({ paused: true, defaults: { ease: 'power3.inOut', duration: 0.5 } })
-      .to(menuRef.current, { autoAlpha: 1 })
-      .fromTo('.mobile-link', 
-        { y: 40, opacity: 0 }, 
-        { y: 0, opacity: 1, stagger: 0.05, duration: 0.5, ease: 'power3.out' }, 
-        '-=0.2'
-      )
-  }, { scope: navRef })
+  // 2. Mobile Menu Reveal (using CSS instead of GSAP to ensure reliability)
+  // Removed GSAP logic for mobile menu to prevent sticking state
 
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      tlMobile.current?.play()
-    } else {
-      tlMobile.current?.reverse()
-    }
-  }, [isMobileMenuOpen])
+
+  // Removed GSAP trigger since we use CSS
+
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false)
 
@@ -339,23 +324,22 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Full Screen Mobile Overlay Menu */}
+      {/* Full Screen Mobile Overlay Menu (CSS Controlled) */}
       <div
-        ref={menuRef}
-        className="fixed inset-0 z-40 bg-[#FAF5EA] flex flex-col justify-center items-center px-8 lg:hidden will-change-transform invisible opacity-0"
+        className={`fixed inset-0 z-40 bg-[#FAF5EA] flex flex-col justify-center items-center px-8 lg:hidden transition-all duration-500 ease-in-out ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
       >
-        <div className="flex flex-col items-center text-center gap-8 text-2xl sm:text-3xl font-poppins font-medium uppercase text-neutral-900 tracking-[0.2em] mt-[-5vh]">
-          <div className="overflow-hidden">
-            <a href="#flavors" onClick={(e) => scrollToSection(e, '#flavors')} className="mobile-link block hover:text-(--color-coral) transition-colors">Our Menu</a>
+        <div className={`flex flex-col items-center text-center gap-8 text-2xl sm:text-3xl font-poppins font-medium uppercase text-neutral-900 tracking-[0.2em] transition-transform duration-500 delay-100 ${isMobileMenuOpen ? 'translate-y-0' : 'translate-y-8'}`}>
+          <div>
+            <a href="#flavors" onClick={(e) => scrollToSection(e, '#flavors')} className="block hover:text-(--color-coral) transition-colors">Our Menu</a>
           </div>
-          <div className="overflow-hidden">
-            <a href="#about" onClick={(e) => scrollToSection(e, '#about')} className="mobile-link block hover:text-(--color-coral) transition-colors">Our Story</a>
+          <div>
+            <a href="#about" onClick={(e) => scrollToSection(e, '#about')} className="block hover:text-(--color-coral) transition-colors">Our Story</a>
           </div>
-          <div className="overflow-hidden">
-            <a href="#about" onClick={(e) => scrollToSection(e, '#about')} className="mobile-link block hover:text-(--color-coral) transition-colors">The Artisans</a>
+          <div>
+            <a href="#about" onClick={(e) => scrollToSection(e, '#about')} className="block hover:text-(--color-coral) transition-colors">The Artisans</a>
           </div>
-          <div className="overflow-hidden">
-            <a href="#footer" onClick={(e) => scrollToSection(e, '#footer')} className="mobile-link block hover:text-(--color-coral) transition-colors">Contact</a>
+          <div>
+            <a href="#footer" onClick={(e) => scrollToSection(e, '#footer')} className="block hover:text-(--color-coral) transition-colors">Contact</a>
           </div>
         </div>
         

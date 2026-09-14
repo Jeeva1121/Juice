@@ -485,7 +485,7 @@ export default function Hero() {
 
       <div
         ref={pinWrapperRef}
-        className="relative w-full min-h-svh sm:min-h-screen flex flex-col justify-between items-center px-4 sm:px-12 md:px-16 pt-20 sm:pt-24 pb-12 sm:pb-8 overflow-hidden select-none"
+        className="relative w-full min-h-svh sm:min-h-screen flex flex-col justify-between items-center px-4 sm:px-12 md:px-16 pt-20 sm:pt-24 pb-2 sm:pb-8 overflow-hidden select-none"
       >
         {/* Center Stage: Giant Wordmark + 5 Juicy Fruit Pieces + Crisp Center Bottle */}
         <div className="relative z-10 w-full max-w-7xl flex-1 flex items-center justify-center my-auto min-h-[52vh] sm:min-h-[58vh]">
@@ -775,7 +775,7 @@ export default function Hero() {
         </div>
 
         {/* Bottom Editorial Bar: "show all the juices" CTA + Manifesto text */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 sm:gap-6 pt-2 pointer-events-auto">
+        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 sm:gap-6 pt-0 sm:pt-2 pointer-events-auto">
           {/* Bottom Left: CTA Square Button */}
           <div ref={bottomLeftBtnRef}>
             <a
