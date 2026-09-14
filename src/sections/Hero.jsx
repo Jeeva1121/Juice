@@ -22,6 +22,7 @@ const HERO_SLIDES = [
     ctaText: 'show all the juices',
     bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[45vh] sm:h-[60vh] translate-y-8 sm:translate-y-0',
     bottleImgClass: 'scale-[0.88] sm:scale-[0.84] md:scale-[0.88] lg:scale-[0.92]',
+    buttonWrapperClass: '',
   },
   {
     id: 'strawberry',
@@ -39,6 +40,7 @@ const HERO_SLIDES = [
     ctaText: 'explore strawberry',
     bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[45vh] sm:h-[60vh] translate-y-8 sm:translate-y-0',
     bottleImgClass: 'scale-[0.86] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
+    buttonWrapperClass: 'translate-y-3 sm:translate-y-0',
   },
   {
     id: 'cherry',
@@ -56,6 +58,7 @@ const HERO_SLIDES = [
     ctaText: 'discover black cherry',
     bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[45vh] sm:h-[60vh] translate-y-8 sm:translate-y-0',
     bottleImgClass: 'scale-[0.86] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
+    buttonWrapperClass: 'translate-y-3 sm:translate-y-0',
   },
   {
     id: 'lemon',
@@ -73,6 +76,7 @@ const HERO_SLIDES = [
     ctaText: 'explore lemon',
     bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-lg lg:max-w-lg h-[45vh] sm:h-[60vh] translate-y-8 sm:translate-y-0',
     bottleImgClass: 'scale-[0.86] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
+    buttonWrapperClass: '',
   },
 ]
 
@@ -647,7 +651,7 @@ export default function Hero() {
             {/* Cherry Piece 1: Top Left */}
             <div
               ref={cherryPiece1Ref}
-              className="absolute top-[3%] sm:top-[1%] left-[-1%] sm:left-[1%] md:left-[2%] w-32 sm:w-40 md:w-48 lg:w-48 pointer-events-none will-change-transform"
+              className="absolute top-[2%] sm:top-[0%] left-[-2%] sm:left-[2%] md:left-[8%] w-20 sm:w-48 md:w-64 lg:w-72 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-a">
                 <img
@@ -661,7 +665,7 @@ export default function Hero() {
             {/* Cherry Piece 2: Bottom Left */}
             <div
               ref={cherryPiece2Ref}
-              className="absolute bottom-[-6%] sm:bottom-[-10%] left-[-1%] sm:left-[0%] md:left-[1%] w-24 sm:w-48 md:w-64 lg:w-72 pointer-events-none will-change-transform"
+              className="absolute bottom-[6%] sm:bottom-[-4%] left-[-1%] sm:left-[0%] md:left-[2%] w-32 sm:w-56 md:w-72 lg:w-80 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-b">
                 <img
@@ -703,7 +707,7 @@ export default function Hero() {
             {/* Cherry Piece 5: Bottom Right (UNHIDDEN & VISIBLE ON MOBILE) */}
             <div
               ref={cherryPiece5Ref}
-              className="absolute bottom-[-1%] sm:bottom-[-4%] right-[-1%] sm:right-[1%] md:right-[2%] w-28 sm:w-52 md:w-64 lg:w-88 pointer-events-none will-change-transform"
+              className="absolute bottom-[5%] sm:bottom-[-4%] right-[-1%] sm:right-[1%] md:right-[2%] w-28 sm:w-52 md:w-64 lg:w-88 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-b">
                 <img
@@ -733,7 +737,7 @@ export default function Hero() {
             {/* Lemon Piece 2 */}
             <div
               ref={lemonPiece2Ref}
-              className="absolute bottom-[4%] sm:bottom-[0%] left-[-1%] sm:left-[0%] md:left-[1%] w-44 sm:w-60 md:w-80 lg:w-104 pointer-events-none will-change-transform"
+              className="absolute bottom-[0%] sm:bottom-[0%] left-[-1%] sm:left-[0%] md:left-[1%] w-44 sm:w-60 md:w-80 lg:w-104 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-b">
                 <img src="/assets/lemon-piece-2.png" alt="Fresh lemon slice" className="w-full h-auto object-contain drop-shadow-lg" />
@@ -777,7 +781,7 @@ export default function Hero() {
         {/* Bottom Editorial Bar: "show all the juices" CTA + Manifesto text */}
         <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4 sm:gap-6 pt-0 sm:pt-2 pointer-events-auto">
           {/* Bottom Left: CTA Square Button */}
-          <div ref={bottomLeftBtnRef} className="mb-4 sm:mb-0">
+          <div ref={bottomLeftBtnRef} className={`mb-4 sm:mb-0 ${activeSlide.buttonWrapperClass || ''}`}>
             <a
               href="#flavors"
               className="inline-block bg-(--color-ink) text-white font-bold uppercase tracking-widest text-[10px] sm:text-sm px-6 sm:px-8 py-3 sm:py-4 rounded-none transition-colors hover:bg-(--color-coral) shadow-lg"
