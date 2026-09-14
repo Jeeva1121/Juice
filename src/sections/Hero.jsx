@@ -507,7 +507,7 @@ export default function Hero() {
             {/* Orange Piece 1: Top Left */}
             <div
               ref={piece1Ref}
-              className="absolute top-[1%] sm:top-[-1%] left-[-1%] sm:left-[1%] md:left-[2%] w-48 sm:w-64 md:w-80 lg:w-88 pointer-events-none will-change-transform"
+              className="absolute top-[1%] sm:top-[-1%] left-[-1%] sm:left-[1%] md:left-[2%] w-32 sm:w-64 md:w-80 lg:w-88 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-a">
                 <img
@@ -521,7 +521,7 @@ export default function Hero() {
             {/* Orange Piece 2: Bottom Left */}
             <div
               ref={piece2Ref}
-              className="absolute bottom-[-1%] sm:bottom-[-6%] left-[-1%] sm:left-[0%] md:left-[1%] w-52 sm:w-72 md:w-96 lg:w-100 pointer-events-none will-change-transform"
+              className="absolute bottom-[-1%] sm:bottom-[-6%] left-[-1%] sm:left-[0%] md:left-[1%] w-36 sm:w-72 md:w-96 lg:w-100 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-b">
                 <img
@@ -535,7 +535,7 @@ export default function Hero() {
             {/* Orange Piece 3: Top Right */}
             <div
               ref={piece3Ref}
-              className="absolute top-[2%] sm:top-[0%] right-[-1%] sm:right-[1%] md:right-[2%] w-48 sm:w-64 md:w-80 lg:w-88 pointer-events-none will-change-transform"
+              className="absolute top-[2%] sm:top-[0%] right-[-1%] sm:right-[1%] md:right-[2%] w-32 sm:w-64 md:w-80 lg:w-88 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-c">
                 <img
@@ -549,7 +549,7 @@ export default function Hero() {
             {/* Orange Piece 5: Bottom Right */}
             <div
               ref={piece5Ref}
-              className="absolute bottom-[-1%] sm:bottom-[-6%] right-[-1%] sm:right-[1%] md:right-[2%] w-56 sm:w-72 md:w-96 lg:w-md pointer-events-none will-change-transform"
+              className="absolute bottom-[-1%] sm:bottom-[-6%] right-[-1%] sm:right-[1%] md:right-[2%] w-40 sm:w-72 md:w-96 lg:w-md pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-b">
                 <img
@@ -570,7 +570,7 @@ export default function Hero() {
             {/* Straw Piece 1: Top Left */}
             <div
               ref={strawPiece1Ref}
-              className="absolute top-[1%] sm:top-[-1%] left-[-1%] sm:left-[1%] md:left-[2%] w-36 sm:w-48 md:w-64 lg:w-72 pointer-events-none will-change-transform"
+              className="absolute top-[1%] sm:top-[-1%] left-[-1%] sm:left-[1%] md:left-[2%] w-24 sm:w-48 md:w-64 lg:w-72 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-a">
                 <img
@@ -584,7 +584,7 @@ export default function Hero() {
             {/* Straw Piece 2: Bottom Left */}
             <div
               ref={strawPiece2Ref}
-              className="absolute bottom-[-1%] sm:bottom-[-4%] left-[-1%] sm:left-[0%] md:left-[1%] w-40 sm:w-52 md:w-72 lg:w-80 pointer-events-none will-change-transform"
+              className="absolute bottom-[-1%] sm:bottom-[-4%] left-[-1%] sm:left-[0%] md:left-[1%] w-28 sm:w-52 md:w-72 lg:w-80 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-b">
                 <img
@@ -598,7 +598,7 @@ export default function Hero() {
             {/* Straw Piece 3: Top Right */}
             <div
               ref={strawPiece3Ref}
-              className="absolute top-[2%] sm:top-[0%] right-[-1%] sm:right-[1%] md:right-[2%] w-36 sm:w-48 md:w-64 lg:w-72 pointer-events-none will-change-transform"
+              className="absolute top-[2%] sm:top-[0%] right-[-1%] sm:right-[1%] md:right-[2%] w-24 sm:w-48 md:w-64 lg:w-72 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-c">
                 <img
@@ -626,7 +626,7 @@ export default function Hero() {
             {/* Straw Piece 5: Bottom Right (UNHIDDEN & VISIBLE ON MOBILE) */}
             <div
               ref={strawPiece5Ref}
-              className="absolute bottom-[-1%] sm:bottom-[-4%] right-[-1%] sm:right-[1%] md:right-[2%] w-44 sm:w-56 md:w-72 lg:w-[24rem] pointer-events-none will-change-transform"
+              className="absolute bottom-[-1%] sm:bottom-[-4%] right-[-1%] sm:right-[1%] md:right-[2%] w-28 sm:w-56 md:w-72 lg:w-[24rem] pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-b">
                 <img
@@ -661,7 +661,7 @@ export default function Hero() {
             {/* Cherry Piece 2: Bottom Left */}
             <div
               ref={cherryPiece2Ref}
-              className="absolute bottom-[-6%] sm:bottom-[-10%] left-[-1%] sm:left-[0%] md:left-[1%] w-36 sm:w-48 md:w-64 lg:w-72 pointer-events-none will-change-transform"
+              className="absolute bottom-[-6%] sm:bottom-[-10%] left-[-1%] sm:left-[0%] md:left-[1%] w-24 sm:w-48 md:w-64 lg:w-72 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-b">
                 <img
@@ -703,7 +703,7 @@ export default function Hero() {
             {/* Cherry Piece 5: Bottom Right (UNHIDDEN & VISIBLE ON MOBILE) */}
             <div
               ref={cherryPiece5Ref}
-              className="absolute bottom-[-1%] sm:bottom-[-4%] right-[-1%] sm:right-[1%] md:right-[2%] w-40 sm:w-52 md:w-64 lg:w-88 pointer-events-none will-change-transform"
+              className="absolute bottom-[-1%] sm:bottom-[-4%] right-[-1%] sm:right-[1%] md:right-[2%] w-28 sm:w-52 md:w-64 lg:w-88 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-b">
                 <img
@@ -724,7 +724,7 @@ export default function Hero() {
             {/* Lemon Piece 1 */}
             <div
               ref={lemonPiece1Ref}
-              className="absolute top-[2%] sm:top-[0%] left-[-1%] sm:left-[1%] md:left-[2%] w-40 sm:w-56 md:w-72 lg:w-80 pointer-events-none will-change-transform"
+              className="absolute top-[2%] sm:top-[0%] left-[-1%] sm:left-[1%] md:left-[2%] w-28 sm:w-56 md:w-72 lg:w-80 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-a">
                 <img src="/assets/lemon-piece-1.png" alt="Fresh lemon slice" className="w-full h-auto object-contain drop-shadow-lg" />
@@ -742,7 +742,7 @@ export default function Hero() {
             {/* Lemon Piece 3 */}
             <div
               ref={lemonPiece3Ref}
-              className="absolute top-[2%] sm:top-[0%] right-[-1%] sm:right-[1%] md:right-[2%] w-40 sm:w-56 md:w-72 lg:w-80 pointer-events-none will-change-transform"
+              className="absolute top-[2%] sm:top-[0%] right-[-1%] sm:right-[1%] md:right-[2%] w-28 sm:w-56 md:w-72 lg:w-80 pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-c">
                 <img src="/assets/lemon-piece-3.png" alt="Fresh lemon slice" className="w-full h-auto object-contain drop-shadow-lg" />
@@ -751,7 +751,7 @@ export default function Hero() {
             {/* Lemon Piece 5 */}
             <div
               ref={lemonPiece5Ref}
-              className="absolute bottom-[4%] sm:bottom-[0%] right-[-1%] sm:right-[1%] md:right-[2%] w-48 sm:w-64 md:w-80 lg:w-md pointer-events-none will-change-transform"
+              className="absolute bottom-[4%] sm:bottom-[0%] right-[-1%] sm:right-[1%] md:right-[2%] w-32 sm:w-64 md:w-80 lg:w-md pointer-events-none will-change-transform"
             >
               <div className="animate-fruit-float-b">
                 <img src="/assets/lemon-piece-5.png" alt="Fresh lemon slice" className="w-full h-auto object-contain drop-shadow-lg" />
@@ -777,10 +777,10 @@ export default function Hero() {
         {/* Bottom Editorial Bar: "show all the juices" CTA + Manifesto text */}
         <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4 sm:gap-6 pt-0 sm:pt-2 pointer-events-auto">
           {/* Bottom Left: CTA Square Button */}
-          <div ref={bottomLeftBtnRef}>
+          <div ref={bottomLeftBtnRef} className="mb-4 sm:mb-0">
             <a
               href="#flavors"
-              className="inline-block bg-neutral-900 text-white font-bold uppercase tracking-widest text-[10px] sm:text-sm px-6 sm:px-8 py-3 sm:py-4 rounded-full transition-colors hover:bg-(--color-coral) shadow-lg"
+              className="inline-block bg-(--color-ink) text-white font-bold uppercase tracking-widest text-[10px] sm:text-sm px-6 sm:px-8 py-3 sm:py-4 rounded-none transition-colors hover:bg-(--color-coral) shadow-lg"
             >
               {activeSlide.ctaText}
             </a>
@@ -812,3 +812,4 @@ export default function Hero() {
     </section>
   )
 }
+
