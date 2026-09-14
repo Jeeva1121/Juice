@@ -20,8 +20,8 @@ const HERO_SLIDES = [
     highlightColor: '#3A7D44',
     manifestoBody: 'A family owned company founded with the purpose of giving your family access to clean, organic products while you are on the go.',
     ctaText: 'show all the juices',
-    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[54vh] sm:h-[60vh] translate-y-4 sm:translate-y-0',
-    bottleImgClass: 'scale-[0.92] sm:scale-[0.84] md:scale-[0.88] lg:scale-[0.92]',
+    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[45vh] sm:h-[60vh] translate-y-8 sm:translate-y-0',
+    bottleImgClass: 'scale-[0.88] sm:scale-[0.84] md:scale-[0.88] lg:scale-[0.92]',
   },
   {
     id: 'strawberry',
@@ -37,8 +37,8 @@ const HERO_SLIDES = [
     highlightColor: '#D90429',
     manifestoBody: 'Slow cold-pressed ruby strawberries blended with organic coconut water and key lime essence for pure cellular restoration.',
     ctaText: 'explore strawberry',
-    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[54vh] sm:h-[60vh] translate-y-4 sm:translate-y-0',
-    bottleImgClass: 'scale-[0.90] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
+    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[45vh] sm:h-[60vh] translate-y-8 sm:translate-y-0',
+    bottleImgClass: 'scale-[0.86] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
   },
   {
     id: 'cherry',
@@ -54,8 +54,8 @@ const HERO_SLIDES = [
     highlightColor: '#9B111E',
     manifestoBody: 'Slow cold-extracted Montmorency tart and dark orchard cherries packed with natural anthocyanins and bioavailable melatonin for deep cellular recovery.',
     ctaText: 'discover black cherry',
-    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[54vh] sm:h-[60vh] translate-y-4 sm:translate-y-0',
-    bottleImgClass: 'scale-[0.90] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
+    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[45vh] sm:h-[60vh] translate-y-8 sm:translate-y-0',
+    bottleImgClass: 'scale-[0.86] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
   },
   {
     id: 'lemon',
@@ -71,8 +71,8 @@ const HERO_SLIDES = [
     highlightColor: '#65a30d',
     manifestoBody: 'Sun-ripened organic lemons cold-extracted to deliver an invigorating burst of natural vitamin C and cellular hydration.',
     ctaText: 'explore lemon',
-    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-lg lg:max-w-lg h-[54vh] sm:h-[60vh] translate-y-4 sm:translate-y-0',
-    bottleImgClass: 'scale-[0.90] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
+    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-lg lg:max-w-lg h-[45vh] sm:h-[60vh] translate-y-8 sm:translate-y-0',
+    bottleImgClass: 'scale-[0.86] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
   },
 ]
 
@@ -780,7 +780,7 @@ export default function Hero() {
           <div ref={bottomLeftBtnRef}>
             <a
               href="#flavors"
-              className="inline-block bg-(--color-ink) text-white font-bold uppercase tracking-widest text-xs sm:text-sm px-6 sm:px-8 py-3 sm:py-4 transition-colors hover:bg-(--color-coral)"
+              className="inline-block bg-neutral-900 text-white font-bold uppercase tracking-widest text-[10px] sm:text-sm px-6 sm:px-8 py-3 sm:py-4 rounded-full transition-colors hover:bg-(--color-coral) shadow-lg"
             >
               {activeSlide.ctaText}
             </a>
@@ -791,12 +791,12 @@ export default function Hero() {
             ref={manifestoRef}
             className="w-full sm:max-w-md md:max-w-lg lg:max-w-xl text-center sm:text-right flex flex-col items-center sm:items-end mt-2 sm:mt-0"
           >
-            <h3 className="text-lg sm:text-xl md:text-2xl font-black font-display uppercase tracking-wider mb-2 sm:mb-3">
-              <span className="text-(--color-ink)">{activeSlide.manifestoTitle.split(' ').slice(0, -3).join(' ')}</span>
+            <h3 className="text-[15px] sm:text-xl md:text-2xl font-black font-display uppercase tracking-widest mb-1 sm:mb-3 leading-tight">
+              <span className="text-neutral-900">{activeSlide.manifestoTitle.split(' ').slice(0, -3).join(' ')}</span>
               <br className="hidden sm:block" />
               <span style={{ color: activeSlide.highlightColor }}> {activeSlide.manifestoTitle.split(' ').slice(-3).join(' ')}</span>
             </h3>
-            <p className="text-xs sm:text-sm font-medium tracking-wide text-neutral-600 leading-relaxed max-w-[280px] sm:max-w-none">
+            <p className="text-[10px] sm:text-sm font-medium tracking-wide text-neutral-600 leading-snug sm:leading-relaxed max-w-[260px] sm:max-w-none">
               {activeSlide.manifestoBody}
             </p>
           </div>
