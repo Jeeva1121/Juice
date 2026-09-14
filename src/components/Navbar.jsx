@@ -201,14 +201,15 @@ export default function Navbar() {
   }
 
   return (
-    <header
-      ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
-        isScrolled 
-          ? 'pt-2.5 sm:pt-3.5 px-4 sm:px-6' 
-          : 'pt-4 sm:pt-6 px-6 sm:px-12'
-      }`}
-    >
+    <>
+      <header
+        ref={navRef}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
+          isScrolled 
+            ? 'pt-2.5 sm:pt-3.5 px-4 sm:px-6' 
+            : 'pt-4 sm:pt-6 px-6 sm:px-12'
+        }`}
+      >
       {/* Floating Pill Container */}
       <div 
         className={`mx-auto w-full max-w-7xl flex items-center justify-between transition-all duration-500 ${
@@ -324,6 +325,8 @@ export default function Navbar() {
         </div>
       </div>
 
+      </header>
+
       {/* Full Screen Mobile Overlay Menu (CSS Controlled) */}
       <div
         className={`fixed inset-0 z-40 bg-[#FAF5EA] flex flex-col justify-center items-center px-8 lg:hidden transition-all duration-500 ease-in-out ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
@@ -349,6 +352,6 @@ export default function Navbar() {
           <button onClick={() => { closeMobileMenu(); setIsCartOpen(true) }} className="mobile-link text-(--color-coral) cursor-pointer">Bag ({totalItems})</button>
         </div>
       </div>
-    </header>
+    </>
   )
 }

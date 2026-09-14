@@ -485,7 +485,7 @@ export default function Hero() {
 
       <div
         ref={pinWrapperRef}
-        className="relative w-full min-h-svh sm:min-h-screen flex flex-col justify-between items-center px-4 sm:px-12 md:px-16 pt-20 sm:pt-24 pb-2 sm:pb-8 overflow-hidden select-none"
+        className="relative w-full min-h-svh sm:min-h-screen flex flex-col justify-between items-center px-4 sm:px-12 md:px-16 pt-20 sm:pt-24 pb-6 sm:pb-8 overflow-hidden select-none"
       >
         {/* Center Stage: Giant Wordmark + 5 Juicy Fruit Pieces + Crisp Center Bottle */}
         <div className="relative z-10 w-full max-w-7xl flex-1 flex items-center justify-center my-auto min-h-[52vh] sm:min-h-[58vh]">
@@ -775,30 +775,28 @@ export default function Hero() {
         </div>
 
         {/* Bottom Editorial Bar: "show all the juices" CTA + Manifesto text */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-end justify-between gap-3 sm:gap-6 pt-0 sm:pt-2 pointer-events-auto">
+        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4 sm:gap-6 pt-0 sm:pt-2 pointer-events-auto">
           {/* Bottom Left: CTA Square Button */}
           <div ref={bottomLeftBtnRef}>
             <a
               href="#flavors"
-              className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 bg-(--color-ink) text-(--color-surface) hover:bg-(--color-coral) text-xs sm:text-sm font-medium tracking-widest rounded-none transition-colors shadow-sm cursor-pointer whitespace-nowrap uppercase"
+              className="inline-block bg-(--color-ink) text-white font-bold uppercase tracking-widest text-xs sm:text-sm px-6 sm:px-8 py-3 sm:py-4 transition-colors hover:bg-(--color-coral)"
             >
               {activeSlide.ctaText}
             </a>
           </div>
 
-          {/* Bottom Right: Manifesto Texts */}
+          {/* Bottom Right: Manifesto Block */}
           <div
             ref={manifestoRef}
-            className="w-full sm:w-[360px] md:w-[420px] text-left flex flex-col items-start shrink-0"
+            className="w-full sm:max-w-md md:max-w-lg lg:max-w-xl text-center sm:text-right flex flex-col items-center sm:items-end mt-2 sm:mt-0"
           >
-            <h2 className="font-display text-base sm:text-xl md:text-2xl font-bold text-(--color-ink) leading-tight mb-1.5 sm:mb-2">
-              {activeSlide.manifestoTitle.split(activeSlide.manifestoHighlight)[0]}
-              <span style={{ color: activeSlide.highlightColor }}>
-                {activeSlide.manifestoHighlight}
-              </span>
-              {activeSlide.manifestoTitle.split(activeSlide.manifestoHighlight)[1]}
-            </h2>
-            <p className="text-xs sm:text-sm text-(--color-ink-muted) leading-relaxed font-normal">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-black font-display uppercase tracking-wider mb-2 sm:mb-3">
+              <span className="text-(--color-ink)">{activeSlide.manifestoTitle.split(' ').slice(0, -3).join(' ')}</span>
+              <br className="hidden sm:block" />
+              <span style={{ color: activeSlide.highlightColor }}> {activeSlide.manifestoTitle.split(' ').slice(-3).join(' ')}</span>
+            </h3>
+            <p className="text-xs sm:text-sm font-medium tracking-wide text-neutral-600 leading-relaxed max-w-[280px] sm:max-w-none">
               {activeSlide.manifestoBody}
             </p>
           </div>
