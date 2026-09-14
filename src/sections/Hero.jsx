@@ -20,7 +20,7 @@ const HERO_SLIDES = [
     highlightColor: '#3A7D44',
     manifestoBody: 'A family owned company founded with the purpose of giving your family access to clean, organic products while you are on the go.',
     ctaText: 'show all the juices',
-    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[54vh] sm:h-[60vh] translate-y-0',
+    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[54vh] sm:h-[60vh] translate-y-4 sm:translate-y-0',
     bottleImgClass: 'scale-[0.92] sm:scale-[0.84] md:scale-[0.88] lg:scale-[0.92]',
   },
   {
@@ -37,7 +37,7 @@ const HERO_SLIDES = [
     highlightColor: '#D90429',
     manifestoBody: 'Slow cold-pressed ruby strawberries blended with organic coconut water and key lime essence for pure cellular restoration.',
     ctaText: 'explore strawberry',
-    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[54vh] sm:h-[60vh] translate-y-0',
+    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[54vh] sm:h-[60vh] translate-y-4 sm:translate-y-0',
     bottleImgClass: 'scale-[0.90] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
   },
   {
@@ -54,7 +54,7 @@ const HERO_SLIDES = [
     highlightColor: '#9B111E',
     manifestoBody: 'Slow cold-extracted Montmorency tart and dark orchard cherries packed with natural anthocyanins and bioavailable melatonin for deep cellular recovery.',
     ctaText: 'discover black cherry',
-    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[54vh] sm:h-[60vh] translate-y-0',
+    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[54vh] sm:h-[60vh] translate-y-4 sm:translate-y-0',
     bottleImgClass: 'scale-[0.90] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
   },
   {
@@ -71,7 +71,7 @@ const HERO_SLIDES = [
     highlightColor: '#65a30d',
     manifestoBody: 'Sun-ripened organic lemons cold-extracted to deliver an invigorating burst of natural vitamin C and cellular hydration.',
     ctaText: 'explore lemon',
-    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-lg lg:max-w-lg h-[54vh] sm:h-[60vh] translate-y-0',
+    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-lg lg:max-w-lg h-[54vh] sm:h-[60vh] translate-y-4 sm:translate-y-0',
     bottleImgClass: 'scale-[0.90] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
   },
 ]
@@ -775,7 +775,7 @@ export default function Hero() {
         </div>
 
         {/* Bottom Editorial Bar: "show all the juices" CTA + Manifesto text */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 sm:gap-6 pt-0 sm:pt-2 pointer-events-auto">
+        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-end justify-between gap-3 sm:gap-6 pt-0 sm:pt-2 pointer-events-auto">
           {/* Bottom Left: CTA Square Button */}
           <div ref={bottomLeftBtnRef}>
             <a
