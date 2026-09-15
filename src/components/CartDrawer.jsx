@@ -152,26 +152,22 @@ export default function CartDrawer() {
             </div>
 
             {/* Chilled Free Shipping Progress */}
-            <div className="px-6 py-4 bg-white/70 backdrop-blur-md border-b border-black/5">
-              <div className="flex items-center justify-between text-xs mb-2">
-                <span className="font-semibold text-neutral-800">
+            <div className="px-6 py-5 bg-transparent border-b border-black/10">
+              <div className="flex items-center justify-between text-[10px] sm:text-xs mb-3">
+                <span className="font-bold text-neutral-900 tracking-wide uppercase">
                   {isFreeShipping ? (
-                    <span className="text-neutral-900 font-bold flex items-center gap-1.5">
-                      <span className="text-xs text-(--color-coral)">✦</span> Complimentary Chilled Nitrogen Dispatch Unlocked!
-                    </span>
+                    'Complimentary Dispatch Unlocked'
                   ) : (
-                    <span>
-                      Add <span className="font-bold text-(--color-coral)">₹{freeShippingLeft}</span> for Complimentary Delivery
-                    </span>
+                    <>Add <span className="text-(--color-coral)">₹{freeShippingLeft}</span> for Complimentary Delivery</>
                   )}
                 </span>
-                <span className="text-[11px] font-mono font-medium text-neutral-400">
+                <span className="font-mono text-neutral-500">
                   {Math.round(Math.min(100, (subtotal / freeShippingThreshold) * 100))}%
                 </span>
               </div>
-              <div className="w-full h-1.5 bg-black/5 rounded-full overflow-hidden">
+              <div className="w-full h-1 bg-neutral-200 rounded-none overflow-hidden">
                 <div
-                  className="h-full bg-linear-to-r from-[#FF9F1C] to-(--color-coral) rounded-full transition-all duration-500 ease-out"
+                  className="h-full bg-neutral-900 transition-all duration-500 ease-out"
                   style={{ width: `${Math.min(100, (subtotal / freeShippingThreshold) * 100)}%` }}
                 />
               </div>
@@ -199,7 +195,7 @@ export default function CartDrawer() {
                       const el = document.querySelector('#flavors')
                       if (el) el.scrollIntoView({ behavior: 'smooth' })
                     }}
-                    className="px-6 py-3 bg-neutral-900 text-white text-xs font-bold uppercase tracking-wider hover:bg-(--color-coral) transition-colors cursor-pointer rounded-none"
+                    className="px-6 py-3 bg-neutral-900 text-white text-xs font-medium uppercase tracking-wider hover:bg-(--color-coral) transition-colors cursor-pointer rounded-none"
                   >
                     Explore 4 Editions
                   </button>
@@ -290,10 +286,10 @@ export default function CartDrawer() {
                     Recommended Add-ons
                   </span>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="p-3 bg-white/90 rounded-2xl border border-black/5 flex items-center gap-2.5 shadow-2xs hover:shadow-xs transition-shadow">
+                    <div className="p-3 bg-transparent border border-black/10 flex items-center gap-2.5">
                       <img src="/assets/straw-can-hero.png" alt="Strawberry" className="w-8 h-10 object-contain shrink-0" />
                       <div className="flex-1 min-w-0">
-                        <h5 className="text-[11px] font-bold text-neutral-900 truncate">Wild Strawberry</h5>
+                        <h5 className="text-[11px] font-bold text-neutral-900 truncate uppercase">Wild Strawberry</h5>
                         <span className="text-[10px] text-neutral-500">₹350</span>
                       </div>
                       <button
@@ -307,16 +303,16 @@ export default function CartDrawer() {
                             tagColor: '#D90429',
                           })
                         }
-                        className="px-2.5 py-1.5 rounded-lg bg-neutral-900 text-white text-[10px] font-bold uppercase hover:bg-(--color-coral) transition-colors cursor-pointer shrink-0"
+                        className="px-3 py-1.5 border border-black text-neutral-900 text-[9px] font-bold uppercase hover:bg-black hover:text-white transition-colors cursor-pointer shrink-0 rounded-none"
                       >
-                        + Add
+                        ADD
                       </button>
                     </div>
 
-                    <div className="p-3 bg-white/90 rounded-2xl border border-black/5 flex items-center gap-2.5 shadow-2xs hover:shadow-xs transition-shadow">
+                    <div className="p-3 bg-transparent border border-black/10 flex items-center gap-2.5">
                       <img src="/assets/cherry-can-hero.png" alt="Cherry" className="w-8 h-10 object-contain shrink-0" />
                       <div className="flex-1 min-w-0">
-                        <h5 className="text-[11px] font-bold text-neutral-900 truncate">Black Cherry</h5>
+                        <h5 className="text-[11px] font-bold text-neutral-900 truncate uppercase">Black Cherry</h5>
                         <span className="text-[10px] text-neutral-500">₹350</span>
                       </div>
                       <button
@@ -330,9 +326,9 @@ export default function CartDrawer() {
                             tagColor: '#9B111E',
                           })
                         }
-                        className="px-2.5 py-1.5 rounded-lg bg-neutral-900 text-white text-[10px] font-bold uppercase hover:bg-(--color-coral) transition-colors cursor-pointer shrink-0"
+                        className="px-3 py-1.5 border border-black text-neutral-900 text-[9px] font-bold uppercase hover:bg-black hover:text-white transition-colors cursor-pointer shrink-0 rounded-none"
                       >
-                        + Add
+                        ADD
                       </button>
                     </div>
                   </div>
@@ -350,11 +346,11 @@ export default function CartDrawer() {
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
                     placeholder="PROMO CODE (e.g. CLEAN10)"
-                    className="flex-1 px-3.5 py-2.5 bg-neutral-100/80 border border-neutral-200 rounded-xl text-xs font-bold uppercase tracking-wider text-neutral-900 placeholder:opacity-40 focus:outline-hidden focus:ring-1 focus:ring-(--color-coral)"
+                    className="flex-1 px-3.5 py-2.5 bg-transparent border border-black/10 rounded-none text-[10px] sm:text-xs font-medium uppercase tracking-wider text-neutral-900 placeholder:opacity-50 focus:outline-hidden focus:border-black"
                   />
                   <button
                     type="submit"
-                    className="px-4 py-2.5 bg-neutral-900 text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-(--color-coral) transition-colors cursor-pointer"
+                    className="px-5 py-2.5 bg-neutral-900 text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-none hover:bg-black transition-colors cursor-pointer"
                   >
                     Apply
                   </button>
@@ -401,10 +397,9 @@ export default function CartDrawer() {
                   <button
                     type="button"
                     onClick={() => setIsCheckingOut(true)}
-                    className="touch-target-44 w-full min-h-[48px] py-3.5 rounded-full bg-(--color-ink) text-white hover:bg-(--color-coral) text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 shadow-sm hover:shadow-md active:scale-98"
+                    className="w-full min-h-[48px] py-3.5 rounded-none bg-neutral-900 text-white hover:bg-black text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 active:scale-98"
                   >
                     <span>Proceed to Chilled Dispatch</span>
-                    <span>&rarr;</span>
                   </button>
                 </div>
               </div>
