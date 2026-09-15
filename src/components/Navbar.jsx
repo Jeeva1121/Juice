@@ -310,12 +310,12 @@ export default function Navbar() {
             )}
           </button>
 
-          {/* Mobile Hamburger */}
+          {/* Mobile Hamburger - hidden on md+ */}
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? 'Close Menu' : 'Open Menu'}
-            className="touch-target-44 md:hidden relative w-11 h-11 flex flex-col items-center justify-center gap-[4.5px] p-2 text-(--color-ink) z-50 cursor-pointer rounded-full hover:bg-black/5 transition-colors"
+            className="touch-target-44 flex md:hidden relative w-11 h-11 flex-col items-center justify-center gap-[4.5px] p-2 text-(--color-ink) z-50 cursor-pointer rounded-full hover:bg-black/5 transition-colors"
           >
             <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'translate-y-[6.5px] rotate-45' : ''}`} />
             <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'}`} />

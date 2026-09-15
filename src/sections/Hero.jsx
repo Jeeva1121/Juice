@@ -540,7 +540,7 @@ export default function Hero() {
             {/* Orange Piece 1: Top Left */}
             <div
               ref={piece1Ref}
-              className="absolute top-[13%] sm:top-[-1%] md:top-[3%] left-[4%] sm:left-[1%] md:left-[5%] lg:left-[7%] w-20 sm:w-56 md:w-64 lg:w-72 pointer-events-none"
+              className="absolute top-[13%] sm:top-[-1%] md:top-[3%] left-[4%] sm:left-[1%] md:left-[1%] lg:left-[3%] w-20 sm:w-56 md:w-64 lg:w-72 pointer-events-none"
             >
               <div className="">
                 <img
@@ -568,7 +568,7 @@ export default function Hero() {
             {/* Orange Piece 3: Top Right */}
             <div
               ref={piece3Ref}
-              className="absolute top-[13%] sm:top-[0%] md:top-[3%] right-[4%] sm:right-[1%] md:right-[5%] lg:right-[7%] w-20 sm:w-56 md:w-64 lg:w-72 pointer-events-none"
+              className="absolute top-[13%] sm:top-[0%] md:top-[3%] right-[4%] sm:right-[1%] md:right-[3%] lg:right-[5%] w-20 sm:w-56 md:w-64 lg:w-72 pointer-events-none"
             >
               <div className="">
                 <img
