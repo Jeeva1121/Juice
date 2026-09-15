@@ -386,31 +386,25 @@ export default function Hero() {
         scrollTl.to(bottleRef.current, { scale: 1.0, yPercent: 0, ease: 'power2.in', duration: 0.3 }, 0.7)
       })
 
-      // Mobile (< 768px): Luxury Pinned Scrub matching Web View
+      // Mobile (< 768px): No pin, no scrub transforms — zero JS per frame.
+      // Pieces just fade out as you scroll past the hero. Buttery smooth.
       mm.add('(max-width: 767px)', () => {
-        const mobileScrollTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top top',
-            end: '+=75%',
-            pin: pinWrapperRef.current,
-            scrub: 0.8,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              if (containerRef.current) {
-                // Apply a buttery power2.out ease to the progress value itself for a smooth fluttery feel
-                const p = gsap.parseEase('power2.out')(self.progress)
-                containerRef.current.style.setProperty('--hero-scroll', p)
+        const activeLayer = [orangeLayerRef.current, strawLayerRef.current, cherryLayerRef.current, lemonLayerRef.current]
+        ScrollTrigger.create({
+          trigger: containerRef.current,
+          start: 'top top',
+          end: '+=50%',
+          pin: false,
+          scrub: true,
+          onUpdate: (self) => {
+            const fade = 1 - self.progress
+            activeLayer.forEach(layer => {
+              if (layer && layer.style.display !== 'none') {
+                layer.style.opacity = fade
               }
-            }
-          },
+            })
+          }
         })
-
-        // Bottle stays centered and expands like web view
-        mobileScrollTl.to(bottleRef.current, { scale: 1.08, yPercent: 0, ease: 'power2.out', duration: 0.8 }, 0)
-        mobileScrollTl.to(giantTextRef.current, { yPercent: 0, scale: 1.04, ease: 'power2.out', duration: 1 }, 0)
-        mobileScrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { yPercent: -15, ease: 'power2.in', duration: 0.45 }, 0)
       })
     },
     { scope: containerRef }
