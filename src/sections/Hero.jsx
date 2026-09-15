@@ -304,6 +304,15 @@ export default function Hero() {
       gsap.set(cherryLayerRef.current, { opacity: 0 })
       gsap.set(lemonLayerRef.current, { opacity: 0 })
 
+      // Hint GPU for smoother GSAP scrubbing (forwards and backwards)
+      const allPieces = [
+        piece1Ref.current, piece2Ref.current, piece3Ref.current, piece5Ref.current,
+        strawPiece1Ref.current, strawPiece2Ref.current, strawPiece3Ref.current, strawPiece4Ref.current, strawPiece5Ref.current,
+        cherryPiece1Ref.current, cherryPiece2Ref.current, cherryPiece3Ref.current, cherryPiece4Ref.current, cherryPiece5Ref.current,
+        lemonPiece1Ref.current, lemonPiece2Ref.current, lemonPiece3Ref.current, lemonPiece5Ref.current
+      ]
+      gsap.set(allPieces.filter(Boolean), { willChange: 'transform' })
+
       // Page Load Intro: Smooth clean fade in without jumping
       const introTl = gsap.timeline({ defaults: { ease: 'power3.out' } })
       introTl
