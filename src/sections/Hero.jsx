@@ -181,10 +181,10 @@ export default function Hero() {
         layers.forEach((layer, idx) => {
           if (!layer) return
           if (idx === nextIndex) {
-            gsap.set(layer, { opacity: 1 })
-            enterTl.to(layer, { opacity: 1, duration: 0.7, ease: 'power2.out' }, 0)
+            gsap.set(layer, { autoAlpha: 1 })
+            enterTl.to(layer, { autoAlpha: 1, duration: 0.7, ease: 'power2.out' }, 0)
           } else {
-            gsap.set(layer, { opacity: 0 })
+            gsap.set(layer, { autoAlpha: 0 })
           }
         })
 
@@ -199,7 +199,7 @@ export default function Hero() {
     // Exit currently active fruit pieces and background layer
     const currentActiveLayer = layers[prevIndex]
     if (currentActiveLayer) {
-      exitTl.to(currentActiveLayer, { opacity: 0, duration: 0.3 }, 0)
+      exitTl.to(currentActiveLayer, { autoAlpha: 0, duration: 0.3 }, 0)
     }
 
     const currentActiveBg = bgLayers[prevIndex]
@@ -595,7 +595,7 @@ export default function Hero() {
           <div
             ref={strawLayerRef}
             className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ zIndex: 5, opacity: 0 }}
+            style={{ zIndex: 5, opacity: 0, visibility: 'hidden' }}
           >
             {/* Straw Piece 1: Top Left */}
             <div
@@ -672,7 +672,7 @@ export default function Hero() {
           <div
             ref={cherryLayerRef}
             className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ zIndex: 5, opacity: 0 }}
+            style={{ zIndex: 5, opacity: 0, visibility: 'hidden' }}
           >
             {/* Cherry Piece 1: Top Left */}
             <div
@@ -749,7 +749,7 @@ export default function Hero() {
           <div
             ref={lemonLayerRef}
             className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ zIndex: 5, opacity: 0 }}
+            style={{ zIndex: 5, opacity: 0, visibility: 'hidden' }}
           >
             {/* Lemon Piece 1 */}
             <div
