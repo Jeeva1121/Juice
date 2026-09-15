@@ -340,23 +340,23 @@
   @media (max-width: 767px) {
     @keyframes mobilePiece1 {
       from { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-      to   { transform: translate3d(-80%, -65%, 0) rotate(-30deg) scale(1.25); }
+      to   { transform: translate3d(-115%, -90%, 0) rotate(-42deg) scale(1.35); }
     }
     @keyframes mobilePiece2 {
       from { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-      to   { transform: translate3d(-85%, 65%, 0) rotate(24deg) scale(1.22); }
+      to   { transform: translate3d(-120%, 90%, 0) rotate(34deg) scale(1.30); }
     }
     @keyframes mobilePiece3 {
       from { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-      to   { transform: translate3d(82%, -65%, 0) rotate(30deg) scale(1.25); }
+      to   { transform: translate3d(118%, -88%, 0) rotate(42deg) scale(1.35); }
     }
     @keyframes mobilePiece4 {
       from { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-      to   { transform: translate3d(95%, 25%, 0) rotate(-18deg) scale(1.14); }
+      to   { transform: translate3d(125%, 30%, 0) rotate(-26deg) scale(1.18); }
     }
     @keyframes mobilePiece5 {
       from { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-      to   { transform: translate3d(78%, 72%, 0) rotate(-24deg) scale(1.22); }
+      to   { transform: translate3d(112%, 100%, 0) rotate(-34deg) scale(1.30); }
     }
 
     .hero-fruit-piece.fruit-piece-1 {
