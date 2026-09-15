@@ -335,7 +335,6 @@
 }
 
 /* Mobile: Pure CSS Scroll-Driven Animations - 100% GPU compositor thread, zero JS lag */
-/* The fruit piece section occupies 175vh total (100vh pin + 75vh scroll distance)     */
 @supports (animation-timeline: scroll()) {
   @media (max-width: 767px) {
     @keyframes mobilePiece1 {
@@ -359,47 +358,49 @@
       to   { transform: translate3d(112%, 100%, 0) rotate(-34deg) scale(1.30); }
     }
 
+    /* scroll(root block) tracks the page scroll — syncs with GSAP's pin spacer */
+    /* animation-range aligns with GSAP's end: "+=75%" (75vh out of ~175vh total = ~43%) */
     .hero-fruit-piece.fruit-piece-1 {
       animation: mobilePiece1 linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0% 45%;
+      animation-timeline: scroll(root block);
+      animation-range: entry 0% exit 50%;
       will-change: transform;
     }
     .hero-fruit-piece.fruit-piece-2 {
       animation: mobilePiece2 linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0% 45%;
+      animation-timeline: scroll(root block);
+      animation-range: entry 0% exit 50%;
       will-change: transform;
     }
     .hero-fruit-piece.fruit-piece-3 {
       animation: mobilePiece3 linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0% 45%;
+      animation-timeline: scroll(root block);
+      animation-range: entry 0% exit 50%;
       will-change: transform;
     }
     .hero-fruit-piece.fruit-piece-4 {
       animation: mobilePiece4 linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0% 45%;
+      animation-timeline: scroll(root block);
+      animation-range: entry 0% exit 50%;
       will-change: transform;
     }
     .hero-fruit-piece.fruit-piece-5 {
       animation: mobilePiece5 linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0% 45%;
+      animation-timeline: scroll(root block);
+      animation-range: entry 0% exit 50%;
       will-change: transform;
     }
   }
 }
 
-/* Fallback for browsers without scroll-driven animation support (uses GSAP CSS vars) */
+/* Fallback for browsers without scroll-driven animation support */
 @supports not (animation-timeline: scroll()) {
   @media (max-width: 767px) {
-    .fruit-piece-1 { --x-dest: -65%; --y-dest: -55%; --r-dest: -25deg; --s-dest: 0.20; }
-    .fruit-piece-2 { --x-dest: -70%; --y-dest: 55%;  --r-dest: 20deg;  --s-dest: 0.18; }
-    .fruit-piece-3 { --x-dest: 70%;  --y-dest: -55%; --r-dest: 25deg;  --s-dest: 0.20; }
-    .fruit-piece-4 { --x-dest: 85%;  --y-dest: 20%;  --r-dest: -15deg; --s-dest: 0.10; }
-    .fruit-piece-5 { --x-dest: 65%;  --y-dest: 60%;  --r-dest: -20deg; --s-dest: 0.18; }
+    .fruit-piece-1 { --x-dest: -115%; --y-dest: -90%; --r-dest: -42deg; --s-dest: 0.35; }
+    .fruit-piece-2 { --x-dest: -120%; --y-dest: 90%;  --r-dest: 34deg;  --s-dest: 0.30; }
+    .fruit-piece-3 { --x-dest: 118%;  --y-dest: -88%; --r-dest: 42deg;  --s-dest: 0.35; }
+    .fruit-piece-4 { --x-dest: 125%;  --y-dest: 30%;  --r-dest: -26deg; --s-dest: 0.18; }
+    .fruit-piece-5 { --x-dest: 112%;  --y-dest: 100%; --r-dest: -34deg; --s-dest: 0.30; }
 
     .hero-fruit-piece {
       transform: translate3d(calc(var(--x-dest) * var(--hero-scroll, 0)), calc(var(--y-dest) * var(--hero-scroll, 0)), 0) 

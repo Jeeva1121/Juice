@@ -386,26 +386,23 @@ export default function Hero() {
         scrollTl.to(bottleRef.current, { scale: 1.0, yPercent: 0, ease: 'power2.in', duration: 0.3 }, 0.7)
       })
 
-      // Mobile (< 768px): pin the section but let CSS scroll-driven animation handle piece movement
+      // Mobile (< 768px): Pure CSS sticky + view-timeline handles all piece animations
+      // No GSAP pin needed — CSS sticky is compositor-native and zero-lag
       mm.add('(max-width: 767px)', () => {
-        // Use a minimal GSAP pin with scrub:true (instant, no smoothing lag)
-        // The actual fruit piece movement is handled by CSS scroll-driven animations
-        // which run 100% on the GPU compositor thread with zero JS overhead
+        // Still animate bottle + text with GSAP scrub:true (instant, minimal elements)
         const mobileScrollTl = gsap.timeline({
           scrollTrigger: {
             trigger: containerRef.current,
             start: 'top top',
             end: '+=75%',
             pin: pinWrapperRef.current,
-            scrub: true,   // instant = no lagging scrub buffer
+            scrub: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
           },
         })
-
-        // Only animate the bottle + text - these are simple single-element tweens
-        mobileScrollTl.to(bottleRef.current, { scale: 1.08, yPercent: 0, ease: 'none', duration: 1 }, 0)
-        mobileScrollTl.to(giantTextRef.current, { yPercent: 0, scale: 1.04, ease: 'none', duration: 1 }, 0)
+        mobileScrollTl.to(bottleRef.current, { scale: 1.08, ease: 'none', duration: 1 }, 0)
+        mobileScrollTl.to(giantTextRef.current, { scale: 1.04, ease: 'none', duration: 1 }, 0)
         mobileScrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { yPercent: -15, ease: 'none', duration: 1 }, 0)
       })
     },
