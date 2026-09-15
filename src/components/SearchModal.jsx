@@ -404,9 +404,9 @@ export default function SearchModal() {
             type="button"
             onClick={() => setIsSearchOpen(false)}
             aria-label="Close search"
-            className="touch-target-44 w-8 h-8 sm:w-10 sm:h-10 rounded-none bg-white/90 hover:bg-white text-neutral-800 border border-black/10 shadow-xs flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="touch-target-44 w-6 h-6 sm:w-8 sm:h-8 rounded-none bg-white/90 hover:bg-white text-neutral-800 border border-black/10 shadow-xs flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer"
           >
-            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -417,7 +417,7 @@ export default function SearchModal() {
       {/* 3. REDUCED COMPACT SLEEK SEARCH BAR (Redesigned & Scaled Down) */}
       {/* ========================================================= */}
       <div className="relative z-30 w-full flex justify-center px-4 my-1.5 sm:my-3">
-        <div className="compact-search-box w-full max-w-[240px] sm:max-w-[360px] min-h-[38px] bg-white/95 backdrop-blur-xl rounded-none border border-white/90 px-3 py-0.5 sm:px-4 sm:py-1 flex items-center gap-2 sm:gap-3 transition-all shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+        <div className="compact-search-box w-full max-w-[240px] sm:max-w-[360px] min-h-[32px] sm:min-h-[38px] bg-white/95 backdrop-blur-xl rounded-none border border-white/90 px-3 py-0 sm:px-4 sm:py-1 flex items-center gap-2 sm:gap-3 transition-all shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
           {/* Subtle Search Icon */}
           <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neutral-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <circle cx="11" cy="11" r="7" strokeLinecap="round" strokeLinejoin="round" />
@@ -523,7 +523,7 @@ export default function SearchModal() {
             />
 
             {/* BIG CAN IMAGE (Responsive Height for Mobile & Landscape) */}
-            <div className="relative w-full sm:w-[400px] lg:w-[450px] h-[36vh] sm:h-[45vh] lg:h-[480px] max-h-[420px] min-h-[220px] flex items-center justify-center -mt-6 sm:mt-0">
+            <div className="relative w-full sm:w-[400px] lg:w-[450px] h-[36vh] sm:h-[45vh] lg:h-[480px] max-h-[420px] min-h-[220px] flex items-center justify-center -mt-2 sm:mt-0">
               <img
                 ref={centerCanRef}
                 src={activeProduct.image}

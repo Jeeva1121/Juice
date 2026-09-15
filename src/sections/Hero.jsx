@@ -170,10 +170,10 @@ export default function Hero() {
         bgLayers.forEach((bg, idx) => {
           if (!bg) return
           if (idx === nextIndex) {
-            gsap.set(bg, { autoAlpha: 1 })
+            gsap.set(bg, { opacity: 1 })
             enterTl.to(bg, { opacity: 1, duration: 0.7, ease: 'power2.out' }, 0)
           } else {
-            gsap.set(bg, { autoAlpha: 0 })
+            gsap.set(bg, { opacity: 0 })
           }
         })
 
@@ -181,10 +181,10 @@ export default function Hero() {
         layers.forEach((layer, idx) => {
           if (!layer) return
           if (idx === nextIndex) {
-            gsap.set(layer, { autoAlpha: 1, scale: 0.96 })
+            gsap.set(layer, { opacity: 1, scale: 0.96 })
             enterTl.to(layer, { opacity: 1, scale: 1, duration: 0.7, ease: 'power2.out' }, 0)
           } else {
-            gsap.set(layer, { autoAlpha: 0 })
+            gsap.set(layer, { opacity: 0 })
           }
         })
 
@@ -294,15 +294,15 @@ export default function Hero() {
       if (prefersReducedMotion) return
 
       // Set initial states
-      gsap.set(bgOrangeRef.current, { autoAlpha: 1 })
-      gsap.set(bgStrawRef.current, { autoAlpha: 0 })
-      gsap.set(bgCherryRef.current, { autoAlpha: 0 })
-      gsap.set(bgLemonRef.current, { autoAlpha: 0 })
+      gsap.set(bgOrangeRef.current, { opacity: 1 })
+      gsap.set(bgStrawRef.current, { opacity: 0 })
+      gsap.set(bgCherryRef.current, { opacity: 0 })
+      gsap.set(bgLemonRef.current, { opacity: 0 })
 
-      gsap.set(orangeLayerRef.current, { autoAlpha: 1 })
-      gsap.set(strawLayerRef.current, { autoAlpha: 0 })
-      gsap.set(cherryLayerRef.current, { autoAlpha: 0 })
-      gsap.set(lemonLayerRef.current, { autoAlpha: 0 })
+      gsap.set(orangeLayerRef.current, { opacity: 1 })
+      gsap.set(strawLayerRef.current, { opacity: 0 })
+      gsap.set(cherryLayerRef.current, { opacity: 0 })
+      gsap.set(lemonLayerRef.current, { opacity: 0 })
 
       // Page Load Intro: Smooth clean fade in without jumping
       const introTl = gsap.timeline({ defaults: { ease: 'power3.out' } })
@@ -457,7 +457,7 @@ export default function Hero() {
       <div 
         ref={bgStrawRef}
         className="absolute inset-0 pointer-events-none transition-opacity duration-500 bg-[#FAF0EE]"
-        style={{ zIndex: 0, opacity: 0, visibility: 'hidden' }}
+        style={{ zIndex: 0, opacity: 0 }}
       >
         <div 
           className="absolute inset-0"
@@ -477,7 +477,7 @@ export default function Hero() {
       <div 
         ref={bgCherryRef}
         className="absolute inset-0 pointer-events-none transition-opacity duration-500 bg-[#F8EDF1]"
-        style={{ zIndex: 0, opacity: 0, visibility: 'hidden' }}
+        style={{ zIndex: 0, opacity: 0 }}
       >
         <div 
           className="absolute inset-0"
@@ -497,7 +497,7 @@ export default function Hero() {
       <div 
         ref={bgLemonRef}
         className="absolute inset-0 pointer-events-none transition-opacity duration-500 bg-[#F4FAEA]"
-        style={{ zIndex: 0, opacity: 0, visibility: 'hidden' }}
+        style={{ zIndex: 0, opacity: 0 }}
       >
         <div 
           className="absolute inset-0"
@@ -595,7 +595,7 @@ export default function Hero() {
           <div
             ref={strawLayerRef}
             className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ zIndex: 5, opacity: 0, visibility: 'hidden' }}
+            style={{ zIndex: 5, opacity: 0 }}
           >
             {/* Straw Piece 1: Top Left */}
             <div
@@ -672,7 +672,7 @@ export default function Hero() {
           <div
             ref={cherryLayerRef}
             className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ zIndex: 5, opacity: 0, visibility: 'hidden' }}
+            style={{ zIndex: 5, opacity: 0 }}
           >
             {/* Cherry Piece 1: Top Left */}
             <div
@@ -749,7 +749,7 @@ export default function Hero() {
           <div
             ref={lemonLayerRef}
             className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ zIndex: 5, opacity: 0, visibility: 'hidden' }}
+            style={{ zIndex: 5, opacity: 0 }}
           >
             {/* Lemon Piece 1 */}
             <div
