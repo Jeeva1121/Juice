@@ -7,6 +7,8 @@
   --font-hand: 'Caveat', cursive;
   --font-outfit: 'Outfit', sans-serif;
   --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+  --font-display: 'Outfit', 'Poppins', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
 }
 
 @layer base {
@@ -59,6 +61,12 @@
     --space-10: 80px;
     --space-12: 96px;
     --space-16: 128px;
+
+    /* Safe Area Insets for All Edge-to-Edge Mobiles & Notches */
+    --sat: env(safe-area-inset-top, 0px);
+    --sar: env(safe-area-inset-right, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
   }
 
   /* Dark theme override capability */
@@ -252,4 +260,58 @@
 .no-scrollbar {
   -ms-overflow-style: none !important;
   scrollbar-width: none !important;
+}
+
+/* Mobile Accessibility & Touch Target Standards (44px Minimum) */
+.touch-target-44 {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Safe Area Inset Helpers */
+.pt-safe {
+  padding-top: max(0.75rem, env(safe-area-inset-top, 0px));
+}
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+}
+.pl-safe {
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+}
+.pr-safe {
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+}
+
+/* Landscape Mobile Queries (Screen height <= 520px) */
+@media (orientation: landscape) and (max-height: 520px) {
+  .landscape-compact-nav {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  .landscape-compact-hero {
+    min-height: auto !important;
+    padding-top: 4.5rem !important;
+    padding-bottom: 2rem !important;
+  }
+  .landscape-compact-stage {
+    min-height: 260px !important;
+  }
+  .landscape-scrollable {
+    overflow-y: auto !important;
+    max-height: 100svh !important;
+  }
+}
+
+/* Small mobile tweaks (<= 380px) */
+@media (max-width: 380px) {
+  .sub400-tight-padding {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  .sub400-tight-gap {
+    gap: 0.5rem !important;
+  }
 }

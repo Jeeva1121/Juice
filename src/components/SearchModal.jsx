@@ -81,7 +81,7 @@ export default function SearchModal() {
   const activeIndexRef = useRef(0)
 
   // Navigate to slide with GSAP animation
-  const animateToSlide = useCallback((newIdx, direction = null) => {
+  const animateToSlide = useCallback(function navigateSlide(newIdx, direction = null) {
     if (newIdx === activeIndexRef.current) return
     if (isTransitioningRef.current) {
       queuedSlideRef.current = newIdx
@@ -109,7 +109,7 @@ export default function SearchModal() {
                 const nextIdx = queuedSlideRef.current
                 queuedSlideRef.current = null
                 if (nextIdx !== newIdx) {
-                  animateToSlide(nextIdx)
+                  navigateSlide(nextIdx)
                 }
               }
             },
@@ -247,7 +247,7 @@ export default function SearchModal() {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isSearchOpen, goToNext, goToPrev])
+  }, [isSearchOpen, setIsSearchOpen, goToNext, goToPrev])
 
   // GSAP Initial Entrance
   useEffect(() => {
@@ -354,8 +354,7 @@ export default function SearchModal() {
       role="dialog"
       aria-modal="true"
       aria-labelledby="search-modal-heading"
-      data-lenis-prevent
-      className="fixed inset-0 z-70 flex flex-col justify-between overflow-hidden select-none bg-[#FAF6EE]"
+       className="fixed inset-0 z-70 flex flex-col justify-between overflow-y-auto landscape-scrollable select-none bg-[#FAF6EE] pt-[calc(var(--sat)+0.4rem)] pb-[calc(var(--sab)+0.75rem)]"
     >
       {/* ========================================================= */}
       {/* 1. CRISP VISIBLE BACKGROUND IMAGE (image copy 19.png) */}
@@ -378,8 +377,8 @@ export default function SearchModal() {
       {/* ========================================================= */}
       {/* 2. TOP HEADER: Refined Brand Mark + Close Button */}
       {/* ========================================================= */}
-      <header className="relative z-30 w-full px-6 sm:px-12 pt-5 sm:pt-7 flex items-center justify-between">
-        <div className="w-10" />
+      <header className="relative z-30 w-full px-4 sm:px-12 pt-2 sm:pt-4 flex items-center justify-between">
+        <div className="w-11" />
 
         {/* Center: Brand Mark in Refined Font */}
         <div
@@ -387,27 +386,27 @@ export default function SearchModal() {
           className="flex flex-col items-center mx-auto text-center cursor-pointer group"
         >
           <div className="flex items-center gap-1.5">
-            <span className="font-asal text-3xl sm:text-4xl text-neutral-900 tracking-wide font-normal">
+            <span className="font-asal text-2xl sm:text-4xl text-neutral-900 tracking-wide font-normal">
               zesty
             </span>
-            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-800 -rotate-12 fill-current" viewBox="0 0 24 24">
+            <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-emerald-800 -rotate-12 fill-current" viewBox="0 0 24 24">
               <path d="M17 3c-5.523 0-10 4.477-10 10 0 1.25.23 2.45.65 3.55C4.24 18.25 2 21 2 21s6.25-1.25 10.45-3.65c1.1.42 2.3.65 3.55.65 5.523 0 10-4.477 10-10 0-5.523-4.477-10-10-10z" />
             </svg>
           </div>
-          <span className="text-[9px] sm:text-[10px] font-poppins font-semibold tracking-[0.35em] text-neutral-700 uppercase mt-0.5">
+          <span className="text-[8.5px] sm:text-[10px] font-poppins font-semibold tracking-[0.35em] text-neutral-700 uppercase mt-0.5">
             CLEAN JUICE
           </span>
         </div>
 
-        {/* Right: Minimalist Close Button */}
-        <div className="w-10 flex justify-end">
+        {/* Right: Minimalist Close Button (44px Touch Target) */}
+        <div className="w-11 flex justify-end">
           <button
             type="button"
             onClick={() => setIsSearchOpen(false)}
             aria-label="Close search"
-            className="w-10 h-10 rounded-none bg-white/90 hover:bg-white text-neutral-800 border border-black/10 shadow-xs flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="touch-target-44 w-8 h-8 sm:w-10 sm:h-10 rounded-none bg-white/90 hover:bg-white text-neutral-800 border border-black/10 shadow-xs flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -417,8 +416,8 @@ export default function SearchModal() {
       {/* ========================================================= */}
       {/* 3. REDUCED COMPACT SLEEK SEARCH BAR (Redesigned & Scaled Down) */}
       {/* ========================================================= */}
-      <div className="relative z-30 w-full flex justify-center px-4 my-2 sm:my-3">
-        <div className="compact-search-box w-full max-w-[280px] sm:max-w-[400px] bg-white/95 backdrop-blur-xl rounded-none border border-white/90 px-3 py-0.5 sm:px-4 sm:py-1 flex items-center gap-2 sm:gap-3 transition-all shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+      <div className="relative z-30 w-full flex justify-center px-4 my-1.5 sm:my-3">
+        <div className="compact-search-box w-full max-w-[240px] sm:max-w-[360px] min-h-[38px] bg-white/95 backdrop-blur-xl rounded-none border border-white/90 px-3 py-0.5 sm:px-4 sm:py-1 flex items-center gap-2 sm:gap-3 transition-all shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
           {/* Subtle Search Icon */}
           <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neutral-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <circle cx="11" cy="11" r="7" strokeLinecap="round" strokeLinejoin="round" />
@@ -439,7 +438,7 @@ export default function SearchModal() {
               }
             }}
             placeholder="Search flavor or fruit..."
-            className="w-full h-full pl-10 pr-12 py-1.5 sm:py-2 bg-transparent text-sm sm:text-base text-neutral-800 focus:outline-none placeholder:font-poppins placeholder:font-medium tracking-wide"
+            className="w-full h-full pl-1 sm:pl-2 pr-2 py-1.5 sm:py-2 bg-transparent text-xs sm:text-base text-neutral-800 focus:outline-none placeholder:font-poppins placeholder:font-medium tracking-wide"
             style={{
               fontFamily: "'Poppins', sans-serif"
             }}
@@ -453,7 +452,8 @@ export default function SearchModal() {
                 setQuery('')
                 inputRef.current?.focus()
               }}
-              className="w-4 h-4 rounded-none bg-neutral-200 text-neutral-600 flex items-center justify-center text-[10px] cursor-pointer hover:bg-neutral-300 shrink-0"
+              aria-label="Clear search"
+              className="touch-target-44 w-7 h-7 rounded-none bg-neutral-200 text-neutral-600 flex items-center justify-center text-xs cursor-pointer hover:bg-neutral-300 shrink-0"
             >
               &times;
             </button>
@@ -467,9 +467,10 @@ export default function SearchModal() {
               const el = document.querySelector('#flavors')
               if (el) el.scrollIntoView({ behavior: 'smooth' })
             }}
-            className="w-6 h-6 sm:w-7 sm:h-7 rounded-none bg-neutral-900 hover:bg-neutral-800 transition-colors cursor-pointer text-white flex items-center justify-center shadow-xs shrink-0"
+            aria-label="Submit search"
+            className="touch-target-44 w-6 h-6 sm:w-8 sm:h-8 rounded-none bg-neutral-900 hover:bg-neutral-800 transition-colors cursor-pointer text-white flex items-center justify-center shadow-xs shrink-0"
           >
-            <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.4}>
+            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.4}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </button>
@@ -521,13 +522,13 @@ export default function SearchModal() {
               style={{ backgroundColor: activeProduct.accentColor }}
             />
 
-            {/* BIG CAN IMAGE */}
-            <div className="relative w-full sm:w-[400px] lg:w-[450px] h-[480px] sm:h-[450px] lg:h-[500px] flex items-center justify-center -mt-8 sm:mt-0">
+            {/* BIG CAN IMAGE (Responsive Height for Mobile & Landscape) */}
+            <div className="relative w-full sm:w-[400px] lg:w-[450px] h-[36vh] sm:h-[45vh] lg:h-[480px] max-h-[420px] min-h-[220px] flex items-center justify-center -mt-6 sm:mt-0">
               <img
                 ref={centerCanRef}
                 src={activeProduct.image}
                 alt={activeProduct.title}
-                className="h-[480px] sm:h-[450px] lg:h-[500px] w-auto object-contain drop-shadow-2xl will-change-transform cursor-pointer hover:scale-102 transition-transform duration-300"
+                className="h-full max-h-[420px] w-auto object-contain drop-shadow-2xl will-change-transform cursor-pointer hover:scale-102 transition-transform duration-300"
                 onClick={() => {
                   setIsSearchOpen(false)
                   const el = document.querySelector('#flavors')
@@ -556,7 +557,7 @@ export default function SearchModal() {
         {/* Details Shelf with SQUARE ORDER BUTTON and REDUCED FONT WEIGHTS */}
         <div
           ref={detailsCardRef}
-          className="relative z-30 mt-2 sm:-mt-8 w-[92%] sm:w-full max-w-xl mx-auto bg-white/90 backdrop-blur-xl border border-white/90 rounded-none p-3 sm:p-5 shadow-[0_12px_36px_rgba(0,0,0,0.06)] flex flex-col sm:flex-row items-center text-center sm:text-left justify-between gap-3 sm:gap-4"
+          className="relative z-30 mt-10 sm:-mt-2 w-[94%] sm:w-full max-w-xl mx-auto bg-white/90 backdrop-blur-xl border border-white/90 rounded-none p-3 sm:p-5 shadow-[0_12px_36px_rgba(0,0,0,0.06)] flex flex-col sm:flex-row items-center text-center sm:text-left justify-between gap-3 sm:gap-4"
         >
           {/* Flavor Details in Refined Medium Weights */}
           <div className="text-center sm:text-left">
@@ -570,13 +571,13 @@ export default function SearchModal() {
             </div>
 
             {/* Reduced Font Weight on Product Title */}
-            <h3 className="font-poppins text-2xl sm:text-3xl font-semibold text-neutral-900 tracking-tight mt-1 leading-tight">
+            <h3 className="font-poppins text-xl sm:text-3xl font-semibold text-neutral-900 tracking-tight mt-1 leading-tight">
               {activeProduct.title}
             </h3>
-            <p className="text-xs text-neutral-500 font-poppins font-normal max-w-sm mt-1 leading-relaxed">
+            <p className="text-[11px] sm:text-xs text-neutral-500 font-poppins font-normal max-w-sm mt-1 leading-relaxed">
               {activeProduct.subtitle}
             </p>
-            <span className="font-poppins text-[10px] text-neutral-400 block mt-1.5 font-normal">
+            <span className="font-poppins text-[9.5px] sm:text-[10px] text-neutral-400 block mt-1 font-normal">
               {activeProduct.specs}
             </span>
           </div>
@@ -586,7 +587,7 @@ export default function SearchModal() {
             <button
               type="button"
               onClick={(e) => handleOrderNow(e, activeProduct)}
-              className="w-full sm:w-auto justify-center px-6 sm:px-7 py-2.5 sm:py-3 rounded-none bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-poppins font-medium tracking-wider uppercase shadow-md hover:scale-102 active:scale-98 transition-all cursor-pointer flex items-center gap-2.5"
+              className="touch-target-44 w-full sm:w-auto min-h-[48px] justify-center px-6 sm:px-7 py-3 rounded-none bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-poppins font-medium tracking-wider uppercase shadow-md hover:scale-102 active:scale-98 transition-all cursor-pointer flex items-center gap-2.5"
             >
               {addedItem === activeProduct.id ? (
                 <>
@@ -609,20 +610,24 @@ export default function SearchModal() {
           </div>
         </div>
 
-        {/* Carousel Pagination Indicator Dots */}
-        <div className="flex items-center justify-center gap-1.5 mt-3">
+        {/* Carousel Pagination Indicator Dots with Touch Targets */}
+        <div className="flex items-center justify-center gap-1 mt-1 sm:mt-2 pb-1 sm:pb-2">
           {PRODUCTS.map((p, idx) => (
             <button
               key={p.id}
               type="button"
               onClick={() => animateToSlide(idx, idx > activeIndex ? 1 : -1)}
               aria-label={`Switch to ${p.title}`}
-              className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                idx === activeIndex
-                  ? 'w-6 bg-neutral-800'
-                  : 'w-1.5 bg-neutral-300 hover:bg-neutral-500'
-              }`}
-            />
+              className="touch-target-44 p-2 cursor-pointer flex items-center justify-center"
+            >
+              <span
+                className={`h-1.5 rounded-full transition-all block ${
+                  idx === activeIndex
+                    ? 'w-6 bg-neutral-800'
+                    : 'w-1.5 bg-neutral-300 hover:bg-neutral-500'
+                }`}
+              />
+            </button>
           ))}
         </div>
       </div>

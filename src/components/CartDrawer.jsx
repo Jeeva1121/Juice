@@ -13,7 +13,6 @@ export default function CartDrawer() {
     setIsCartOpen,
     updateQty,
     removeItem,
-    clearCart,
     toastMessage,
     isCheckingOut,
     setIsCheckingOut,
@@ -127,8 +126,8 @@ export default function CartDrawer() {
 
           {/* Drawer Panel */}
           <div className="relative w-full max-w-lg h-full bg-[#FAF5EA] border-l border-black/10 shadow-2xl flex flex-col z-10 animate-in slide-in-from-right duration-300">
-            {/* Drawer Header */}
-            <div className="p-6 border-b border-black/5 flex items-center justify-between bg-white/80 backdrop-blur-md">
+            {/* Drawer Header with Safe Area Top */}
+            <div className="p-4 sm:p-6 pt-[calc(var(--sat)+1rem)] sm:pt-6 border-b border-black/5 flex items-center justify-between bg-white/80 backdrop-blur-md">
               <div className="flex items-center gap-3">
                 <span className="font-display text-xl font-black uppercase tracking-tight text-neutral-900">
                   Your Harvest Bag
@@ -144,7 +143,7 @@ export default function CartDrawer() {
                   setIsCheckingOut(false)
                 }}
                 aria-label="Close Bag"
-                className="w-8 h-8 rounded-full flex items-center justify-center text-neutral-400 hover:text-neutral-900 hover:bg-black/5 transition-colors cursor-pointer"
+                className="touch-target-44 w-11 h-11 rounded-full flex items-center justify-center text-neutral-400 hover:text-neutral-900 hover:bg-black/5 transition-colors cursor-pointer"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -234,7 +233,7 @@ export default function CartDrawer() {
                           type="button"
                           onClick={() => removeItem(item.id, item.pack)}
                           aria-label="Remove item"
-                          className="text-neutral-400 hover:text-(--color-coral) transition-colors p-1 rounded-full hover:bg-black/5 cursor-pointer"
+                          className="touch-target-44 text-neutral-400 hover:text-(--color-coral) transition-colors p-2 rounded-full hover:bg-black/5 cursor-pointer"
                         >
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -249,7 +248,8 @@ export default function CartDrawer() {
                           <button
                             type="button"
                             onClick={() => updateQty(item.id, item.pack, -1)}
-                            className="w-6 h-6 rounded-full flex items-center justify-center text-neutral-600 hover:bg-black/5 transition-colors cursor-pointer text-sm font-bold"
+                            aria-label="Decrease quantity"
+                            className="touch-target-44 w-8 h-8 rounded-full flex items-center justify-center text-neutral-600 hover:bg-black/5 transition-colors cursor-pointer text-sm font-bold"
                           >
                             &minus;
                           </button>
@@ -259,7 +259,8 @@ export default function CartDrawer() {
                           <button
                             type="button"
                             onClick={() => updateQty(item.id, item.pack, 1)}
-                            className="w-6 h-6 rounded-full flex items-center justify-center text-neutral-600 hover:bg-black/5 transition-colors cursor-pointer text-sm font-bold"
+                            aria-label="Increase quantity"
+                            className="touch-target-44 w-8 h-8 rounded-full flex items-center justify-center text-neutral-600 hover:bg-black/5 transition-colors cursor-pointer text-sm font-bold"
                           >
                             +
                           </button>
@@ -349,7 +350,7 @@ export default function CartDrawer() {
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
                     placeholder="PROMO CODE (e.g. CLEAN10)"
-                    className="flex-1 px-3.5 py-2.5 bg-neutral-100/80 border border-black/5 rounded-xl text-xs font-bold uppercase tracking-wider text-neutral-900 placeholder:opacity-40 focus:outline-hidden focus:border-(--color-coral)/40"
+                    className="flex-1 px-3.5 py-2.5 bg-neutral-100/80 border border-neutral-200 rounded-xl text-xs font-bold uppercase tracking-wider text-neutral-900 placeholder:opacity-40 focus:outline-hidden focus:ring-1 focus:ring-(--color-coral)"
                   />
                   <button
                     type="submit"
@@ -395,44 +396,47 @@ export default function CartDrawer() {
                   </div>
                 </div>
 
-                {/* Checkout Trigger */}
-                <button
-                  type="button"
-                  onClick={() => setIsCheckingOut(true)}
-                  className="w-full py-3.5 rounded-full bg-(--color-ink) text-white hover:bg-(--color-coral) text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 shadow-sm hover:shadow-md active:scale-98"
-                >
-                  <span>Proceed to Chilled Dispatch</span>
-                  <span>&rarr;</span>
-                </button>
+                {/* Checkout Trigger with Safe Area Bottom */}
+                <div className="pt-2 pb-[calc(var(--sab)+0.75rem)]">
+                  <button
+                    type="button"
+                    onClick={() => setIsCheckingOut(true)}
+                    className="touch-target-44 w-full min-h-[48px] py-3.5 rounded-full bg-(--color-ink) text-white hover:bg-(--color-coral) text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 shadow-sm hover:shadow-md active:scale-98"
+                  >
+                    <span>Proceed to Chilled Dispatch</span>
+                    <span>&rarr;</span>
+                  </button>
+                </div>
               </div>
             )}
           </div>
         </div>
       )}
 
-      {/* Checkout Modal */}
+      {/* Checkout Modal (Full-sheet on mobile with Safe Area scrolling) */}
       {isCheckingOut && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6">
+        <div className="fixed inset-0 z-60 flex items-end sm:items-center justify-center p-0 sm:p-6">
           <div
             onClick={() => setIsCheckingOut(false)}
             className="fixed inset-0 bg-neutral-900/70 backdrop-blur-sm"
           />
 
-          <div className="relative w-full max-w-xl bg-[#FAF5EA] border border-[#E8DEC8] shadow-2xl z-10 max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-xl bg-[#FAF5EA] border border-[#E8DEC8] shadow-2xl z-10 max-h-[92vh] sm:max-h-[90vh] rounded-t-3xl sm:rounded-none overflow-y-auto pb-[calc(var(--sab)+1.5rem)] animate-in slide-in-from-bottom-5 sm:zoom-in-95 duration-200">
             {/* Modal Header */}
-            <div className="p-6 border-b border-[#E8DEC8] flex items-center justify-between bg-white">
+            <div className="p-4 sm:p-6 border-b border-[#E8DEC8] flex items-center justify-between bg-white">
               <div>
                 <span className="text-[10px] font-bold tracking-widest text-(--color-coral) uppercase block">
                   Secure Cold-Chain Dispatch
                 </span>
-                <h3 className="font-display text-2xl font-black text-neutral-900 tracking-tight">
+                <h3 className="font-display text-xl sm:text-2xl font-black text-neutral-900 tracking-tight">
                   Chilled Checkout
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setIsCheckingOut(false)}
-                className="p-1.5 text-neutral-400 hover:text-neutral-900 cursor-pointer"
+                aria-label="Close Checkout"
+                className="touch-target-44 w-11 h-11 flex items-center justify-center text-neutral-400 hover:text-neutral-900 cursor-pointer"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -564,7 +568,7 @@ export default function CartDrawer() {
               </div>
 
               {/* Summary and Complete */}
-              <div className="pt-4 border-t border-[#E8DEC8] flex items-center justify-between">
+              <div className="pt-4 border-t border-[#E8DEC8] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <span className="text-[11px] text-neutral-500 block">Payable Total</span>
                   <span className="font-display text-2xl font-black text-(--color-coral)">
@@ -573,7 +577,7 @@ export default function CartDrawer() {
                 </div>
                 <button
                   type="submit"
-                  className="px-8 py-3.5 bg-(--color-coral) hover:bg-(--color-coral-dark) text-white text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer shadow-sm"
+                  className="touch-target-44 w-full sm:w-auto min-h-[48px] px-8 py-3.5 bg-(--color-coral) hover:bg-(--color-coral-dark) text-white text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer shadow-sm"
                 >
                   Place Chilled Order &rarr;
                 </button>

@@ -10,7 +10,7 @@ const HERO_SLIDES = [
     id: 'orange',
     name: 'Orange',
     wordmark: 'ORANGE',
-    wordSize: 'text-[9.5vw] sm:text-[8.5vw] md:text-[8vw] lg:text-[7.2vw]',
+    wordSize: 'text-[clamp(2.5rem,8.8vw,7.5rem)]',
     counter: '2',
     bgColor: '#FAF5EA',
     bottleImage: '/assets/orange-can-hero.png',
@@ -18,9 +18,9 @@ const HERO_SLIDES = [
     manifestoTitle: 'Your healthy life starts here with us',
     manifestoHighlight: 'healthy life',
     highlightColor: '#3A7D44',
-    manifestoBody: 'A family owned company founded with the purpose of giving your family access to clean, organic products while you are on the go.',
+    manifestoBody: 'A family owned company founded to give your family access to clean, organic cold-pressed products on the go.',
     ctaText: 'show all the juices',
-    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[45vh] sm:h-[60vh] translate-y-8 sm:translate-y-0',
+    bottleContainerClass: 'max-w-[240px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[34vh] sm:h-[48vh] md:h-[60vh] max-h-[460px] translate-y-1 sm:translate-y-0',
     bottleImgClass: 'scale-[0.88] sm:scale-[0.84] md:scale-[0.88] lg:scale-[0.92]',
     buttonWrapperClass: '',
   },
@@ -28,7 +28,7 @@ const HERO_SLIDES = [
     id: 'strawberry',
     name: 'Strawberry',
     wordmark: 'STRAWBERRY',
-    wordSize: 'text-[8.2vw] sm:text-[7.5vw] md:text-[7vw] lg:text-[6.2vw]',
+    wordSize: 'text-[clamp(2.1rem,7.5vw,6.5rem)]',
     counter: '1',
     bgColor: '#FAF0EE',
     bottleImage: '/assets/straw-can-hero.png',
@@ -36,35 +36,35 @@ const HERO_SLIDES = [
     manifestoTitle: 'Wild field strawberries picked at dawn',
     manifestoHighlight: 'picked at dawn',
     highlightColor: '#D90429',
-    manifestoBody: 'Slow cold-pressed ruby strawberries blended with organic coconut water and key lime essence for pure cellular restoration.',
+    manifestoBody: 'Slow cold-pressed ruby strawberries blended with organic coconut water and key lime essence for cellular restoration.',
     ctaText: 'explore strawberry',
-    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[45vh] sm:h-[60vh] translate-y-8 sm:translate-y-0',
+    bottleContainerClass: 'max-w-[240px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[34vh] sm:h-[48vh] md:h-[60vh] max-h-[460px] translate-y-1 sm:translate-y-0',
     bottleImgClass: 'scale-[0.86] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
-    buttonWrapperClass: 'translate-y-3 sm:translate-y-0',
+    buttonWrapperClass: '',
   },
   {
     id: 'cherry',
     name: 'Black Cherry',
     wordmark: 'CHERRY',
-    wordSize: 'text-[9.5vw] sm:text-[8.5vw] md:text-[8vw] lg:text-[7.2vw]',
+    wordSize: 'text-[clamp(2.5rem,8.8vw,7.5rem)]',
     counter: '3',
     bgColor: '#F8EDF1',
     bottleImage: '/assets/cherry-can-hero.png',
     bottleAlt: 'Zesty 100% natural cold-pressed cherry juice can with splash and fresh cherries',
-    manifestoTitle: 'Restorative dark orchard cherries picked at peak ripeness',
+    manifestoTitle: 'Dark orchard cherries picked at peak ripeness',
     manifestoHighlight: 'peak ripeness',
     highlightColor: '#9B111E',
-    manifestoBody: 'Slow cold-extracted Montmorency tart and dark orchard cherries packed with natural anthocyanins and bioavailable melatonin for deep cellular recovery.',
+    manifestoBody: 'Slow cold-extracted Montmorency cherries packed with natural anthocyanins and melatonin for deep cellular recovery.',
     ctaText: 'discover black cherry',
-    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[45vh] sm:h-[60vh] translate-y-8 sm:translate-y-0',
+    bottleContainerClass: 'max-w-[240px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[34vh] sm:h-[48vh] md:h-[60vh] max-h-[460px] translate-y-1 sm:translate-y-0',
     bottleImgClass: 'scale-[0.86] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
-    buttonWrapperClass: 'translate-y-3 sm:translate-y-0',
+    buttonWrapperClass: '',
   },
   {
     id: 'lemon',
     name: 'Lemon',
     wordmark: 'LEMON',
-    wordSize: 'text-[9.5vw] sm:text-[8.5vw] md:text-[8vw] lg:text-[7.2vw]',
+    wordSize: 'text-[clamp(2.5rem,8.8vw,7.5rem)]',
     counter: '4',
     bgColor: '#F4FAEA',
     bottleImage: '/assets/lemon-can-hero.png',
@@ -72,9 +72,9 @@ const HERO_SLIDES = [
     manifestoTitle: 'Brighten your day with citrus vitality',
     manifestoHighlight: 'citrus vitality',
     highlightColor: '#65a30d',
-    manifestoBody: 'Sun-ripened organic lemons cold-extracted to deliver an invigorating burst of natural vitamin C and cellular hydration.',
+    manifestoBody: 'Sun-ripened organic lemons cold-extracted to deliver an invigorating burst of natural vitamin C and pure hydration.',
     ctaText: 'explore lemon',
-    bottleContainerClass: 'max-w-[320px] sm:max-w-sm md:max-w-lg lg:max-w-lg h-[45vh] sm:h-[60vh] translate-y-8 sm:translate-y-0',
+    bottleContainerClass: 'max-w-[240px] sm:max-w-sm md:max-w-lg lg:max-w-lg h-[34vh] sm:h-[48vh] md:h-[60vh] max-h-[460px] translate-y-1 sm:translate-y-0',
     bottleImgClass: 'scale-[0.86] sm:scale-[0.82] md:scale-[0.86] lg:scale-[0.90]',
     buttonWrapperClass: '',
   },
@@ -103,7 +103,6 @@ export default function Hero() {
   const piece1Ref = useRef(null) // Top Left slice with droplets
   const piece2Ref = useRef(null) // Bottom Left wedge with droplets
   const piece3Ref = useRef(null) // Top Right half orange with dripping juice
-  const piece4Ref = useRef(null) // Mid Right slice with droplets
   const piece5Ref = useRef(null) // Bottom Right large slice with droplets
 
   // 5 Floating Juicy Strawberry Pieces refs
@@ -127,7 +126,6 @@ export default function Hero() {
   const lemonPiece1Ref = useRef(null)
   const lemonPiece2Ref = useRef(null)
   const lemonPiece3Ref = useRef(null)
-  const lemonPiece4Ref = useRef(null)
   const lemonPiece5Ref = useRef(null)
 
   const isAnimatingRef = useRef(false)
@@ -191,10 +189,10 @@ export default function Hero() {
         })
 
         enterTl
-          .fromTo(bottleRef.current, { opacity: 0, scale: 0.88, y: 30 }, { opacity: 1, scale: 1, y: 0, duration: 0.7 }, 0)
-          .fromTo(giantTextRef.current, { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.7 }, '-=0.6')
-          .fromTo(counterRef.current, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.4 }, '-=0.5')
-          .fromTo(manifestoRef.current, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5 }, '-=0.5')
+          .fromTo(bottleRef.current, { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, 0)
+          .fromTo(giantTextRef.current, { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, '-=0.4')
+          .fromTo(counterRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3 }, '-=0.3')
+          .fromTo(manifestoRef.current, { opacity: 0 }, { opacity: 1, duration: 0.35 }, '-=0.3')
       },
     })
 
@@ -210,10 +208,10 @@ export default function Hero() {
     }
 
     exitTl
-      .to(bottleRef.current, { opacity: 0, scale: 0.92, y: -20, duration: 0.3 }, 0)
-      .to(giantTextRef.current, { opacity: 0, y: -12, duration: 0.25 }, 0)
-      .to(manifestoRef.current, { opacity: 0, y: -10, duration: 0.2 }, 0)
-      .to(counterRef.current, { opacity: 0, y: 8, duration: 0.2 }, 0)
+      .to(bottleRef.current, { opacity: 0, scale: 0.96, duration: 0.25, ease: 'power2.in' }, 0)
+      .to(giantTextRef.current, { opacity: 0, duration: 0.2 }, 0)
+      .to(manifestoRef.current, { opacity: 0, duration: 0.2 }, 0)
+      .to(counterRef.current, { opacity: 0, duration: 0.2 }, 0)
   }, [])
 
   // Auto-advance every 4.5 seconds when user is at top of page
@@ -234,17 +232,22 @@ export default function Hero() {
     }
   }, [startAutoTimer])
 
-  // Trackpad / touch gesture listener for intuitive sliding
+  // Trackpad / touch gesture listener - strictly horizontal swipes only, never interferes with vertical scrolling
   useEffect(() => {
     let touchStartX = 0
+    let touchStartY = 0
     let lastWheelTime = 0
 
     const handleTouchStart = (e) => {
       touchStartX = e.touches[0].clientX
+      touchStartY = e.touches[0].clientY
     }
     const handleTouchEnd = (e) => {
       const diffX = e.changedTouches[0].clientX - touchStartX
-      if (Math.abs(diffX) > 45 && window.scrollY < 80) {
+      const diffY = e.changedTouches[0].clientY - touchStartY
+      // Must be a deliberate horizontal swipe (diffX > 55 and at least 2.5x greater than vertical diffY)
+      // Never triggers during normal vertical scrolling
+      if (Math.abs(diffX) > 55 && Math.abs(diffX) > Math.abs(diffY) * 2.5 && window.scrollY < 20) {
         if (diffX < 0) {
           goToSlide((currentSlideRef.current + 1) % HERO_SLIDES.length)
         } else {
@@ -301,22 +304,22 @@ export default function Hero() {
       gsap.set(cherryLayerRef.current, { autoAlpha: 0 })
       gsap.set(lemonLayerRef.current, { autoAlpha: 0 })
 
-      // Page Load Intro
+      // Page Load Intro: Smooth clean fade in without jumping
       const introTl = gsap.timeline({ defaults: { ease: 'power3.out' } })
       introTl
-        .fromTo(bottleRef.current, { scale: 0.88, opacity: 0, y: 30 }, { scale: 1, opacity: 1, y: 0, duration: 1.0 })
-        .fromTo(giantTextRef.current, { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 1.0 }, '-=0.75')
+        .fromTo(bottleRef.current, { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8 })
+        .fromTo(giantTextRef.current, { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.8 }, '-=0.6')
         .fromTo(
           [piece1Ref.current, piece2Ref.current, piece3Ref.current, piece5Ref.current],
           { opacity: 0 },
-          { opacity: 1, stagger: 0.08, duration: 0.85 },
-          '-=0.65'
+          { opacity: 1, stagger: 0.06, duration: 0.6 },
+          '-=0.5'
         )
         .fromTo(
           [bottomLeftBtnRef.current, manifestoRef.current],
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, stagger: 0.08, duration: 0.8 },
-          '-=0.6'
+          { opacity: 0 },
+          { opacity: 1, stagger: 0.06, duration: 0.5 },
+          '-=0.4'
         )
 
       const mm = gsap.matchMedia(containerRef)
@@ -337,63 +340,86 @@ export default function Hero() {
 
         // 1. Orange pieces drift outward (4 pristine corner pieces)
         scrollTl
-          .to(piece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -35, scale: 1.25, ease: 'power2.out', duration: 1 }, 0)
-          .to(piece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 28, scale: 1.18, ease: 'power2.out', duration: 1 }, 0)
-          .to(piece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 38, scale: 1.25, ease: 'power2.out', duration: 1 }, 0)
-          .to(piece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -30, scale: 1.2, ease: 'power2.out', duration: 1 }, 0)
+          .to(piece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(piece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 28, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(piece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 38, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(piece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -30, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
 
         // 2. Strawberry pieces drift outward
         scrollTl
-          .to(strawPiece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1 }, 0)
-          .to(strawPiece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1 }, 0)
-          .to(strawPiece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1 }, 0)
-          .to(strawPiece4Ref.current, { xPercent: 100, yPercent: 20, rotation: -20, scale: 1.12, ease: 'power2.out', duration: 1 }, 0)
-          .to(strawPiece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1 }, 0)
+          .to(strawPiece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece4Ref.current, { xPercent: 100, yPercent: 20, rotation: -20, scale: 1.12, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
 
         // 3. Cherry pieces drift outward
         scrollTl
-          .to(cherryPiece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1 }, 0)
-          .to(cherryPiece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1 }, 0)
-          .to(cherryPiece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1 }, 0)
-          .to(cherryPiece4Ref.current, { xPercent: 100, yPercent: 20, rotation: -20, scale: 1.12, ease: 'power2.out', duration: 1 }, 0)
-          .to(cherryPiece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1 }, 0)
+          .to(cherryPiece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece4Ref.current, { xPercent: 100, yPercent: 20, rotation: -20, scale: 1.12, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
 
         // 4. Lemon pieces drift outward (4 pristine corner pieces)
         scrollTl
-          .to(lemonPiece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1 }, 0)
-          .to(lemonPiece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1 }, 0)
-          .to(lemonPiece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1 }, 0)
-          .to(lemonPiece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1 }, 0)
+          .to(lemonPiece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(lemonPiece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(lemonPiece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(lemonPiece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
 
         scrollTl.to(bottleRef.current, { scale: 1.05, yPercent: 0, ease: 'power2.out', duration: 0.7 }, 0)
-        scrollTl.to(giantTextRef.current, { yPercent: 0, scale: 1.02, ease: 'power2.out', duration: 1 }, 0)
+        scrollTl.to(giantTextRef.current, { yPercent: 0, scale: 1.02, ease: 'power2.out', duration: 1, force3D: true }, 0)
         scrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { opacity: 0, yPercent: -25, ease: 'power2.in', duration: 0.5 }, 0)
         scrollTl.to(bottleRef.current, { scale: 1.0, yPercent: 0, opacity: 0.95, ease: 'power2.in', duration: 0.3 }, 0.7)
       })
 
-      // Mobile (< 768px): Fluid pinned scroll matching desktop
+      // Mobile (< 768px): Luxury Pinned Scrub matching Web View
       mm.add('(max-width: 767px)', () => {
-        const mobileTl = gsap.timeline({
+        const mobileScrollTl = gsap.timeline({
           scrollTrigger: {
             trigger: containerRef.current,
             start: 'top top',
-            end: '+=100%',
+            end: '+=75%',
             pin: pinWrapperRef.current,
-            scrub: 1,
+            scrub: 0.8,
             anticipatePin: 1,
             invalidateOnRefresh: true,
           },
         })
 
-        mobileTl
-          .to([piece1Ref.current, strawPiece1Ref.current, cherryPiece1Ref.current, lemonPiece1Ref.current], { xPercent: -50, yPercent: -50, rotation: -20, scale: 1.15, ease: 'power2.out', duration: 1 }, 0)
-          .to([piece2Ref.current, strawPiece2Ref.current, cherryPiece2Ref.current, lemonPiece2Ref.current], { xPercent: -50, yPercent: 50, rotation: 15, scale: 1.15, ease: 'power2.out', duration: 1 }, 0)
-          .to([piece3Ref.current, strawPiece3Ref.current, cherryPiece3Ref.current, lemonPiece3Ref.current], { xPercent: 50, yPercent: -50, rotation: 20, scale: 1.15, ease: 'power2.out', duration: 1 }, 0)
-          .to([piece5Ref.current, strawPiece5Ref.current, cherryPiece5Ref.current, lemonPiece5Ref.current], { xPercent: 50, yPercent: 50, rotation: -15, scale: 1.15, ease: 'power2.out', duration: 1 }, 0)
-          
-        mobileTl.to(bottleRef.current, { scale: 1.05, yPercent: 0, ease: 'power2.out', duration: 0.7 }, 0)
-        mobileTl.to(giantTextRef.current, { yPercent: 0, scale: 1.02, ease: 'power2.out', duration: 1 }, 0)
-        mobileTl.to([bottomLeftBtnRef.current, manifestoRef.current], { opacity: 0, yPercent: -20, ease: 'power2.in', duration: 0.5 }, 0)
+        // 1. Orange pieces drift outward to corners
+        mobileScrollTl
+          .to(piece1Ref.current, { xPercent: -65, yPercent: -55, rotation: -25, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(piece2Ref.current, { xPercent: -70, yPercent: 55, rotation: 20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(piece3Ref.current, { xPercent: 70, yPercent: -55, rotation: 25, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(piece5Ref.current, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+
+        // 2. Strawberry pieces drift outward
+        mobileScrollTl
+          .to(strawPiece1Ref.current, { xPercent: -65, yPercent: -55, rotation: -22, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece2Ref.current, { xPercent: -70, yPercent: 55, rotation: 18, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece3Ref.current, { xPercent: 70, yPercent: -55, rotation: 24, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece5Ref.current, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+
+        // 3. Cherry pieces drift outward
+        mobileScrollTl
+          .to(cherryPiece1Ref.current, { xPercent: -65, yPercent: -55, rotation: -22, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece2Ref.current, { xPercent: -70, yPercent: 55, rotation: 18, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece3Ref.current, { xPercent: 70, yPercent: -55, rotation: 24, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece5Ref.current, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+
+        // 4. Lemon pieces drift outward
+        mobileScrollTl
+          .to(lemonPiece1Ref.current, { xPercent: -65, yPercent: -55, rotation: -22, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(lemonPiece2Ref.current, { xPercent: -70, yPercent: 55, rotation: 18, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(lemonPiece3Ref.current, { xPercent: 70, yPercent: -55, rotation: 24, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(lemonPiece5Ref.current, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+
+        // Bottle stays centered and expands like web view
+        mobileScrollTl.to(bottleRef.current, { scale: 1.08, yPercent: 0, ease: 'power2.out', duration: 0.8, force3D: true }, 0)
+        mobileScrollTl.to(giantTextRef.current, { yPercent: 0, scale: 1.04, ease: 'power2.out', duration: 1, force3D: true }, 0)
+        mobileScrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { opacity: 0, yPercent: -15, ease: 'power2.in', duration: 0.45 }, 0)
       })
     },
     { scope: containerRef }
@@ -489,14 +515,14 @@ export default function Hero() {
 
       <div
         ref={pinWrapperRef}
-        className="relative w-full min-h-svh sm:min-h-screen flex flex-col justify-between items-center px-4 sm:px-12 md:px-16 pt-20 sm:pt-24 pb-6 sm:pb-8 overflow-hidden select-none"
+        className="relative w-full min-h-svh sm:min-h-screen flex flex-col justify-between items-center px-3 sm:px-12 md:px-16 pt-[calc(var(--sat)+3.5rem)] sm:pt-[calc(var(--sat)+4.25rem)] pb-[calc(var(--sab)+1.25rem)] sm:pb-[calc(var(--sab)+1.5rem)] overflow-hidden select-none landscape-compact-hero"
       >
         {/* Center Stage: Giant Wordmark + 5 Juicy Fruit Pieces + Crisp Center Bottle */}
-        <div className="relative z-10 w-full max-w-7xl flex-1 flex items-center justify-center my-auto min-h-[52vh] sm:min-h-[58vh]">
+        <div className="relative z-10 w-full max-w-7xl flex-1 flex items-center justify-center my-auto min-h-[40vh] sm:min-h-[55vh] landscape-compact-stage">
           {/* Giant Background Wordmark */}
           <h1
             ref={giantTextRef}
-            className={`absolute inset-x-0 text-center font-display ${activeSlide.wordSize} font-black uppercase text-(--color-ink) leading-none tracking-tight whitespace-nowrap max-w-full px-2 pointer-events-none select-none will-change-transform drop-shadow-xs`}
+            className={`absolute inset-x-0 text-center font-display ${activeSlide.wordSize} font-black uppercase text-(--color-ink) leading-none tracking-tight whitespace-nowrap max-w-full px-2 pointer-events-none select-none drop-shadow-xs`}
             style={{ zIndex: 1 }}
           >
             {activeSlide.wordmark}
@@ -505,19 +531,19 @@ export default function Hero() {
           {/* ORANGE PIECES LAYER (4 Crisp Corner Pieces with Leaves & Drops) */}
           <div
             ref={orangeLayerRef}
-            className="absolute inset-0 w-full h-full pointer-events-none will-change-transform"
+            className="absolute inset-0 w-full h-full pointer-events-none"
             style={{ zIndex: 5 }}
           >
             {/* Orange Piece 1: Top Left */}
             <div
               ref={piece1Ref}
-              className="absolute top-[1%] sm:top-[-1%] left-[-1%] sm:left-[1%] md:left-[2%] w-32 sm:w-64 md:w-80 lg:w-88 pointer-events-none will-change-transform"
+              className="absolute top-[13%] sm:top-[-1%] md:top-[3%] left-[4%] sm:left-[1%] md:left-[5%] lg:left-[7%] w-20 sm:w-56 md:w-64 lg:w-72 pointer-events-none"
             >
-              <div className="animate-fruit-float-a">
+              <div className="">
                 <img
                   src="/assets/orange-piece-1.png"
                   alt="Fresh juicy orange slice with dewy green leaves and droplets"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -525,13 +551,13 @@ export default function Hero() {
             {/* Orange Piece 2: Bottom Left */}
             <div
               ref={piece2Ref}
-              className="absolute bottom-[-1%] sm:bottom-[-6%] left-[-1%] sm:left-[0%] md:left-[1%] w-36 sm:w-72 md:w-96 lg:w-100 pointer-events-none will-change-transform"
+              className="absolute bottom-[16%] sm:bottom-[-2%] md:bottom-[4%] left-[4%] sm:left-[0%] md:left-[4%] lg:left-[6%] w-24 sm:w-64 md:w-72 lg:w-80 pointer-events-none"
             >
-              <div className="animate-fruit-float-b">
+              <div className="">
                 <img
                   src="/assets/orange-piece-2.png"
                   alt="Juicy halved orange and slice with leaves and droplets"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -539,13 +565,13 @@ export default function Hero() {
             {/* Orange Piece 3: Top Right */}
             <div
               ref={piece3Ref}
-              className="absolute top-[2%] sm:top-[0%] right-[-1%] sm:right-[1%] md:right-[2%] w-32 sm:w-64 md:w-80 lg:w-88 pointer-events-none will-change-transform"
+              className="absolute top-[13%] sm:top-[0%] md:top-[3%] right-[4%] sm:right-[1%] md:right-[5%] lg:right-[7%] w-20 sm:w-56 md:w-64 lg:w-72 pointer-events-none"
             >
-              <div className="animate-fruit-float-c">
+              <div className="">
                 <img
                   src="/assets/orange-piece-3.png"
                   alt="Halved orange and slice with dewy leaves and dripping juice"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -553,13 +579,13 @@ export default function Hero() {
             {/* Orange Piece 5: Bottom Right */}
             <div
               ref={piece5Ref}
-              className="absolute bottom-[-1%] sm:bottom-[-6%] right-[-1%] sm:right-[1%] md:right-[2%] w-40 sm:w-72 md:w-96 lg:w-md pointer-events-none will-change-transform"
+              className="absolute bottom-[16%] sm:bottom-[-2%] md:bottom-[4%] right-[4%] sm:right-[1%] md:right-[4%] lg:right-[6%] w-24 sm:w-64 md:w-72 lg:w-80 pointer-events-none"
             >
-              <div className="animate-fruit-float-b">
+              <div className="">
                 <img
                   src="/assets/orange-piece-5.png"
                   alt="Large juicy orange slice with dewy green leaves and bursting droplets"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -568,19 +594,19 @@ export default function Hero() {
           {/* STRAWBERRY PIECES LAYER */}
           <div
             ref={strawLayerRef}
-            className="absolute inset-0 w-full h-full pointer-events-none will-change-transform"
+            className="absolute inset-0 w-full h-full pointer-events-none"
             style={{ zIndex: 5, opacity: 0, visibility: 'hidden' }}
           >
             {/* Straw Piece 1: Top Left */}
             <div
               ref={strawPiece1Ref}
-              className="absolute top-[1%] sm:top-[-1%] left-[-1%] sm:left-[1%] md:left-[2%] w-24 sm:w-48 md:w-64 lg:w-72 pointer-events-none will-change-transform"
+              className="absolute top-[13%] sm:top-[-2%] md:top-[2%] left-[4%] sm:left-[0%] md:left-[5%] lg:left-[7%] w-22 sm:w-48 md:w-48 lg:w-56 pointer-events-none"
             >
-              <div className="animate-fruit-float-a">
+              <div className="">
                 <img
                   src="/assets/straw-piece-1.png"
                   alt="Fresh strawberry in ruby splash with droplets"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -588,13 +614,13 @@ export default function Hero() {
             {/* Straw Piece 2: Bottom Left */}
             <div
               ref={strawPiece2Ref}
-              className="absolute bottom-[-1%] sm:bottom-[-4%] left-[-1%] sm:left-[0%] md:left-[1%] w-28 sm:w-52 md:w-72 lg:w-80 pointer-events-none will-change-transform"
+              className="absolute bottom-[16%] sm:bottom-[0%] md:bottom-[4%] left-[4%] sm:left-[0%] md:left-[4%] lg:left-[6%] w-26 sm:w-64 md:w-80 lg:w-96 pointer-events-none"
             >
-              <div className="animate-fruit-float-b">
+              <div className="">
                 <img
                   src="/assets/straw-piece-2.png"
                   alt="Juicy strawberry slice resting in juice wave"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -602,13 +628,13 @@ export default function Hero() {
             {/* Straw Piece 3: Top Right */}
             <div
               ref={strawPiece3Ref}
-              className="absolute top-[2%] sm:top-[0%] right-[-1%] sm:right-[1%] md:right-[2%] w-24 sm:w-48 md:w-64 lg:w-72 pointer-events-none will-change-transform"
+              className="absolute top-[13%] sm:top-[0%] right-[4%] sm:right-[1%] md:right-[2%] w-22 sm:w-48 md:w-64 lg:w-72 pointer-events-none"
             >
-              <div className="animate-fruit-float-c">
+              <div className="">
                 <img
                   src="/assets/straw-piece-3.png"
                   alt="Halved strawberry bursting with ruby splash"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -616,13 +642,13 @@ export default function Hero() {
             {/* Straw Piece 4: Mid Right */}
             <div
               ref={strawPiece4Ref}
-              className="hidden md:block absolute top-[34%] right-[-2%] sm:right-[0%] md:right-[1%] w-18 sm:w-26 md:w-34 pointer-events-none will-change-transform"
+              className="hidden md:block absolute top-[34%] right-[-2%] sm:right-[0%] md:right-[1%] w-18 sm:w-26 md:w-34 pointer-events-none"
             >
-              <div className="animate-fruit-float-a">
+              <div className="">
                 <img
                   src="/assets/straw-piece-4.png"
                   alt="Ruby strawberry with sparkling droplets"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -630,13 +656,13 @@ export default function Hero() {
             {/* Straw Piece 5: Bottom Right (UNHIDDEN & VISIBLE ON MOBILE) */}
             <div
               ref={strawPiece5Ref}
-              className="absolute bottom-[-1%] sm:bottom-[-4%] right-[-1%] sm:right-[1%] md:right-[2%] w-28 sm:w-56 md:w-72 lg:w-[24rem] pointer-events-none will-change-transform"
+              className="absolute bottom-[16%] sm:bottom-[0%] md:bottom-[4%] right-[4%] sm:right-[1%] md:right-[4%] lg:right-[6%] w-24 sm:w-56 md:w-72 lg:w-[24rem] pointer-events-none"
             >
-              <div className="animate-fruit-float-b">
+              <div className="">
                 <img
                   src="/assets/straw-piece-5.png"
                   alt="Fresh strawberry with splash and dewy green leaf"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -645,19 +671,19 @@ export default function Hero() {
           {/* CHERRY PIECES LAYER */}
           <div
             ref={cherryLayerRef}
-            className="absolute inset-0 w-full h-full pointer-events-none will-change-transform"
+            className="absolute inset-0 w-full h-full pointer-events-none"
             style={{ zIndex: 5, opacity: 0, visibility: 'hidden' }}
           >
             {/* Cherry Piece 1: Top Left */}
             <div
               ref={cherryPiece1Ref}
-              className="absolute top-[2%] sm:top-[0%] left-[-2%] sm:left-[2%] md:left-[8%] w-20 sm:w-48 md:w-64 lg:w-72 pointer-events-none will-change-transform"
+              className="absolute top-[13%] sm:top-[0%] md:top-[3%] left-[4%] sm:left-[2%] md:left-[8%] lg:left-[10%] w-22 sm:w-48 md:w-48 lg:w-56 pointer-events-none"
             >
-              <div className="animate-fruit-float-a">
+              <div className="">
                 <img
                   src="/assets/cherry-piece-1.png"
                   alt="Fresh black cherry with stem and droplets"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -665,13 +691,13 @@ export default function Hero() {
             {/* Cherry Piece 2: Bottom Left */}
             <div
               ref={cherryPiece2Ref}
-              className="absolute bottom-[6%] sm:bottom-[-4%] left-[-1%] sm:left-[0%] md:left-[2%] w-32 sm:w-56 md:w-72 lg:w-80 pointer-events-none will-change-transform"
+              className="absolute bottom-[16%] sm:bottom-[0%] md:bottom-[4%] left-[4%] sm:left-[0%] md:left-[4%] lg:left-[6%] w-24 sm:w-56 md:w-72 lg:w-80 pointer-events-none"
             >
-              <div className="animate-fruit-float-b">
+              <div className="">
                 <img
                   src="/assets/cherry-piece-2.png"
                   alt="Pair of cherries in ruby splash wave"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -679,13 +705,13 @@ export default function Hero() {
             {/* Cherry Piece 3: Top Right */}
             <div
               ref={cherryPiece3Ref}
-              className="absolute top-[4%] sm:top-[1%] right-[-1%] sm:right-[1%] md:right-[2%] w-32 sm:w-36 md:w-48 lg:w-52 pointer-events-none will-change-transform"
+              className="absolute top-[13%] sm:top-[1%] right-[4%] sm:right-[1%] md:right-[2%] w-22 sm:w-36 md:w-48 lg:w-52 pointer-events-none"
             >
-              <div className="animate-fruit-float-c">
+              <div className="">
                 <img
                   src="/assets/cherry-piece-3.png"
                   alt="Black cherry bursting with ruby juice splash"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -693,13 +719,13 @@ export default function Hero() {
             {/* Cherry Piece 4: Mid Right */}
             <div
               ref={cherryPiece4Ref}
-              className="hidden md:block absolute top-[34%] right-[-2%] sm:right-[0%] md:right-[1%] w-18 sm:w-26 md:w-34 pointer-events-none will-change-transform"
+              className="hidden md:block absolute top-[34%] right-[-2%] sm:right-[0%] md:right-[1%] w-18 sm:w-26 md:w-34 pointer-events-none"
             >
-              <div className="animate-fruit-float-a">
+              <div className="">
                 <img
                   src="/assets/cherry-piece-4.png"
                   alt="Halved cherry with glowing ruby droplets"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -707,13 +733,13 @@ export default function Hero() {
             {/* Cherry Piece 5: Bottom Right (UNHIDDEN & VISIBLE ON MOBILE) */}
             <div
               ref={cherryPiece5Ref}
-              className="absolute bottom-[5%] sm:bottom-[-4%] right-[-1%] sm:right-[1%] md:right-[2%] w-28 sm:w-52 md:w-64 lg:w-88 pointer-events-none will-change-transform"
+              className="absolute bottom-[16%] sm:bottom-[0%] md:bottom-[4%] right-[4%] sm:right-[1%] md:right-[4%] lg:right-[6%] w-24 sm:w-52 md:w-64 lg:w-88 pointer-events-none"
             >
-              <div className="animate-fruit-float-b">
+              <div className="">
                 <img
                   src="/assets/cherry-piece-5.png"
                   alt="Halved cherry showing pit with dewy green leaf"
-                  className="w-full h-auto object-contain drop-shadow-lg"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
@@ -722,43 +748,43 @@ export default function Hero() {
           {/* LEMON PIECES LAYER */}
           <div
             ref={lemonLayerRef}
-            className="absolute inset-0 w-full h-full pointer-events-none will-change-transform"
+            className="absolute inset-0 w-full h-full pointer-events-none"
             style={{ zIndex: 5, opacity: 0, visibility: 'hidden' }}
           >
             {/* Lemon Piece 1 */}
             <div
               ref={lemonPiece1Ref}
-              className="absolute top-[2%] sm:top-[0%] left-[-1%] sm:left-[1%] md:left-[2%] w-28 sm:w-56 md:w-72 lg:w-80 pointer-events-none will-change-transform"
+              className="absolute top-[13%] sm:top-[0%] md:top-[3%] left-[4%] sm:left-[1%] md:left-[5%] lg:left-[7%] w-22 sm:w-56 md:w-56 lg:w-64 pointer-events-none"
             >
-              <div className="animate-fruit-float-a">
-                <img src="/assets/lemon-piece-1.png" alt="Fresh lemon slice" className="w-full h-auto object-contain drop-shadow-lg" />
+              <div className="">
+                <img src="/assets/lemon-piece-1.png" alt="Fresh lemon slice" className="w-full h-auto object-contain" />
               </div>
             </div>
             {/* Lemon Piece 2 */}
             <div
               ref={lemonPiece2Ref}
-              className="absolute bottom-[0%] sm:bottom-[0%] left-[-1%] sm:left-[0%] md:left-[1%] w-44 sm:w-60 md:w-80 lg:w-104 pointer-events-none will-change-transform"
+              className="absolute bottom-[16%] sm:bottom-[2%] md:bottom-[6%] left-[4%] sm:left-[0%] md:left-[3%] lg:left-[5%] w-26 sm:w-60 md:w-80 lg:w-104 pointer-events-none"
             >
-              <div className="animate-fruit-float-b">
-                <img src="/assets/lemon-piece-2.png" alt="Fresh lemon slice" className="w-full h-auto object-contain drop-shadow-lg" />
+              <div className="">
+                <img src="/assets/lemon-piece-2.png" alt="Fresh lemon slice" className="w-full h-auto object-contain" />
               </div>
             </div>
             {/* Lemon Piece 3 */}
             <div
               ref={lemonPiece3Ref}
-              className="absolute top-[2%] sm:top-[0%] right-[-1%] sm:right-[1%] md:right-[2%] w-28 sm:w-56 md:w-72 lg:w-80 pointer-events-none will-change-transform"
+              className="absolute top-[13%] sm:top-[0%] right-[4%] sm:right-[1%] md:right-[2%] w-22 sm:w-56 md:w-72 lg:w-80 pointer-events-none"
             >
-              <div className="animate-fruit-float-c">
-                <img src="/assets/lemon-piece-3.png" alt="Fresh lemon slice" className="w-full h-auto object-contain drop-shadow-lg" />
+              <div className="">
+                <img src="/assets/lemon-piece-3.png" alt="Fresh lemon slice" className="w-full h-auto object-contain" />
               </div>
             </div>
             {/* Lemon Piece 5 */}
             <div
               ref={lemonPiece5Ref}
-              className="absolute bottom-[4%] sm:bottom-[0%] right-[-1%] sm:right-[1%] md:right-[2%] w-32 sm:w-64 md:w-80 lg:w-md pointer-events-none will-change-transform"
+              className="absolute bottom-[16%] sm:bottom-[2%] md:bottom-[6%] right-[4%] sm:right-[1%] md:right-[4%] lg:right-[6%] w-26 sm:w-64 md:w-80 lg:w-md pointer-events-none"
             >
-              <div className="animate-fruit-float-b">
-                <img src="/assets/lemon-piece-5.png" alt="Fresh lemon slice" className="w-full h-auto object-contain drop-shadow-lg" />
+              <div className="">
+                <img src="/assets/lemon-piece-5.png" alt="Fresh lemon slice" className="w-full h-auto object-contain" />
               </div>
             </div>
           </div>
@@ -766,7 +792,7 @@ export default function Hero() {
           {/* Crisp Center Bottle */}
           <div
             ref={bottleRef}
-            className={`relative w-full ${activeSlide.bottleContainerClass} flex items-center justify-center will-change-transform`}
+            className={`relative w-full ${activeSlide.bottleContainerClass} flex items-center justify-center`}
             style={{ zIndex: 10 }}
           >
             <img
@@ -778,31 +804,33 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Bottom Editorial Bar: "show all the juices" CTA + Manifesto text */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4 sm:gap-6 pt-0 sm:pt-2 pointer-events-auto">
-          {/* Bottom Left: CTA Square Button */}
-          <div ref={bottomLeftBtnRef} className={`mb-4 sm:mb-0 ${activeSlide.buttonWrapperClass || ''}`}>
+        {/* Bottom Editorial Bar: Manifesto text + CTA Button */}
+        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center sm:items-end justify-between gap-2.5 sm:gap-6 pt-0 sm:pt-2 pointer-events-auto pb-0.5 sm:pb-0">
+          {/* Top on mobile / Right on desktop: Manifesto Block */}
+          <div
+            ref={manifestoRef}
+            className="w-full sm:max-w-md md:max-w-lg text-center sm:text-right flex flex-col items-center sm:items-end mt-0.5 sm:mt-0 order-1 sm:order-2"
+          >
+            <h2 className="font-display text-xs sm:text-base md:text-lg font-bold text-neutral-900 leading-tight mb-1">
+              {activeSlide.manifestoTitle.split(activeSlide.manifestoHighlight)[0]}
+              <span style={{ color: activeSlide.highlightColor }}>
+                {activeSlide.manifestoHighlight}
+              </span>
+              {activeSlide.manifestoTitle.split(activeSlide.manifestoHighlight)[1]}
+            </h2>
+            <p className="font-body text-[11px] sm:text-xs font-normal tracking-tight sm:tracking-normal text-neutral-600 leading-snug max-w-[310px] sm:max-w-md mx-auto sm:mx-0">
+              {activeSlide.manifestoBody}
+            </p>
+          </div>
+
+          {/* Bottom on mobile / Left on desktop: CTA Square Button */}
+          <div ref={bottomLeftBtnRef} className="flex justify-center sm:justify-start mt-1 sm:mt-0 order-2 sm:order-1 mb-1 sm:mb-0">
             <a
               href="#flavors"
-              className="inline-block bg-(--color-ink) text-white font-bold uppercase tracking-widest text-[10px] sm:text-sm px-6 sm:px-8 py-3 sm:py-4 rounded-none transition-colors hover:bg-(--color-coral) shadow-lg"
+              className="touch-target-44 inline-flex items-center justify-center bg-(--color-ink) text-white font-body font-medium uppercase tracking-[0.16em] text-[11px] sm:text-xs px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-none transition-colors hover:bg-(--color-coral) shadow-md cursor-pointer whitespace-nowrap"
             >
               {activeSlide.ctaText}
             </a>
-          </div>
-
-          {/* Bottom Right: Manifesto Block */}
-          <div
-            ref={manifestoRef}
-            className="w-full sm:max-w-md md:max-w-lg lg:max-w-xl text-center sm:text-right flex flex-col items-center sm:items-end mt-2 sm:mt-0"
-          >
-            <h3 className="text-[15px] sm:text-xl md:text-2xl font-black font-display uppercase tracking-widest mb-1 sm:mb-3 leading-tight">
-              <span className="text-neutral-900">{activeSlide.manifestoTitle.split(' ').slice(0, -3).join(' ')}</span>
-              <br className="hidden sm:block" />
-              <span style={{ color: activeSlide.highlightColor }}> {activeSlide.manifestoTitle.split(' ').slice(-3).join(' ')}</span>
-            </h3>
-            <p className="text-[10px] sm:text-sm font-medium tracking-wide text-neutral-600 leading-snug sm:leading-relaxed max-w-[260px] sm:max-w-none">
-              {activeSlide.manifestoBody}
-            </p>
           </div>
         </div>
       </div>

@@ -108,28 +108,28 @@ export default function Footer({ onScrollTop }) {
     <footer
       id="footer"
       ref={containerRef}
-      className="relative w-full bg-[#141210] text-(--color-surface) pt-24 sm:pt-32 pb-12 overflow-hidden border-t border-[#292524]"
+      className="relative w-full bg-[#141210] text-(--color-surface) pt-16 sm:pt-32 pb-[calc(var(--sab)+2.5rem)] overflow-hidden border-t border-[#292524]"
     >
-      <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8">
         {/* Top Header Row with Back to Top */}
-        <div className="flex items-center justify-between pb-8 mb-12 border-b border-neutral-800">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-900 border border-neutral-800 text-xs font-body font-bold tracking-widest text-(--color-coral) uppercase">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 sm:pb-8 mb-8 sm:mb-12 border-b border-neutral-800">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-neutral-900 border border-neutral-800 text-[11px] sm:text-xs font-body font-bold tracking-widest text-(--color-coral) uppercase">
             <span>[ CLEAN JUICE // PRIVATE HARVEST DISPATCH ]</span>
           </div>
           <button
             type="button"
             onClick={handleBackToTop}
-            className="px-5 py-2.5 bg-neutral-900 hover:bg-(--color-coral) text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer border border-neutral-800"
+            className="touch-target-44 px-5 py-2.5 bg-neutral-900 hover:bg-(--color-coral) text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer border border-neutral-800"
           >
             Back to Top &uarr;
           </button>
         </div>
 
         {/* Huge Typographic Headline with Blackbold Font */}
-        <div className="pb-16 mb-12">
+        <div className="pb-12 sm:pb-16 mb-8 sm:mb-12">
           <h2
             ref={titleRef}
-            className="font-blackbold text-4xl sm:text-6xl md:text-7xl lg:text-8xl uppercase tracking-tight leading-[0.95] text-(--color-surface) mb-8 will-change-transform"
+            className="font-blackbold text-3xl sm:text-6xl md:text-7xl lg:text-8xl uppercase tracking-tight leading-[0.95] text-(--color-surface) mb-6 sm:mb-8 will-change-transform"
           >
             Hydrate With <br />
             <span className="text-(--color-coral)">Intention.</span>
@@ -137,9 +137,9 @@ export default function Footer({ onScrollTop }) {
 
           <div
             ref={textColRef}
-            className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start justify-between"
+            className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start justify-between"
           >
-            <p className="lg:col-span-6 text-base sm:text-lg text-(--color-ink-muted) leading-relaxed font-normal max-w-lg">
+            <p className="lg:col-span-6 text-sm sm:text-lg text-(--color-ink-muted) leading-relaxed font-normal max-w-lg">
               Clean Juice is cold-pressed from single-origin organic orchards and delivered direct to your doorstep in temperature-controlled, recyclable chilled cartons.
             </p>
 
@@ -160,11 +160,11 @@ export default function Footer({ onScrollTop }) {
                   type="email"
                   required
                   placeholder="ENTER YOUR EMAIL FOR PRIVATE DROPS"
-                  className="flex-1 px-4 py-3.5 bg-neutral-900 border border-neutral-800 text-xs font-body text-neutral-100 outline-none focus:ring-1 focus:ring-neutral-400"
+                  className="flex-1 px-4 py-3.5 bg-neutral-900 border border-neutral-800 text-xs font-body text-neutral-100 outline-none focus:ring-1 focus:ring-neutral-400 min-h-[44px]"
                 />
                 <button
                   type="submit"
-                  className="px-8 py-3.5 bg-(--color-coral) hover:bg-(--color-coral-dark) text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer rounded-none shadow-sm"
+                  className="touch-target-44 px-8 py-3.5 bg-(--color-coral) hover:bg-(--color-coral-dark) text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer rounded-none shadow-sm"
                 >
                   Join Roster
                 </button>
@@ -176,7 +176,7 @@ export default function Footer({ onScrollTop }) {
         {/* Wide Panoramic Fruit & Can Parade Banner (Replaces Stockists & Text Grid) */}
         <div
           ref={fruitBannerRef}
-          className="relative w-full overflow-hidden my-12 pt-8 pb-4 will-change-transform"
+          className="relative w-full overflow-hidden my-8 sm:my-12 pt-4 sm:pt-8 pb-4 will-change-transform"
         >
           {/* Subtle Ambient Radial Glow */}
           <div
@@ -198,16 +198,16 @@ export default function Footer({ onScrollTop }) {
         </div>
 
         {/* Legal & Copyright */}
-        <div className="pt-8 border-t border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-body text-(--color-ink-subtle)">
+        <div className="pt-8 border-t border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-body text-(--color-ink-subtle) text-center sm:text-left">
           <p>&copy; {new Date().getFullYear()} CLEAN JUICE CO. 100% ORGANIC RAW COLD-PRESSED. ALL RIGHTS RESERVED.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-(--color-surface) transition-colors">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+            <a href="#" className="touch-target-44 py-1.5 hover:text-(--color-surface) transition-colors">
               Privacy Protocol
             </a>
-            <a href="#" className="hover:text-(--color-surface) transition-colors">
+            <a href="#" className="touch-target-44 py-1.5 hover:text-(--color-surface) transition-colors">
               Terms of Supply
             </a>
-            <a href="#" className="hover:text-(--color-surface) transition-colors">
+            <a href="#" className="touch-target-44 py-1.5 hover:text-(--color-surface) transition-colors">
               Cold-Chain Guarantee
             </a>
           </div>

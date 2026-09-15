@@ -14,6 +14,7 @@ const STORY_MILESTONES = [
     accentColor: '#F59E0B', // Amber
     image: '/assets/timeline-1.png',
     alt: 'Fresh organic citrus harvest',
+    imgClass: 'scale-110',
   },
   {
     year: '2020',
@@ -23,7 +24,7 @@ const STORY_MILESTONES = [
     accentColor: '#10B981', // Emerald
     image: '/assets/timeline-2.png',
     alt: 'Cold micro-pressure extraction',
-    imgClass: 'scale-125 sm:scale-150',
+    imgClass: 'scale-110 sm:scale-125',
   },
   {
     year: '2022',
@@ -33,7 +34,7 @@ const STORY_MILESTONES = [
     accentColor: '#EF4444', // Red
     image: '/assets/timeline-3.png',
     alt: 'Cellular hydration matrix',
-    imgClass: 'scale-125 sm:scale-150',
+    imgClass: 'scale-110 sm:scale-125',
   },
   {
     year: '2024',
@@ -43,7 +44,7 @@ const STORY_MILESTONES = [
     accentColor: '#3B82F6', // Blue
     image: '/assets/timeline-4.png',
     alt: 'Cold-chain dispatch fleet',
-    imgClass: 'scale-125 sm:scale-150',
+    imgClass: 'scale-110 sm:scale-125',
   },
   {
     year: '2026',
@@ -53,7 +54,7 @@ const STORY_MILESTONES = [
     accentColor: '#EA580C', // Orange
     image: '/assets/timeline-5.png',
     alt: 'Clean Juice iconic lineup',
-    imgClass: 'scale-110 sm:scale-125',
+    imgClass: 'scale-100 sm:scale-110',
   },
 ]
 
@@ -89,97 +90,41 @@ export default function About() {
       cardsRef.current.forEach((card, i) => {
         if (!card) return
 
-        // 1. Clip-path wipe reveal for the images when they enter
-        const img = imagesRef.current[i]
-        if (img) {
-          gsap.fromTo(
-            img,
-            { clipPath: 'inset(100% 0 0 0)', scale: 1.3, opacity: 0 },
-            {
-              clipPath: 'inset(0% 0 0 0)',
-              scale: 1,
-              opacity: 1,
-              duration: 1.2,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: card,
-                start: 'top 75%',
-                toggleActions: 'play none none reverse',
-              },
-            }
-          )
-        }
-
-        // 2. Skew-on-scroll and Parallax for the content block inside the card
         const contentBlock = card.querySelector('.card-content')
-        if (contentBlock) {
-          // Skew velocity based
-          let skewSetter = gsap.quickSetter(contentBlock, "skewY", "deg")
-          let proxy = { skew: 0 }
-          
-          ScrollTrigger.create({
-            trigger: card,
-            start: "top bottom",
-            end: "bottom top",
-            onUpdate: (self) => {
-              // Get velocity and clamp it
-              let skew = gsap.utils.clamp(-5, 5, self.getVelocity() / -150)
-              
-              // Only apply if the change is significant enough to avoid micro-jitters
-              if (Math.abs(skew - proxy.skew) > 0.1) {
-                proxy.skew = skew
-                gsap.to(proxy, {
-                  skew: 0,
-                  duration: 0.6,
-                  ease: "power3.out",
-                  overwrite: true,
-                  onUpdate: () => skewSetter(proxy.skew)
-                })
-              }
-            }
-          })
+        const imgBlock = card.querySelector('.img-block-3d')
+        
+        // Single flattened 3D layer for performance
+        gsap.set(card, { force3D: true })
 
-          // Simple Parallax Y scrub
-          gsap.fromTo(
-            contentBlock,
-            { y: 50 },
-            {
-              y: -30,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: card,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: true,
-              },
-            }
-          )
-        }
+        const isEven = i % 2 === 0;
 
-        // 3. Sticky-Stack Cards: Scale and Blur effect when the next card covers this one
-        if (i < cardsRef.current.length - 1) {
-          const nextCard = cardsRef.current[i + 1]
-          
-          // As the next card scrolls up to cover the current pinned card,
-          // the current card scales down, blurs, and fades.
-          gsap.fromTo(
-            card,
-            { scale: 1, filter: 'blur(0px)', opacity: 1, y: 0 },
-            {
-              scale: 0.92,
-              filter: 'blur(8px)',
-              opacity: 0.3,
-              y: -20, // push slightly up for 3D depth
-              ease: 'none',
-              scrollTrigger: {
-                trigger: nextCard,
-                start: 'top 80%',       // when the next card starts entering the viewport
-                end: 'top 20%',         // when the next card is near its sticky position
-                scrub: true,
-              },
+        // Entrance: scrub into view until fully visible
+        gsap.fromTo(card, 
+          { rotationX: 18, rotationY: isEven ? -6 : 6, z: -150, opacity: 0 },
+          { 
+            rotationX: 0, rotationY: 0, z: 0, opacity: 1, ease: "none",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 95%",
+              end: "top 35%", // Finishes animating when top of card reaches upper third
+              scrub: 1,
             }
-          )
-        }
+          }
+        );
+
+        // Exit: scrub out of view when scrolling past
+        gsap.fromTo(card, 
+          { rotationX: 0, rotationY: 0, z: 0, opacity: 1 },
+          { 
+            rotationX: -18, rotationY: isEven ? 6 : -6, z: -150, opacity: 0, ease: "none",
+            scrollTrigger: {
+              trigger: card,
+              start: "bottom 65%", // Starts animating when bottom of card leaves lower third
+              end: "bottom 5%",
+              scrub: 1,
+            }
+          }
+        );
       })
     },
     { scope: containerRef }
@@ -189,85 +134,76 @@ export default function About() {
     <section
       id="about"
       ref={containerRef}
-      className="relative w-full bg-[#FAF5EA] text-neutral-900 py-24 sm:py-32 overflow-hidden"
+      className="relative w-full bg-neutral-950 text-white py-16 sm:py-32 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-8 relative z-10">
         {/* Section Header */}
-        <header ref={headerRef} className="text-center max-w-3xl mx-auto mb-20 sm:mb-32">
-          <div className="inline-flex items-center px-4 py-1.5 bg-neutral-900 border border-neutral-700 text-xs font-poppins font-semibold tracking-[0.2em] text-[#E5E5E5] uppercase mb-6 rounded-full">
+        <header ref={headerRef} className="text-center max-w-3xl mx-auto mb-14 sm:mb-28">
+          <div className="inline-flex items-center px-4 py-1.5 bg-white/5 border border-white/10 text-xs font-poppins font-semibold tracking-[0.2em] text-white uppercase mb-4 sm:mb-6 rounded-full">
             <span>Our Journey</span>
           </div>
-          <h2 className="text-center font-display text-5xl sm:text-7xl lg:text-8xl font-black mb-16 sm:mb-24 text-neutral-900 drop-shadow-sm">
+          <h2 className="text-center font-display text-4xl sm:text-6xl lg:text-8xl font-black mb-10 sm:mb-20 text-white drop-shadow-sm">
             Our Story
           </h2>
         </header>
 
-        {/* Sticky Stacking Cards Container */}
-        <div className="relative w-full flex flex-col gap-12 sm:gap-24 pb-32">
+        {/* 3D Scrolling Cards Container */}
+        <div className="relative w-full flex flex-col gap-16 sm:gap-32 pb-24 sm:pb-32" style={{ perspective: '1200px' }}>
           {STORY_MILESTONES.map((milestone, idx) => {
             const isEven = idx % 2 === 0
             return (
               <div
                 key={milestone.year}
                 ref={(el) => (cardsRef.current[idx] = el)}
-                // CSS Sticky is the magic here. It pins to top-20 automatically.
-                className="sticky top-20 sm:top-28 w-full origin-top will-change-transform"
+                className="w-full origin-center will-change-transform"
               >
                 {/* The Card Body */}
                 <div 
-                  className="w-full min-h-[60vh] sm:h-[70vh] rounded-4xl sm:rounded-[3rem] p-6 sm:p-12 lg:p-16 flex flex-col md:flex-row items-center justify-between gap-10 md:gap-16 shadow-xl relative overflow-hidden bg-white border border-black/5"
+                  className="w-full min-h-[520px] sm:min-h-[65vh] md:h-[75vh] rounded-3xl sm:rounded-[3rem] p-6 sm:p-10 lg:p-16 flex flex-col md:flex-row items-center justify-center md:justify-between gap-8 sm:gap-10 md:gap-16 shadow-2xl relative overflow-hidden border border-white/5"
                   style={{
-                    backgroundColor: '#FFFFFF',
-                    border: `1px solid rgba(0,0,0,0.04)`,
-                    boxShadow: `0 20px 40px -15px rgba(0,0,0,0.05)`
+                    backgroundColor: '#000000',
+                    boxShadow: `0 20px 40px -15px rgba(0,0,0,0.8)`
                   }}
                 >
-                  {/* Subtle Accent Glow based on Milestone Color */}
-                  <div 
-                    className="absolute inset-0 pointer-events-none opacity-20"
-                    style={{
-                      background: `radial-gradient(circle at ${isEven ? '0%' : '100%'} 50%, ${milestone.accentColor}, transparent 70%)`
-                    }}
-                  />
 
                   {/* Image Block */}
-                  <div className={`w-full md:w-1/2 flex items-center justify-center relative z-10 ${!isEven ? 'md:order-2' : ''}`}>
+                  <div className={`img-block-3d w-full md:w-1/2 flex items-center justify-center relative z-10 ${!isEven ? 'md:order-2' : ''}`}>
                     <div className="relative w-full flex items-center justify-center">
                       <img 
                         ref={(el) => (imagesRef.current[idx] = el)}
                         src={milestone.image}
                         alt={milestone.alt}
-                        className={`clip-image w-full max-w-md sm:max-w-lg lg:max-w-2xl h-auto object-contain drop-shadow-2xl will-change-transform ${milestone.imgClass || ''}`}
+                        className={`w-full max-w-[280px] sm:max-w-md lg:max-w-lg h-auto object-contain will-change-transform ${milestone.imgClass || 'scale-110'}`}
                       />
                     </div>
                   </div>
 
                   {/* Content Block with Skew and Parallax classes applied via GSAP */}
-                  <div className={`card-content relative z-10 w-full md:w-1/2 flex flex-col justify-center will-change-transform ${!isEven ? 'md:order-1' : ''}`}>
+                  <div className={`card-content relative z-10 w-full md:w-1/2 flex flex-col justify-center items-center md:items-start text-center md:text-left will-change-transform ${!isEven ? 'md:order-1' : ''}`}>
                     
                     {/* Big Watermark Year */}
                     <div 
-                      className="absolute -top-16 sm:-top-24 -left-4 sm:-left-10 font-asal text-[120px] sm:text-[180px] leading-none text-black/5 select-none pointer-events-none tracking-tight font-normal"
+                      className="absolute -top-6 sm:-top-24 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:-left-10 font-asal text-[90px] sm:text-[140px] md:text-[180px] leading-none text-white/5 select-none pointer-events-none tracking-tight font-normal"
                     >
                       {milestone.year}
                     </div>
 
-                    <div className="relative z-10">
+                    <div className="relative z-10 w-full flex flex-col items-center md:items-start">
                       {/* Eyebrow / Tag */}
-                      <div className="flex items-center mb-4 sm:mb-6">
-                        <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-neutral-900 text-white text-[9px] sm:text-[10px] font-poppins font-semibold uppercase tracking-[0.25em] rounded-none">
+                      <div className="flex items-center justify-center md:justify-start mb-4 sm:mb-6">
+                        <span className="px-4 sm:px-5 py-1.5 sm:py-2 bg-white text-black text-[10px] sm:text-[11px] font-poppins font-semibold uppercase tracking-[0.25em] rounded-none">
                           {milestone.year} &mdash; {milestone.tag}
                         </span>
                       </div>
                       
                       <h3 
                         ref={(el) => (titleRefs.current[idx] = el)}
-                        className="font-display text-4xl sm:text-5xl lg:text-6xl font-black mb-4 sm:mb-6 text-neutral-900 leading-[1.1]"
+                        className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 sm:mb-6 text-white leading-[1.1]"
                       >
                         {milestone.title}
                       </h3>
                       
-                      <p className="font-poppins text-base sm:text-lg text-neutral-600 leading-relaxed font-light max-w-lg">
+                      <p className="font-poppins text-[13px] sm:text-base md:text-lg text-neutral-400 leading-relaxed font-light max-w-lg mx-auto md:mx-0">
                         {milestone.desc}
                       </p>
                     </div>

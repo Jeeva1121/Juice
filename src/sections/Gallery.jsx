@@ -39,6 +39,7 @@ const FLAVORS = [
       '12-pack': { name: '12-Pack Orchard Case', price: 3400, display: '₹3,400', badge: 'Save ₹800' },
     },
     imgScale: 'scale-95 sm:scale-105 md:scale-110',
+    splashDivider: '/assets/splash-border.png',
   },
   {
     id: 'strawberry',
@@ -72,6 +73,7 @@ const FLAVORS = [
       '12-pack': { name: '12-Pack Orchard Case', price: 3400, display: '₹3,400', badge: 'Save ₹800' },
     },
     imgScale: 'scale-90 sm:scale-100 md:scale-105',
+    splashDivider: '/assets/splash-strawberry.png',
   },
   {
     id: 'cherry',
@@ -105,6 +107,7 @@ const FLAVORS = [
       '12-pack': { name: '12-Pack Orchard Case', price: 3400, display: '₹3,400', badge: 'Save ₹800' },
     },
     imgScale: 'scale-90 sm:scale-100 md:scale-105',
+    splashDivider: '/assets/splash-cherry.png',
   },
   {
     id: 'lemon',
@@ -138,6 +141,7 @@ const FLAVORS = [
       '12-pack': { name: '12-Pack Orchard Case', price: 3400, display: '₹3,400', badge: 'Save ₹800' },
     },
     imgScale: 'scale-90 sm:scale-100 md:scale-105',
+    splashDivider: '/assets/splash-lemon.png',
   },
 ]
 
@@ -389,6 +393,26 @@ export default function Gallery() {
             }
           )
         }
+
+        // H. Splash Divider Parallax Wave
+        const splashImg = section.querySelector('.splash-divider-anim')
+        if (splashImg) {
+          gsap.fromTo(
+            splashImg,
+            { yPercent: -15, scale: 1.05 },
+            {
+              yPercent: 15,
+              scale: 1,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: section,
+                start: 'bottom 100%',
+                end: 'bottom 0%',
+                scrub: 1.5,
+              },
+            }
+          )
+        }
       })
     },
     { scope: containerRef }
@@ -398,10 +422,10 @@ export default function Gallery() {
     <section
       id="flavors"
       ref={containerRef}
-      className="relative w-full bg-[#FAF5EA] py-24 sm:py-36 overflow-hidden border-t border-[#E8DEC8]"
+      className="relative w-full bg-[#FAF5EA] py-16 sm:py-36 overflow-hidden border-t border-[#E8DEC8]"
     >
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-12">
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-8 md:px-12">
         {/* Section Header */}
         <header ref={headerRef} className="mb-16 sm:mb-24">
           <div className="inline-flex items-center px-3 py-1 bg-white/80 border border-neutral-300 text-xs font-bold tracking-wider text-neutral-700 uppercase mb-4 shadow-2xs">
@@ -440,7 +464,7 @@ export default function Gallery() {
                 id={`flavor-${flavor.id}`}
                 key={flavor.id}
                 ref={(el) => (sectionRefs.current[index] = el)}
-                className="relative min-h-[75vh] flex flex-col justify-center select-none py-12 sm:py-20 border-b border-neutral-900/10 last:border-b-transparent"
+                className="relative min-h-[75vh] flex flex-col justify-center select-none py-12 sm:py-20"
               >
                 {/* Giant Ghost Numeral for Parallax Depth */}
                 <div
@@ -479,7 +503,7 @@ export default function Gallery() {
                       ref={(el) => (bottleWrapRefs.current[index] = el)}
                       onMouseMove={(e) => handleMouseMove(e, index)}
                       onMouseLeave={() => handleMouseLeave(index)}
-                      className="relative w-full max-w-sm sm:max-w-md md:max-w-lg h-[58vh] sm:h-[68vh] flex items-center justify-center cursor-grab perspective-1000"
+                      className="relative w-full max-w-sm sm:max-w-md md:max-w-lg h-[45vh] sm:h-[55vh] md:h-[68vh] max-h-[520px] flex items-center justify-center cursor-grab perspective-1000"
                     >
                       <img
                         ref={(el) => (imgRefs.current[index] = el)}
@@ -498,47 +522,47 @@ export default function Gallery() {
                     }`}
                   >
                     {/* Top Metadata Row: Clean Product Badge & Origin */}
-                    <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-neutral-200">
-                      <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-neutral-200">
+                      <div className="flex items-center gap-2 sm:gap-3">
                         <span
-                          className="px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white shadow-2xs"
+                          className="px-2.5 py-0.5 text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-white shadow-2xs"
                           style={{ backgroundColor: flavor.tagColor }}
                         >
                           {flavor.badgeText}
                         </span>
-                        <span className="text-xs font-medium uppercase tracking-wider text-neutral-500">
+                        <span className="text-[11px] sm:text-xs font-medium uppercase tracking-wider text-neutral-500">
                           {flavor.origin}
                         </span>
                       </div>
-                      <span className="text-xs font-medium uppercase tracking-widest text-neutral-600 bg-white/80 px-2.5 py-1 border border-neutral-200">
+                      <span className="text-[10px] sm:text-xs font-medium uppercase tracking-widest text-neutral-600 bg-white/80 px-2 py-0.5 border border-neutral-200">
                         Cold-Chain Dispatch
                       </span>
                     </div>
 
                     {/* Flavor Title & Subtitle */}
-                    <div className="mt-5">
-                      <h3 className="font-display text-3xl sm:text-5xl md:text-6xl font-black text-neutral-900 tracking-tight leading-tight">
+                    <div className="mt-4 sm:mt-5">
+                      <h3 className="font-display text-2xl sm:text-5xl md:text-6xl font-black text-neutral-900 tracking-tight leading-tight">
                         {flavor.title}
                       </h3>
-                      <p className="text-xs sm:text-sm font-medium uppercase tracking-widest text-neutral-500 mt-2">
+                      <p className="text-[11px] sm:text-sm font-medium uppercase tracking-widest text-neutral-500 mt-1.5">
                         {flavor.subtitle}
                       </p>
                     </div>
 
                     {/* Narrative Description */}
-                    <p className="mt-4 text-sm sm:text-base text-neutral-600 leading-relaxed font-normal">
+                    <p className="mt-3 sm:mt-4 text-xs sm:text-base text-neutral-600 leading-relaxed font-normal">
                       {flavor.desc}
                     </p>
 
                     {/* Tasting Notes Tag Cloud (Staggered 3D Flip) */}
-                    <div className="mt-5 flex flex-wrap items-center gap-2">
-                      <span className="text-xs font-medium uppercase tracking-wider text-neutral-400 mr-1">
+                    <div className="mt-4 sm:mt-5 flex flex-wrap items-center gap-1.5 sm:gap-2">
+                      <span className="text-[11px] sm:text-xs font-medium uppercase tracking-wider text-neutral-400 mr-1">
                         Flavor Notes:
                       </span>
                       {flavor.tasteNotes.map((note) => (
                         <span
                           key={note}
-                          className="taste-pill-anim px-3 py-1 bg-white/90 border border-neutral-300 text-xs font-medium text-neutral-800 uppercase tracking-wide shadow-2xs"
+                          className="taste-pill-anim px-2.5 py-1 bg-white/90 border border-neutral-300 text-[10px] sm:text-xs font-medium text-neutral-800 uppercase tracking-wide shadow-2xs"
                         >
                           {note}
                         </span>
@@ -546,52 +570,52 @@ export default function Gallery() {
                     </div>
 
                     {/* Live Animated Nutritional & Electrolyte Metric Counters */}
-                    <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-4 p-4 sm:p-5 bg-white/90 border border-neutral-200 shadow-xs">
+                    <div className="mt-6 sm:mt-8 grid grid-cols-3 gap-2 sm:gap-4 p-3 sm:p-5 bg-white/90 border border-neutral-200 shadow-xs">
                       <div>
                         <span
-                          className="stat-counter-val font-display text-2xl sm:text-3xl md:text-4xl font-black text-neutral-900 block"
+                          className="stat-counter-val font-display text-lg sm:text-3xl md:text-4xl font-black text-neutral-900 block"
                           data-val={flavor.stat1Numeric}
                           data-suffix={flavor.stat1Suffix}
                         >
                           0{flavor.stat1Suffix}
                         </span>
-                        <span className="text-[11px] font-medium text-neutral-500 uppercase tracking-wider block mt-1">
+                        <span className="text-[9px] sm:text-[11px] font-medium text-neutral-500 uppercase tracking-wider block mt-0.5 sm:mt-1">
                           {flavor.stat1Label}
                         </span>
                       </div>
-                      <div className="border-l border-neutral-200 pl-3 sm:pl-4">
+                      <div className="border-l border-neutral-200 pl-2 sm:pl-4">
                         <span
-                          className="stat-counter-val font-display text-2xl sm:text-3xl md:text-4xl font-black block"
+                          className="stat-counter-val font-display text-lg sm:text-3xl md:text-4xl font-black block"
                           style={{ color: flavor.tagColor }}
                           data-val={flavor.stat2Numeric}
                           data-suffix={flavor.stat2Suffix}
                         >
                           0{flavor.stat2Suffix}
                         </span>
-                        <span className="text-[11px] font-medium text-neutral-500 uppercase tracking-wider block mt-1">
+                        <span className="text-[9px] sm:text-[11px] font-medium text-neutral-500 uppercase tracking-wider block mt-0.5 sm:mt-1">
                           {flavor.stat2Label}
                         </span>
                       </div>
-                      <div className="border-l border-neutral-200 pl-3 sm:pl-4">
+                      <div className="border-l border-neutral-200 pl-2 sm:pl-4">
                         <span
-                          className="stat-counter-val font-display text-2xl sm:text-3xl md:text-4xl font-black text-neutral-900 block"
+                          className="stat-counter-val font-display text-lg sm:text-3xl md:text-4xl font-black text-neutral-900 block"
                           data-val={flavor.stat3Numeric}
                           data-suffix={flavor.stat3Suffix}
                         >
                           0{flavor.stat3Suffix}
                         </span>
-                        <span className="text-[11px] font-medium text-neutral-500 uppercase tracking-wider block mt-1">
+                        <span className="text-[9px] sm:text-[11px] font-medium text-neutral-500 uppercase tracking-wider block mt-0.5 sm:mt-1">
                           {flavor.stat3Label}
                         </span>
                       </div>
                     </div>
 
                     {/* Interactive Pack Selector (Single / 4-Pack / 12-Pack) */}
-                    <div className="mt-6 p-4 bg-[#FAF2E3]/70 border border-[#E8DEC8]">
-                      <span className="text-xs font-medium uppercase tracking-wider text-neutral-600 block mb-3">
+                    <div className="mt-5 sm:mt-6 p-3 sm:p-4 bg-[#FAF2E3]/70 border border-[#E8DEC8]">
+                      <span className="text-[11px] sm:text-xs font-medium uppercase tracking-wider text-neutral-600 block mb-2 sm:mb-3">
                         Select Harvest Packaging:
                       </span>
-                      <div className="grid grid-cols-3 gap-2">
+                      <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                         {Object.entries(flavor.packs).map(([key, pack]) => {
                           const isSelected = currentPackKey === key
                           return (
@@ -599,21 +623,21 @@ export default function Gallery() {
                               key={key}
                               type="button"
                               onClick={() => handlePackChange(flavor.id, key)}
-                              className={`p-2.5 border text-left flex flex-col justify-between transition-all duration-200 cursor-pointer shadow-2xs relative ${
+                              className={`p-2 sm:p-2.5 min-h-[44px] border text-left flex flex-col justify-between transition-all duration-200 cursor-pointer shadow-2xs relative ${
                                 isSelected
                                   ? 'bg-neutral-900 text-white border-neutral-900 ring-2 ring-neutral-900/20'
                                   : 'bg-white text-neutral-800 border-[#E8DEC8] hover:border-neutral-400'
                               }`}
                             >
                               {pack.badge && (
-                                <span className="absolute -top-2 right-2 px-1.5 py-0.5 bg-(--color-coral) text-white text-[9px] font-bold uppercase tracking-wider rounded-2xs shadow-xs">
+                                <span className="absolute -top-2 right-1 sm:right-2 px-1 py-0.5 bg-(--color-coral) text-white text-[8px] sm:text-[9px] font-bold uppercase tracking-wider rounded-2xs shadow-xs">
                                   {pack.badge}
                                 </span>
                               )}
-                              <span className="text-[11px] font-medium uppercase tracking-wider truncate">
+                              <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-wider truncate">
                                 {key === 'single' ? '1 Can' : key === '4-pack' ? '4-Pack' : '12-Case'}
                               </span>
-                              <span className={`text-xs font-bold mt-1 ${isSelected ? 'text-(--color-coral)' : 'text-neutral-900'}`}>
+                              <span className={`text-[11px] sm:text-xs font-bold mt-0.5 sm:mt-1 ${isSelected ? 'text-(--color-coral)' : 'text-neutral-900'}`}>
                                 {pack.display}
                               </span>
                             </button>
@@ -623,24 +647,24 @@ export default function Gallery() {
                     </div>
 
                     {/* Bottom CTA Row: Animated Price Display + Direct "Add to Harvest Bag" Button */}
-                    <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                       <div>
-                        <span className="text-[11px] text-neutral-400 font-medium uppercase tracking-wider block">
+                        <span className="text-[10px] sm:text-[11px] text-neutral-400 font-medium uppercase tracking-wider block">
                           Total Price ({currentPack.name})
                         </span>
                         <span
                           id={`price-${flavor.id}`}
-                          className="font-display text-3xl sm:text-4xl font-black text-neutral-900"
+                          className="font-display text-2xl sm:text-4xl font-black text-neutral-900"
                         >
                           {currentPack.display}
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center w-full sm:w-auto">
                         <button
                           type="button"
                           onClick={() => handleAddToCartClick(flavor, index)}
-                          className="flex-1 sm:flex-initial px-8 py-4 bg-(--color-ink) hover:bg-(--color-coral) text-(--color-surface) text-xs font-medium uppercase tracking-widest transition-all duration-200 cursor-pointer flex items-center justify-center gap-3 shadow-md active:scale-95"
+                          className="touch-target-44 w-full sm:w-auto min-h-[48px] px-6 sm:px-8 py-3.5 sm:py-4 bg-(--color-ink) hover:bg-(--color-coral) text-(--color-surface) text-xs font-medium uppercase tracking-widest transition-all duration-200 cursor-pointer flex items-center justify-center gap-3 shadow-md active:scale-95"
                         >
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -651,10 +675,33 @@ export default function Gallery() {
                     </div>
                   </div>
                 </div>
+
+                {/* Fluid Splash Divider (Appears between items) */}
+                {index !== FLAVORS.length - 1 && (
+                  <div className="absolute -bottom-16 sm:-bottom-24 left-1/2 -translate-x-1/2 w-screen pointer-events-none flex justify-center z-20 translate-y-1/2">
+                    <img 
+                      src={flavor.splashDivider} 
+                      alt={`${flavor.title} Splash Divider`} 
+                      className="splash-divider-anim w-full h-32 sm:h-48 md:h-64 object-cover object-center opacity-95 mix-blend-multiply"
+                    />
+                  </div>
+                )}
               </article>
             )
           })}
         </div>
+      </div>
+
+      {/* 4. Final Final Lemon Splash Divider */}
+      <div
+        ref={finalDividerRef}
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-screen z-20 pointer-events-none select-none translate-y-1 sm:translate-y-2 overflow-hidden"
+      >
+        <img 
+          src={FLAVORS[FLAVORS.length - 1].splashDivider} 
+          alt="Final Splash Divider" 
+          className="splash-divider-anim w-full h-32 sm:h-48 md:h-64 object-cover object-bottom opacity-95 mix-blend-multiply"
+        />
       </div>
     </section>
   )

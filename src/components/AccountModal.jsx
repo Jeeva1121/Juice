@@ -38,7 +38,7 @@ export default function AccountModal() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/40 backdrop-blur-md transition-all duration-300 animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3.5 sm:p-6 bg-black/40 backdrop-blur-md transition-all duration-300 animate-fade-in"
       onClick={(e) => {
         if (e.target === e.currentTarget) setIsAccountOpen(false)
       }}
@@ -48,11 +48,11 @@ export default function AccountModal() {
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-lg bg-[#FAF5EA] border border-black/10 rounded-3xl shadow-2xl overflow-hidden p-6 sm:p-8 text-(--color-ink) max-h-[90vh] overflow-y-auto"
+        className="relative w-full max-w-lg bg-[#FAF5EA] border border-black/10 rounded-3xl shadow-2xl overflow-hidden p-5 sm:p-8 text-(--color-ink) max-h-[88vh] overflow-y-auto pb-[calc(var(--sab)+1.5rem)] sm:pb-8"
       >
         {/* Top Header */}
-        <div className="flex items-center justify-between pb-6 border-b border-black/10">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between pb-4 sm:pb-6 border-b border-black/10">
+          <div className="flex items-center gap-2 sm:gap-3">
             <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-(--color-coral)/15 text-(--color-coral)">
               Clean Club VIP
             </span>
@@ -60,10 +60,11 @@ export default function AccountModal() {
           </div>
 
           <button
+            id="account-modal-close-btn"
             type="button"
             onClick={() => setIsAccountOpen(false)}
             aria-label="Close Account Modal"
-            className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/5 text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer"
+            className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full flex items-center justify-center hover:bg-black/5 text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer touch-target-44 -mr-2"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -72,8 +73,8 @@ export default function AccountModal() {
         </div>
 
         {/* Member Profile Hero */}
-        <div className="pt-6 pb-6 flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[#FF9F1C] to-(--color-coral) flex items-center justify-center text-white font-display text-xl font-black shadow-md">
+        <div className="pt-5 pb-5 flex items-center gap-3.5 sm:gap-4">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-2xl bg-linear-to-br from-[#FF9F1C] to-(--color-coral) flex items-center justify-center text-white font-display text-lg sm:text-xl font-black shadow-md">
             JK
           </div>
           <div>
@@ -87,7 +88,7 @@ export default function AccountModal() {
         </div>
 
         {/* Clean Rewards & Points Card */}
-        <div className="p-4 rounded-2xl bg-white/80 border border-black/5 shadow-xs mb-6">
+        <div className="p-4 rounded-2xl bg-white/80 border border-black/5 shadow-xs mb-5 sm:mb-6">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-bold tracking-wider uppercase text-neutral-500">Clean Points Balance</span>
             <span className="text-xs font-bold text-(--color-coral)">₹450 Credit Available</span>
@@ -106,7 +107,7 @@ export default function AccountModal() {
         </div>
 
         {/* Active Cold-Chain Subscription */}
-        <div className="p-4 rounded-2xl bg-white/60 border border-black/5 mb-6">
+        <div className="p-4 rounded-2xl bg-white/60 border border-black/5 mb-5 sm:mb-6">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -119,7 +120,7 @@ export default function AccountModal() {
         </div>
 
         {/* Quick Order History */}
-        <div className="mb-6">
+        <div className="mb-5 sm:mb-6">
           <h3 className="text-xs font-bold tracking-wider uppercase text-neutral-500 mb-3">Recent Cold-Pressed Drops</h3>
           <div className="space-y-2">
             <div className="flex items-center justify-between p-3 rounded-xl bg-white/50 border border-black/5 text-xs">
@@ -142,16 +143,18 @@ export default function AccountModal() {
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 pt-2">
           <button
+            id="account-order-flavors-btn"
             type="button"
             onClick={scrollToFlavors}
-            className="flex-1 py-3 px-4 rounded-full bg-(--color-ink) text-white hover:bg-(--color-coral) text-xs font-bold tracking-widest uppercase transition-all duration-300 text-center cursor-pointer shadow-sm hover:shadow-md active:scale-98"
+            className="flex-1 py-3.5 px-4 min-h-[44px] rounded-full bg-(--color-ink) text-white hover:bg-(--color-coral) text-xs font-bold tracking-widest uppercase transition-all duration-300 flex items-center justify-center cursor-pointer shadow-sm hover:shadow-md active:scale-98"
           >
             Order New Flavors
           </button>
           <button
+            id="account-done-btn"
             type="button"
             onClick={() => setIsAccountOpen(false)}
-            className="py-3 px-5 rounded-full border border-black/10 hover:bg-black/5 text-xs font-bold tracking-widest uppercase transition-colors text-center cursor-pointer"
+            className="py-3.5 px-6 min-h-[44px] rounded-full border border-black/10 hover:bg-black/5 text-xs font-bold tracking-widest uppercase transition-colors flex items-center justify-center cursor-pointer"
           >
             Done
           </button>

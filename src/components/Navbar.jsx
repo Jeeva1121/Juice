@@ -12,7 +12,6 @@ export default function Navbar() {
   const { totalItems, setIsCartOpen, setIsSearchOpen, setIsAccountOpen } = useCart()
   
   const navRef = useRef(null)
-  const menuRef = useRef(null)
   const linksRef = useRef([])
   const logoRef = useRef(null)
   const rightIconsRef = useRef(null)
@@ -204,24 +203,24 @@ export default function Navbar() {
     <>
       <header
         ref={navRef}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out landscape-compact-nav ${
           isScrolled 
-            ? 'pt-2.5 sm:pt-3.5 px-4 sm:px-6' 
-            : 'pt-4 sm:pt-6 px-6 sm:px-12'
+            ? 'pt-[calc(var(--sat)+0.4rem)] px-3 sm:px-6' 
+            : 'pt-[calc(var(--sat)+0.75rem)] px-3 sm:px-12'
         }`}
       >
       {/* Floating Pill Container */}
       <div 
         className={`mx-auto w-full max-w-7xl flex items-center justify-between transition-all duration-500 ${
           isScrolled 
-            ? 'bg-[#FAF5EA]/85 backdrop-blur-xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-full px-5 sm:px-7 py-2.5' 
+            ? 'bg-[#FAF5EA]/85 backdrop-blur-xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-full px-3.5 sm:px-7 py-1.5 sm:py-2.5' 
             : 'bg-transparent border-transparent shadow-none px-0 py-0'
         }`}
       >
         {/* Left Links */}
         <nav
           aria-label="Primary Navigation"
-          className="hidden lg:flex items-center gap-7 text-[11px] font-medium tracking-[0.2em] uppercase text-(--color-ink) w-1/3"
+          className="hidden lg:flex items-center gap-7 text-[11px] font-normal tracking-[0.22em] uppercase text-neutral-800 w-1/3"
         >
           {['#flavors', '#about'].map((link, i) => (
             <a
@@ -240,27 +239,27 @@ export default function Navbar() {
         </nav>
 
         {/* Center Logo */}
-        <div className="flex-1 lg:flex-none flex justify-start lg:justify-center w-1/3">
+        <div className="flex-1 lg:flex-none flex justify-start lg:justify-center lg:w-1/3 min-w-0 pr-1">
           <a
             ref={logoRef}
             href="#"
             onClick={(e) => scrollToSection(e, '#root')}
-            className="flex flex-col items-start lg:items-center justify-center hover:opacity-80 transition-opacity cursor-pointer group"
+            className="flex flex-col items-start lg:items-center justify-center hover:opacity-80 transition-opacity cursor-pointer group py-1"
             aria-label="Zesty Clean Juice Homepage"
           >
             <div className="flex items-center gap-1 sm:gap-1.5">
               <span className="font-asal text-2xl sm:text-3xl lg:text-4xl text-neutral-900 tracking-wide font-normal">
                 zesty
               </span>
-              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-emerald-800 -rotate-12 fill-current" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-emerald-800 -rotate-12 fill-current shrink-0" viewBox="0 0 24 24">
                 <path d="M17 3c-5.523 0-10 4.477-10 10 0 1.25.23 2.45.65 3.55C4.24 18.25 2 21 2 21s6.25-1.25 10.45-3.65c1.1.42 2.3.65 3.55.65 5.523 0 10-4.477 10-10 0-5.523-4.477-10-10-10z" />
               </svg>
             </div>
           </a>
         </div>
 
-        {/* Right Actions: Minimalist Luxury Editorial Icons */}
-        <div ref={rightIconsRef} className="flex items-center justify-end gap-1 sm:gap-2 w-1/3 text-(--color-ink)">
+        {/* Right Actions: Minimalist Luxury Editorial Icons with 44px Touch Targets */}
+        <div ref={rightIconsRef} className="flex items-center justify-end gap-0.5 sm:gap-2 shrink-0 lg:w-1/3 text-(--color-ink)">
           {/* 1. Quick Search */}
           <button
             ref={searchIconRef}
@@ -269,9 +268,9 @@ export default function Navbar() {
             onMouseEnter={onSearchEnter}
             onMouseLeave={onSearchLeave}
             aria-label="Search Flavors & Story"
-            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/5 hover:text-(--color-coral) transition-colors cursor-pointer"
+            className="touch-target-44 w-11 h-11 rounded-full flex items-center justify-center hover:bg-black/5 hover:text-(--color-coral) transition-colors cursor-pointer"
           >
-            <svg className="w-4 h-4 sm:w-[17px] sm:h-[17px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <svg className="w-4 h-4 sm:w-[18px] sm:h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
             </svg>
           </button>
@@ -284,9 +283,9 @@ export default function Navbar() {
             onMouseEnter={onAccountEnter}
             onMouseLeave={onAccountLeave}
             aria-label="Clean Club VIP Account"
-            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/5 hover:text-(--color-coral) transition-colors cursor-pointer"
+            className="touch-target-44 w-11 h-11 rounded-full flex items-center justify-center hover:bg-black/5 hover:text-(--color-coral) transition-colors cursor-pointer"
           >
-            <svg className="w-4 h-4 sm:w-[17px] sm:h-[17px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <svg className="w-4 h-4 sm:w-[18px] sm:h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7 0 3.75 3.75 0 017 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
             </svg>
           </button>
@@ -299,13 +298,13 @@ export default function Navbar() {
             onMouseEnter={onBagEnter}
             onMouseLeave={onBagLeave}
             aria-label={`View Bag (${totalItems} items)`}
-            className="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/5 hover:text-(--color-coral) transition-colors cursor-pointer"
+            className="touch-target-44 relative w-11 h-11 rounded-full flex items-center justify-center hover:bg-black/5 hover:text-(--color-coral) transition-colors cursor-pointer"
           >
-            <svg className="w-4 h-4 sm:w-[17px] sm:h-[17px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <svg className="w-4 h-4 sm:w-[18px] sm:h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
             {totalItems > 0 && (
-              <span className="absolute top-1 right-1 min-w-[15px] h-3.5 px-0.5 bg-(--color-coral) text-white text-[8.5px] font-black rounded-full flex items-center justify-center shadow-xs">
+              <span className="absolute top-1.5 right-1.5 min-w-[16px] h-4 px-1 bg-(--color-coral) text-white text-[9px] font-semibold rounded-full flex items-center justify-center shadow-xs">
                 {totalItems}
               </span>
             )}
@@ -316,40 +315,51 @@ export default function Navbar() {
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? 'Close Menu' : 'Open Menu'}
-            className="lg:hidden relative w-9 h-9 flex flex-col items-center justify-center gap-[4px] p-1 text-(--color-ink) z-50 cursor-pointer rounded-full hover:bg-black/5 transition-colors"
+            className="touch-target-44 lg:hidden relative w-11 h-11 flex flex-col items-center justify-center gap-[4.5px] p-2 text-(--color-ink) z-50 cursor-pointer rounded-full hover:bg-black/5 transition-colors"
           >
-            <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'translate-y-[6px] rotate-45' : ''}`} />
+            <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'translate-y-[6.5px] rotate-45' : ''}`} />
             <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'}`} />
-            <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'translate-y-[-6px] -rotate-45' : ''}`} />
+            <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'translate-y-[-6.5px] -rotate-45' : ''}`} />
           </button>
         </div>
       </div>
 
       </header>
 
-      {/* Full Screen Mobile Overlay Menu (CSS Controlled) */}
+      {/* Full Screen Mobile Overlay Menu (Safe-Area & Scroll-Safe) */}
       <div
-        className={`fixed inset-0 z-40 bg-[#FAF5EA] flex flex-col justify-center items-center px-8 lg:hidden transition-all duration-500 ease-in-out ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
+        className={`fixed inset-0 z-40 bg-[#FAF5EA] flex flex-col justify-between items-center px-6 sm:px-10 pt-[calc(var(--sat)+5rem)] pb-[calc(var(--sab)+2rem)] overflow-y-auto landscape-scrollable lg:hidden transition-all duration-500 ease-in-out ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
       >
-        <div className={`flex flex-col items-center text-center gap-8 text-2xl sm:text-3xl font-poppins font-medium uppercase text-neutral-900 tracking-[0.2em] transition-transform duration-500 delay-100 ${isMobileMenuOpen ? 'translate-y-0' : 'translate-y-8'}`}>
-          <div>
-            <a href="#flavors" onClick={(e) => scrollToSection(e, '#flavors')} className="block hover:text-(--color-coral) transition-colors">Our Menu</a>
-          </div>
-          <div>
-            <a href="#about" onClick={(e) => scrollToSection(e, '#about')} className="block hover:text-(--color-coral) transition-colors">Our Story</a>
-          </div>
-          <div>
-            <a href="#about" onClick={(e) => scrollToSection(e, '#about')} className="block hover:text-(--color-coral) transition-colors">The Artisans</a>
-          </div>
-          <div>
-            <a href="#footer" onClick={(e) => scrollToSection(e, '#footer')} className="block hover:text-(--color-coral) transition-colors">Contact</a>
-          </div>
-        </div>
-        
-        <div className="absolute bottom-12 left-8 right-8 flex justify-between items-center text-xs font-bold tracking-widest uppercase border-t border-black/10 pt-6">
-          <button onClick={() => { closeMobileMenu(); setIsSearchOpen(true) }} className="mobile-link text-(--color-ink) hover:text-(--color-coral) cursor-pointer">Search</button>
-          <button onClick={() => { closeMobileMenu(); setIsAccountOpen(true) }} className="mobile-link text-(--color-ink) hover:text-(--color-coral) cursor-pointer">Account</button>
-          <button onClick={() => { closeMobileMenu(); setIsCartOpen(true) }} className="mobile-link text-(--color-coral) cursor-pointer">Bag ({totalItems})</button>
+        <div className={`w-full max-w-sm my-auto flex flex-col transition-all duration-500 delay-100 ${isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}>
+          {/* Clean Editorial Navigation List with Reduced Font Weight */}
+          <ul className="w-full border-t border-black/10">
+            {[
+              { num: '01', label: 'Our Menu', href: '#flavors' },
+              { num: '02', label: 'Our Story', href: '#about' },
+              { num: '03', label: 'The Artisans', href: '#about' },
+              { num: '04', label: 'Contact & Press', href: '#footer' },
+            ].map((item) => (
+              <li key={item.label} className="w-full border-b border-black/10">
+                <a
+                  href={item.href}
+                  onClick={(e) => scrollToSection(e, item.href)}
+                  className="group flex items-center justify-between py-4 sm:py-5 text-neutral-800 hover:text-(--color-coral) transition-all duration-300 cursor-pointer"
+                >
+                  <div className="flex items-center gap-4">
+                    <span className="text-[11px] font-mono font-light text-neutral-400 group-hover:text-(--color-coral) transition-colors">
+                      {item.num}
+                    </span>
+                    <span className="text-base sm:text-lg font-light uppercase tracking-[0.2em] group-hover:tracking-[0.24em] transition-all duration-300">
+                      {item.label}
+                    </span>
+                  </div>
+                  <span className="text-sm font-light text-neutral-400 group-hover:text-(--color-coral) group-hover:translate-x-1 transition-all duration-300">
+                    →
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </>
