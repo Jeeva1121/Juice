@@ -386,18 +386,42 @@ export default function Hero() {
         scrollTl.to(bottleRef.current, { scale: 1.0, yPercent: 0, ease: 'power2.in', duration: 0.3 }, 0.7)
       })
 
-      // Mobile (< 768px): Pure CSS scroll-driven animation — ZERO JavaScript on scroll thread.
-      // Runs entirely on the GPU compositor. Maximum performance.
+      // Mobile (< 768px): No pin. Scrub only the LAYER opacity (1 element, not 18).
+      // This is the minimum possible work — opacity is GPU-composited, never causes layout.
       mm.add('(max-width: 767px)', () => {
-        const layers = [orangeLayerRef.current, strawLayerRef.current, cherryLayerRef.current, lemonLayerRef.current]
-        layers.forEach(layer => {
-          if (layer) layer.classList.add('hero-mobile-scroll-fade')
+        const allLayers = [
+          orangeLayerRef.current,
+          strawLayerRef.current,
+          cherryLayerRef.current,
+          lemonLayerRef.current
+        ]
+
+        const st = ScrollTrigger.create({
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2,
+          onUpdate: (self) => {
+            // Only touch visible layers — skip hidden ones
+            allLayers.forEach(layer => {
+              if (layer && layer.style.display !== 'none') {
+                layer.style.opacity = String(1 - self.progress * 1.6)
+              }
+            })
+          },
+          onLeave: () => {
+            allLayers.forEach(layer => {
+              if (layer && layer.style.display !== 'none') layer.style.opacity = '0'
+            })
+          },
+          onEnterBack: () => {
+            allLayers.forEach(layer => {
+              if (layer && layer.style.display !== 'none') layer.style.opacity = '1'
+            })
+          }
         })
-        return () => {
-          layers.forEach(layer => {
-            if (layer) layer.classList.remove('hero-mobile-scroll-fade')
-          })
-        }
+
+        return () => st.kill()
       })
     },
     { scope: containerRef }
