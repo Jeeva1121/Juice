@@ -438,7 +438,7 @@ export default function SearchModal() {
               }
             }}
             placeholder="Search flavor or fruit..."
-            className="w-full h-full pl-1 sm:pl-2 pr-2 py-1.5 sm:py-2 bg-transparent text-xs sm:text-base text-neutral-800 focus:outline-none placeholder:font-poppins placeholder:font-medium tracking-wide"
+            className="w-full h-full pl-1 sm:pl-2 pr-2 py-1.5 sm:py-2 bg-transparent text-xs sm:text-base text-neutral-800 focus:outline-none placeholder:font-poppins placeholder:font-normal tracking-wide"
             style={{
               fontFamily: "'Poppins', sans-serif"
             }}

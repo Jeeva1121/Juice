@@ -48,7 +48,7 @@ export default function AccountModal() {
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-md bg-white border border-neutral-900 shadow-2xl overflow-hidden p-5 sm:p-8 text-(--color-ink) max-h-[85vh] overflow-y-auto pb-[calc(var(--sab)+1.5rem)] sm:pb-8 rounded-none"
+        className="relative w-full max-w-md bg-white border border-neutral-900 shadow-2xl p-5 sm:p-8 text-(--color-ink) max-h-[85vh] overflow-y-auto overflow-x-hidden pb-[calc(var(--sab)+1.5rem)] sm:pb-8 rounded-none"
       >
         {/* Top Header */}
         <div className="flex items-center justify-between pb-4 sm:pb-6 border-b border-black">

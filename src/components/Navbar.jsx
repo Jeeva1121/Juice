@@ -220,7 +220,7 @@ export default function Navbar() {
         {/* Left Links */}
         <nav
           aria-label="Primary Navigation"
-          className="hidden lg:flex items-center gap-7 text-[11px] font-normal tracking-[0.22em] uppercase text-neutral-800 w-1/3"
+          className="hidden md:flex items-center gap-7 text-[11px] font-normal tracking-[0.22em] uppercase text-neutral-800 w-1/3"
         >
           {['#flavors', '#about'].map((link, i) => (
             <a
@@ -239,7 +239,7 @@ export default function Navbar() {
         </nav>
 
         {/* Center Logo */}
-        <div className="flex-1 lg:flex-none flex justify-start lg:justify-center lg:w-1/3 min-w-0 pr-1">
+        <div className="flex-1 md:flex-none flex justify-start md:justify-center md:w-1/3 min-w-0 pr-1">
           <a
             ref={logoRef}
             href="#"
@@ -259,7 +259,7 @@ export default function Navbar() {
         </div>
 
         {/* Right Actions: Minimalist Luxury Editorial Icons with 44px Touch Targets */}
-        <div ref={rightIconsRef} className="flex items-center justify-end gap-0.5 sm:gap-2 shrink-0 lg:w-1/3 text-(--color-ink)">
+        <div ref={rightIconsRef} className="flex items-center justify-end gap-0.5 sm:gap-2 shrink-0 md:w-1/3 text-(--color-ink)">
           {/* 1. Quick Search */}
           <button
             ref={searchIconRef}
@@ -315,7 +315,7 @@ export default function Navbar() {
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? 'Close Menu' : 'Open Menu'}
-            className="touch-target-44 lg:hidden relative w-11 h-11 flex flex-col items-center justify-center gap-[4.5px] p-2 text-(--color-ink) z-50 cursor-pointer rounded-full hover:bg-black/5 transition-colors"
+            className="touch-target-44 md:hidden relative w-11 h-11 flex flex-col items-center justify-center gap-[4.5px] p-2 text-(--color-ink) z-50 cursor-pointer rounded-full hover:bg-black/5 transition-colors"
           >
             <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'translate-y-[6.5px] rotate-45' : ''}`} />
             <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'}`} />
@@ -328,7 +328,7 @@ export default function Navbar() {
 
       {/* Full Screen Mobile Overlay Menu (Safe-Area & Scroll-Safe) */}
       <div
-        className={`fixed inset-0 z-40 bg-[#FAF5EA] flex flex-col justify-between items-center px-6 sm:px-10 pt-[calc(var(--sat)+5rem)] pb-[calc(var(--sab)+2rem)] overflow-y-auto landscape-scrollable lg:hidden transition-all duration-500 ease-in-out ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
+        className={`fixed inset-0 z-40 bg-[#FAF5EA] flex flex-col justify-between items-center px-6 sm:px-10 pt-[calc(var(--sat)+5rem)] pb-[calc(var(--sab)+2rem)] overflow-y-auto landscape-scrollable md:hidden transition-all duration-500 ease-in-out ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
       >
         <div className={`w-full max-w-sm my-auto flex flex-col transition-all duration-500 delay-100 ${isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}>
           {/* Clean Editorial Navigation List with Reduced Font Weight */}

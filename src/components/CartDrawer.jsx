@@ -181,7 +181,7 @@ export default function CartDrawer() {
             <div className="flex-1 overflow-y-auto p-6 space-y-4 divide-y divide-[#E8DEC8]/60">
               {items.length === 0 ? (
                 <div className="text-center py-20 flex flex-col items-center justify-center">
-                  <div className="w-16 h-16 bg-[#FAF2E3] border border-[#E8DEC8] rounded-full flex items-center justify-center mb-4 text-neutral-400">
+                  <div className="w-16 h-16 bg-neutral-900 rounded-none flex items-center justify-center mb-5 text-white">
                     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                     </svg>
@@ -199,16 +199,16 @@ export default function CartDrawer() {
                       const el = document.querySelector('#flavors')
                       if (el) el.scrollIntoView({ behavior: 'smooth' })
                     }}
-                    className="px-6 py-3 bg-neutral-900 text-white text-xs font-bold uppercase tracking-wider hover:bg-(--color-coral) transition-colors cursor-pointer"
+                    className="px-6 py-3 bg-neutral-900 text-white text-xs font-bold uppercase tracking-wider hover:bg-(--color-coral) transition-colors cursor-pointer rounded-none"
                   >
                     Explore 4 Editions
                   </button>
                 </div>
               ) : (
                 items.map((item) => (
-                  <div key={`${item.id}-${item.pack}`} className="p-4 bg-white/90 rounded-2xl border border-black/5 shadow-2xs flex gap-4 items-start transition-shadow">
+                  <div key={`${item.id}-${item.pack}`} className="py-4 bg-transparent border-b border-black/10 flex gap-4 items-start">
                     {/* Bottle thumbnail */}
-                    <div className="w-16 h-20 bg-neutral-50 rounded-xl flex items-center justify-center p-1.5 shrink-0 overflow-hidden relative">
+                    <div className="w-16 h-20 bg-neutral-100/60 rounded-none flex items-center justify-center p-1.5 shrink-0 overflow-hidden relative border border-black/5">
                       <img src={item.image} alt={item.title} className="w-full h-full object-contain" />
                     </div>
 
@@ -244,12 +244,12 @@ export default function CartDrawer() {
                       {/* Quantity and Price */}
                       <div className="flex items-center justify-between mt-3 pt-2">
                         {/* Quantity Stepper */}
-                        <div className="flex items-center rounded-full border border-black/10 bg-neutral-50 p-0.5">
+                        <div className="flex items-center border border-black rounded-none bg-white p-0.5">
                           <button
                             type="button"
                             onClick={() => updateQty(item.id, item.pack, -1)}
                             aria-label="Decrease quantity"
-                            className="touch-target-44 w-8 h-8 rounded-full flex items-center justify-center text-neutral-600 hover:bg-black/5 transition-colors cursor-pointer text-sm font-bold"
+                            className="touch-target-44 w-8 h-8 rounded-none flex items-center justify-center text-neutral-600 hover:bg-black/5 transition-colors cursor-pointer text-sm font-bold"
                           >
                             &minus;
                           </button>
@@ -260,7 +260,7 @@ export default function CartDrawer() {
                             type="button"
                             onClick={() => updateQty(item.id, item.pack, 1)}
                             aria-label="Increase quantity"
-                            className="touch-target-44 w-8 h-8 rounded-full flex items-center justify-center text-neutral-600 hover:bg-black/5 transition-colors cursor-pointer text-sm font-bold"
+                            className="touch-target-44 w-8 h-8 rounded-none flex items-center justify-center text-neutral-600 hover:bg-black/5 transition-colors cursor-pointer text-sm font-bold"
                           >
                             +
                           </button>
