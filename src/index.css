@@ -340,3 +340,30 @@
              scale(calc(1 + (var(--s-dest) * var(--hero-scroll, 0))));
   will-change: transform;
 }
+
+/* ============================================================
+   Mobile Hero: Pure CSS Scroll-Driven Animation
+   Runs on the GPU compositor thread — ZERO JavaScript overhead.
+   Supported in Chrome 115+, Safari 16+, Firefox 110+.
+   ============================================================ */
+@media (max-width: 767px) {
+  @supports (animation-timeline: scroll()) {
+    @keyframes heroLayerFadeOut {
+      from { opacity: 1; transform: translateY(0px) scale(1); }
+      to   { opacity: 0; transform: translateY(-12px) scale(0.96); }
+    }
+
+    .hero-mobile-scroll-fade {
+      animation: heroLayerFadeOut linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0vh 35vh;
+    }
+  }
+
+  /* Fallback for older browsers: instant hide when scrolled far enough */
+  @supports not (animation-timeline: scroll()) {
+    .hero-mobile-scroll-fade {
+      transition: opacity 0.2s ease;
+    }
+  }
+}
