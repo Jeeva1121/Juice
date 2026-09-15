@@ -181,10 +181,10 @@ export default function Hero() {
         layers.forEach((layer, idx) => {
           if (!layer) return
           if (idx === nextIndex) {
-            gsap.set(layer, { autoAlpha: 1 })
+            gsap.set(layer, { display: 'block', autoAlpha: 1 })
             enterTl.to(layer, { autoAlpha: 1, duration: 0.7, ease: 'power2.out' }, 0)
           } else {
-            gsap.set(layer, { autoAlpha: 0 })
+            gsap.set(layer, { display: 'none', autoAlpha: 0 })
           }
         })
 
@@ -200,6 +200,7 @@ export default function Hero() {
     const currentActiveLayer = layers[prevIndex]
     if (currentActiveLayer) {
       exitTl.to(currentActiveLayer, { autoAlpha: 0, duration: 0.3 }, 0)
+      exitTl.set(currentActiveLayer, { display: 'none' }, '>')
     }
 
     const currentActiveBg = bgLayers[prevIndex]
@@ -303,15 +304,6 @@ export default function Hero() {
       gsap.set(strawLayerRef.current, { opacity: 0 })
       gsap.set(cherryLayerRef.current, { opacity: 0 })
       gsap.set(lemonLayerRef.current, { opacity: 0 })
-
-      // Hint GPU for smoother GSAP scrubbing (forwards and backwards)
-      const allPieces = [
-        piece1Ref.current, piece2Ref.current, piece3Ref.current, piece5Ref.current,
-        strawPiece1Ref.current, strawPiece2Ref.current, strawPiece3Ref.current, strawPiece4Ref.current, strawPiece5Ref.current,
-        cherryPiece1Ref.current, cherryPiece2Ref.current, cherryPiece3Ref.current, cherryPiece4Ref.current, cherryPiece5Ref.current,
-        lemonPiece1Ref.current, lemonPiece2Ref.current, lemonPiece3Ref.current, lemonPiece5Ref.current
-      ]
-      gsap.set(allPieces.filter(Boolean), { willChange: 'transform' })
 
       // Page Load Intro: Smooth clean fade in without jumping
       const introTl = gsap.timeline({ defaults: { ease: 'power3.out' } })
@@ -604,7 +596,7 @@ export default function Hero() {
           <div
             ref={strawLayerRef}
             className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ zIndex: 5, opacity: 0, visibility: 'hidden' }}
+            style={{ zIndex: 5, opacity: 0, display: 'none' }}
           >
             {/* Straw Piece 1: Top Left */}
             <div
@@ -681,7 +673,7 @@ export default function Hero() {
           <div
             ref={cherryLayerRef}
             className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ zIndex: 5, opacity: 0, visibility: 'hidden' }}
+            style={{ zIndex: 5, opacity: 0, display: 'none' }}
           >
             {/* Cherry Piece 1: Top Left */}
             <div
@@ -758,7 +750,7 @@ export default function Hero() {
           <div
             ref={lemonLayerRef}
             className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ zIndex: 5, opacity: 0, visibility: 'hidden' }}
+            style={{ zIndex: 5, opacity: 0, display: 'none' }}
           >
             {/* Lemon Piece 1 */}
             <div

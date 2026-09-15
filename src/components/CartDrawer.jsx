@@ -346,7 +346,7 @@ export default function CartDrawer() {
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
                     placeholder="PROMO CODE (e.g. CLEAN10)"
-                    className="flex-1 px-3.5 py-2.5 bg-transparent border border-black/10 rounded-none text-[10px] sm:text-xs font-medium uppercase tracking-wider text-neutral-900 placeholder:opacity-50 focus:outline-hidden focus:border-black"
+                    className="flex-1 px-3.5 py-2.5 bg-transparent border border-black/10 rounded-none text-[10px] sm:text-xs font-medium uppercase tracking-wider text-neutral-900 placeholder:opacity-50 focus:outline-hidden focus:ring-1 focus:ring-black"
                   />
                   <button
                     type="submit"
