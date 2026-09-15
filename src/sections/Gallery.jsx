@@ -694,7 +694,6 @@ export default function Gallery() {
 
       {/* 4. Final Final Lemon Splash Divider */}
       <div
-        ref={finalDividerRef}
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-screen z-20 pointer-events-none select-none translate-y-1 sm:translate-y-2 overflow-hidden"
       >
         <img 
