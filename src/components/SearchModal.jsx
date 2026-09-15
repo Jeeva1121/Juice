@@ -404,9 +404,9 @@ export default function SearchModal() {
             type="button"
             onClick={() => setIsSearchOpen(false)}
             aria-label="Close search"
-            className="touch-target-44 w-6 h-6 sm:w-8 sm:h-8 rounded-none bg-white/90 hover:bg-white text-neutral-800 border border-black/10 shadow-xs flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="w-5 h-5 sm:w-7 sm:h-7 rounded-none bg-white/90 hover:bg-white text-neutral-800 border border-black/10 shadow-xs flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer"
           >
-            <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -468,9 +468,9 @@ export default function SearchModal() {
               if (el) el.scrollIntoView({ behavior: 'smooth' })
             }}
             aria-label="Submit search"
-            className="touch-target-44 w-6 h-6 sm:w-8 sm:h-8 rounded-none bg-neutral-900 hover:bg-neutral-800 transition-colors cursor-pointer text-white flex items-center justify-center shadow-xs shrink-0"
+            className="w-5 h-5 sm:w-7 sm:h-7 rounded-none bg-neutral-900 hover:bg-neutral-800 transition-colors cursor-pointer text-white flex items-center justify-center shadow-xs shrink-0"
           >
-            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.4}>
+            <svg className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.4}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </button>
