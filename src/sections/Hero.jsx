@@ -386,42 +386,27 @@ export default function Hero() {
         scrollTl.to(bottleRef.current, { scale: 1.0, yPercent: 0, ease: 'power2.in', duration: 0.3 }, 0.7)
       })
 
-      // Mobile (< 768px): No pin. Scrub only the LAYER opacity (1 element, not 18).
-      // This is the minimum possible work — opacity is GPU-composited, never causes layout.
+      // Mobile (< 768px): pin the section but let CSS scroll-driven animation handle piece movement
       mm.add('(max-width: 767px)', () => {
-        const allLayers = [
-          orangeLayerRef.current,
-          strawLayerRef.current,
-          cherryLayerRef.current,
-          lemonLayerRef.current
-        ]
-
-        const st = ScrollTrigger.create({
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.2,
-          onUpdate: (self) => {
-            // Only touch visible layers — skip hidden ones
-            allLayers.forEach(layer => {
-              if (layer && layer.style.display !== 'none') {
-                layer.style.opacity = String(1 - self.progress * 1.6)
-              }
-            })
+        // Use a minimal GSAP pin with scrub:true (instant, no smoothing lag)
+        // The actual fruit piece movement is handled by CSS scroll-driven animations
+        // which run 100% on the GPU compositor thread with zero JS overhead
+        const mobileScrollTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top top',
+            end: '+=75%',
+            pin: pinWrapperRef.current,
+            scrub: true,   // instant = no lagging scrub buffer
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
           },
-          onLeave: () => {
-            allLayers.forEach(layer => {
-              if (layer && layer.style.display !== 'none') layer.style.opacity = '0'
-            })
-          },
-          onEnterBack: () => {
-            allLayers.forEach(layer => {
-              if (layer && layer.style.display !== 'none') layer.style.opacity = '1'
-            })
-          }
         })
 
-        return () => st.kill()
+        // Only animate the bottle + text - these are simple single-element tweens
+        mobileScrollTl.to(bottleRef.current, { scale: 1.08, yPercent: 0, ease: 'none', duration: 1 }, 0)
+        mobileScrollTl.to(giantTextRef.current, { yPercent: 0, scale: 1.04, ease: 'none', duration: 1 }, 0)
+        mobileScrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { yPercent: -15, ease: 'none', duration: 1 }, 0)
       })
     },
     { scope: containerRef }
