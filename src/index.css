@@ -315,3 +315,28 @@
     gap: 0.5rem !important;
   }
 }
+
+/* High-performance CSS Variable GSAP Integration for Hero Pieces */
+/* Default Desktop Values */
+.fruit-piece-1 { --x-dest: -85%; --y-dest: -75%; --r-dest: -35deg; --s-dest: 0.25; }
+.fruit-piece-2 { --x-dest: -95%; --y-dest: 70%;  --r-dest: 28deg;  --s-dest: 0.18; }
+.fruit-piece-3 { --x-dest: 90%;  --y-dest: -70%; --r-dest: 38deg;  --s-dest: 0.25; }
+.fruit-piece-4 { --x-dest: 100%; --y-dest: 20%;  --r-dest: -20deg; --s-dest: 0.12; }
+.fruit-piece-5 { --x-dest: 85%;  --y-dest: 80%;  --r-dest: -30deg; --s-dest: 0.20; }
+
+/* Mobile Values */
+@media (max-width: 767px) {
+  .fruit-piece-1 { --x-dest: -65%; --y-dest: -55%; --r-dest: -25deg; --s-dest: 0.20; }
+  .fruit-piece-2 { --x-dest: -70%; --y-dest: 55%;  --r-dest: 20deg;  --s-dest: 0.18; }
+  .fruit-piece-3 { --x-dest: 70%;  --y-dest: -55%; --r-dest: 25deg;  --s-dest: 0.20; }
+  .fruit-piece-4 { --x-dest: 85%;  --y-dest: 20%;  --r-dest: -15deg; --s-dest: 0.10; }
+  .fruit-piece-5 { --x-dest: 65%;  --y-dest: 60%;  --r-dest: -20deg; --s-dest: 0.18; }
+}
+
+/* The universally applied transform */
+.hero-fruit-piece {
+  transform: translate3d(calc(var(--x-dest) * var(--hero-scroll, 0)), calc(var(--y-dest) * var(--hero-scroll, 0)), 0) 
+             rotate(calc(var(--r-dest) * var(--hero-scroll, 0))) 
+             scale(calc(1 + (var(--s-dest) * var(--hero-scroll, 0))));
+  will-change: transform;
+}
