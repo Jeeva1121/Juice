@@ -133,40 +133,6 @@ export default function Hero() {
   const timerRef = useRef(null)
 
   useEffect(() => {
-    // Add the hardware-accelerated CSS classes to all pieces exactly once.
-    // This offloads the massive animation overhead from GSAP to the browser's CSS engine.
-    const pieceMappings = [
-      { ref: piece1Ref, class: 'fruit-piece-1' },
-      { ref: piece2Ref, class: 'fruit-piece-2' },
-      { ref: piece3Ref, class: 'fruit-piece-3' },
-      { ref: piece5Ref, class: 'fruit-piece-5' },
-      
-      { ref: strawPiece1Ref, class: 'fruit-piece-1' },
-      { ref: strawPiece2Ref, class: 'fruit-piece-2' },
-      { ref: strawPiece3Ref, class: 'fruit-piece-3' },
-      { ref: strawPiece4Ref, class: 'fruit-piece-4' },
-      { ref: strawPiece5Ref, class: 'fruit-piece-5' },
-      
-      { ref: cherryPiece1Ref, class: 'fruit-piece-1' },
-      { ref: cherryPiece2Ref, class: 'fruit-piece-2' },
-      { ref: cherryPiece3Ref, class: 'fruit-piece-3' },
-      { ref: cherryPiece4Ref, class: 'fruit-piece-4' },
-      { ref: cherryPiece5Ref, class: 'fruit-piece-5' },
-      
-      { ref: lemonPiece1Ref, class: 'fruit-piece-1' },
-      { ref: lemonPiece2Ref, class: 'fruit-piece-2' },
-      { ref: lemonPiece3Ref, class: 'fruit-piece-3' },
-      { ref: lemonPiece5Ref, class: 'fruit-piece-5' }
-    ]
-
-    pieceMappings.forEach(mapping => {
-      if (mapping.ref.current) {
-        mapping.ref.current.classList.add('hero-fruit-piece', mapping.class)
-      }
-    })
-  }, [])
-
-  useEffect(() => {
     currentSlideRef.current = currentIndex
   }, [currentIndex])
 
@@ -370,40 +336,91 @@ export default function Hero() {
             scrub: 1,
             anticipatePin: 1,
             invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              if (containerRef.current) {
-                // Apply a buttery power2.out ease to the progress value itself for a smooth fluttery feel
-                const p = gsap.parseEase('power2.out')(self.progress)
-                containerRef.current.style.setProperty('--hero-scroll', p)
-              }
-            }
           },
         })
 
+        // 1. Orange pieces drift outward (4 pristine corner pieces)
+        scrollTl
+          .to(piece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(piece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 28, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(piece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 38, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(piece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -30, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+
+        // 2. Strawberry pieces drift outward
+        scrollTl
+          .to(strawPiece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece4Ref.current, { xPercent: 100, yPercent: 20, rotation: -20, scale: 1.12, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+
+        // 3. Cherry pieces drift outward
+        scrollTl
+          .to(cherryPiece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece4Ref.current, { xPercent: 100, yPercent: 20, rotation: -20, scale: 1.12, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+
+        // 4. Lemon pieces drift outward (4 pristine corner pieces)
+        scrollTl
+          .to(lemonPiece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(lemonPiece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(lemonPiece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(lemonPiece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+
         scrollTl.to(bottleRef.current, { scale: 1.05, yPercent: 0, ease: 'power2.out', duration: 0.7 }, 0)
-        scrollTl.to(giantTextRef.current, { yPercent: 0, scale: 1.02, ease: 'power2.out', duration: 1 }, 0)
+        scrollTl.to(giantTextRef.current, { yPercent: 0, scale: 1.02, ease: 'power2.out', duration: 1, force3D: true }, 0)
         scrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { yPercent: -25, ease: 'power2.in', duration: 0.5 }, 0)
         scrollTl.to(bottleRef.current, { scale: 1.0, yPercent: 0, ease: 'power2.in', duration: 0.3 }, 0.7)
       })
 
-      // Mobile (< 768px): Pure CSS sticky + view-timeline handles all piece animations
-      // No GSAP pin needed — CSS sticky is compositor-native and zero-lag
+      // Mobile (< 768px): Luxury Pinned Scrub matching Web View
       mm.add('(max-width: 767px)', () => {
-        // Still animate bottle + text with GSAP scrub:true (instant, minimal elements)
         const mobileScrollTl = gsap.timeline({
           scrollTrigger: {
             trigger: containerRef.current,
             start: 'top top',
             end: '+=75%',
             pin: pinWrapperRef.current,
-            scrub: true,
+            scrub: 0.8,
             anticipatePin: 1,
             invalidateOnRefresh: true,
           },
         })
-        mobileScrollTl.to(bottleRef.current, { scale: 1.08, ease: 'none', duration: 1 }, 0)
-        mobileScrollTl.to(giantTextRef.current, { scale: 1.04, ease: 'none', duration: 1 }, 0)
-        mobileScrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { yPercent: -15, ease: 'none', duration: 1 }, 0)
+
+        // 1. Orange pieces drift outward to corners
+        mobileScrollTl
+          .to(piece1Ref.current, { xPercent: -65, yPercent: -55, rotation: -25, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(piece2Ref.current, { xPercent: -70, yPercent: 55, rotation: 20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(piece3Ref.current, { xPercent: 70, yPercent: -55, rotation: 25, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(piece5Ref.current, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+
+        // 2. Strawberry pieces drift outward
+        mobileScrollTl
+          .to(strawPiece1Ref.current, { xPercent: -65, yPercent: -55, rotation: -22, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece2Ref.current, { xPercent: -70, yPercent: 55, rotation: 18, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece3Ref.current, { xPercent: 70, yPercent: -55, rotation: 24, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(strawPiece5Ref.current, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+
+        // 3. Cherry pieces drift outward
+        mobileScrollTl
+          .to(cherryPiece1Ref.current, { xPercent: -65, yPercent: -55, rotation: -22, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece2Ref.current, { xPercent: -70, yPercent: 55, rotation: 18, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece3Ref.current, { xPercent: 70, yPercent: -55, rotation: 24, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(cherryPiece5Ref.current, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+
+        // 4. Lemon pieces drift outward
+        mobileScrollTl
+          .to(lemonPiece1Ref.current, { xPercent: -65, yPercent: -55, rotation: -22, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(lemonPiece2Ref.current, { xPercent: -70, yPercent: 55, rotation: 18, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(lemonPiece3Ref.current, { xPercent: 70, yPercent: -55, rotation: 24, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(lemonPiece5Ref.current, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+
+        // Bottle stays centered and expands like web view
+        mobileScrollTl.to(bottleRef.current, { scale: 1.08, yPercent: 0, ease: 'power2.out', duration: 0.8, force3D: true }, 0)
+        mobileScrollTl.to(giantTextRef.current, { yPercent: 0, scale: 1.04, ease: 'power2.out', duration: 1, force3D: true }, 0)
+        mobileScrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { yPercent: -15, ease: 'power2.in', duration: 0.45 }, 0)
       })
     },
     { scope: containerRef }
