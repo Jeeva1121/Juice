@@ -331,20 +331,21 @@ export default function Hero() {
           scrollTrigger: {
             trigger: containerRef.current,
             start: 'top top',
-            end: '+=120%',
+            end: '+=80%',
             pin: pinWrapperRef.current,
-            scrub: 1,
+            scrub: 0.4,
             anticipatePin: 1,
+            fastScrollEnd: true,
             invalidateOnRefresh: true,
           },
         })
 
         // 1. Orange pieces drift outward (4 pristine corner pieces)
         scrollTl
-          .to(piece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(piece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 28, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(piece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 38, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(piece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -30, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .to(piece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -35, scale: 1.25, ease: 'power3.out', duration: 1, force3D: true }, 0)
+          .to(piece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 28, scale: 1.18, ease: 'power3.out', duration: 1, force3D: true }, 0)
+          .to(piece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 38, scale: 1.25, ease: 'power3.out', duration: 1, force3D: true }, 0)
+          .to(piece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -30, scale: 1.2, ease: 'power3.out', duration: 1, force3D: true }, 0)
 
         // 2. Strawberry pieces drift outward
         scrollTl
@@ -381,10 +382,11 @@ export default function Hero() {
           scrollTrigger: {
             trigger: containerRef.current,
             start: 'top top',
-            end: '+=75%',
+            end: '+=60%',
             pin: pinWrapperRef.current,
-            scrub: 0.8,
+            scrub: 0.3,
             anticipatePin: 1,
+            fastScrollEnd: true,
             invalidateOnRefresh: true,
           },
         })
