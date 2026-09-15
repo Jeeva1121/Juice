@@ -48,15 +48,15 @@ export default function AccountModal() {
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-lg bg-[#FAF5EA] border border-black/10 rounded-3xl shadow-2xl overflow-hidden p-5 sm:p-8 text-(--color-ink) max-h-[88vh] overflow-y-auto pb-[calc(var(--sab)+1.5rem)] sm:pb-8"
+        className="relative w-full max-w-md bg-white border border-neutral-900 shadow-2xl overflow-hidden p-5 sm:p-8 text-(--color-ink) max-h-[85vh] overflow-y-auto pb-[calc(var(--sab)+1.5rem)] sm:pb-8 rounded-none"
       >
         {/* Top Header */}
-        <div className="flex items-center justify-between pb-4 sm:pb-6 border-b border-black/10">
+        <div className="flex items-center justify-between pb-4 sm:pb-6 border-b border-black">
           <div className="flex items-center gap-2 sm:gap-3">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-(--color-coral)/15 text-(--color-coral)">
+            <span className="inline-flex items-center px-2 py-1 text-[10px] font-bold tracking-widest uppercase bg-neutral-900 text-white rounded-none">
               Clean Club VIP
             </span>
-            <span className="text-xs text-neutral-500 font-mono">ID: #CJ-8429</span>
+            <span className="text-[10px] sm:text-xs text-neutral-500 font-mono tracking-wider">ID: #CJ-8429</span>
           </div>
 
           <button
@@ -64,17 +64,17 @@ export default function AccountModal() {
             type="button"
             onClick={() => setIsAccountOpen(false)}
             aria-label="Close Account Modal"
-            className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full flex items-center justify-center hover:bg-black/5 text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer touch-target-44 -mr-2"
+            className="w-10 h-10 min-w-[40px] min-h-[40px] rounded-none flex items-center justify-center hover:bg-neutral-100 text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer border border-transparent hover:border-black/10 -mr-2"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
         {/* Member Profile Hero */}
-        <div className="pt-5 pb-5 flex items-center gap-3.5 sm:gap-4">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-2xl bg-linear-to-br from-[#FF9F1C] to-(--color-coral) flex items-center justify-center text-white font-display text-lg sm:text-xl font-black shadow-md">
+        <div className="pt-6 pb-6 flex items-center gap-4">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-none bg-neutral-900 flex items-center justify-center text-white font-display text-xl sm:text-2xl font-black">
             JK
           </div>
           <div>
@@ -88,10 +88,10 @@ export default function AccountModal() {
         </div>
 
         {/* Clean Rewards & Points Card */}
-        <div className="p-4 rounded-2xl bg-white/80 border border-black/5 shadow-xs mb-5 sm:mb-6">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold tracking-wider uppercase text-neutral-500">Clean Points Balance</span>
-            <span className="text-xs font-bold text-(--color-coral)">₹450 Credit Available</span>
+        <div className="p-5 rounded-none bg-[#FAF5EA] border border-black/10 mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-neutral-600">Points Balance</span>
+            <span className="text-[10px] sm:text-xs font-bold tracking-widest text-(--color-coral) uppercase">₹450 Credit</span>
           </div>
           <div className="flex items-baseline gap-2 mb-3">
             <span className="text-3xl font-display font-black text-(--color-ink)">450</span>
@@ -107,35 +107,35 @@ export default function AccountModal() {
         </div>
 
         {/* Active Cold-Chain Subscription */}
-        <div className="p-4 rounded-2xl bg-white/60 border border-black/5 mb-5 sm:mb-6">
-          <div className="flex items-center justify-between mb-2">
+        <div className="p-5 rounded-none bg-white border border-black/10 mb-6">
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-xs font-bold tracking-wider uppercase">Active Subscription</span>
+              <span className="w-1.5 h-1.5 rounded-none bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] sm:text-xs font-bold tracking-widest uppercase">Active Sub</span>
             </div>
-            <span className="text-[11px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md font-semibold">Weekly Dawn Delivery</span>
+            <span className="text-[9px] sm:text-[10px] font-mono tracking-wider text-emerald-700 bg-emerald-50 px-2 py-1 rounded-none border border-emerald-200">Weekly Dawn</span>
           </div>
-          <p className="text-sm font-bold text-neutral-800">4-Pack Discovery Bundle</p>
-          <p className="text-xs text-neutral-600 mt-0.5">Next Drop: Tomorrow, 6:00 AM – 9:00 AM • Cold-Chain Direct</p>
+          <p className="text-sm font-bold text-neutral-900 tracking-wide uppercase">4-Pack Discovery Bundle</p>
+          <p className="text-xs text-neutral-500 mt-1">Next Drop: Tomorrow, 6AM – 9AM</p>
         </div>
 
         {/* Quick Order History */}
-        <div className="mb-5 sm:mb-6">
-          <h3 className="text-xs font-bold tracking-wider uppercase text-neutral-500 mb-3">Recent Cold-Pressed Drops</h3>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between p-3 rounded-xl bg-white/50 border border-black/5 text-xs">
+        <div className="mb-6">
+          <h3 className="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-neutral-500 mb-4 border-b border-black/10 pb-2">Recent Drops</h3>
+          <div className="space-y-0">
+            <div className="flex items-center justify-between py-3 border-b border-black/5 text-xs">
               <div>
-                <p className="font-semibold text-neutral-800">Order #CJ-8921</p>
-                <p className="text-neutral-500 text-[11px]">4x Valencia Orange (Edition 01)</p>
+                <p className="font-bold text-neutral-900 uppercase tracking-wide">#CJ-8921</p>
+                <p className="text-neutral-500 text-[11px] mt-0.5">4x Valencia Orange (Edition 01)</p>
               </div>
-              <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">Delivered</span>
+              <span className="text-[10px] font-bold tracking-wider text-emerald-600 uppercase">Delivered</span>
             </div>
-            <div className="flex items-center justify-between p-3 rounded-xl bg-white/50 border border-black/5 text-xs">
+            <div className="flex items-center justify-between py-3 border-b border-black/5 text-xs">
               <div>
-                <p className="font-semibold text-neutral-800">Order #CJ-8740</p>
-                <p className="text-neutral-500 text-[11px]">2x Wild Strawberry, 2x Black Cherry</p>
+                <p className="font-bold text-neutral-900 uppercase tracking-wide">#CJ-8740</p>
+                <p className="text-neutral-500 text-[11px] mt-0.5">2x Wild Strawberry, 2x Cherry</p>
               </div>
-              <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">Delivered</span>
+              <span className="text-[10px] font-bold tracking-wider text-emerald-600 uppercase">Delivered</span>
             </div>
           </div>
         </div>

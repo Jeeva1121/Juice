@@ -429,7 +429,7 @@ export default function Gallery() {
         {/* Section Header */}
         <header ref={headerRef} className="mb-16 sm:mb-24">
           <div className="inline-flex items-center px-3 py-1 bg-white/80 border border-neutral-300 text-xs font-bold tracking-wider text-neutral-700 uppercase mb-4 shadow-2xs">
-            <span>The Botanical Lineup // 4 Single-Origin Editions</span>
+            <span className="font-normal tracking-wide">The Botanical Lineup • 4 Single-Origin Editions</span>
           </div>
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-[#E8DEC8] pb-8">
             <div>

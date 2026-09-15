@@ -181,16 +181,16 @@ export default function Hero() {
         layers.forEach((layer, idx) => {
           if (!layer) return
           if (idx === nextIndex) {
-            gsap.set(layer, { opacity: 1, scale: 0.96 })
-            enterTl.to(layer, { opacity: 1, scale: 1, duration: 0.7, ease: 'power2.out' }, 0)
+            gsap.set(layer, { opacity: 1 })
+            enterTl.to(layer, { opacity: 1, duration: 0.7, ease: 'power2.out' }, 0)
           } else {
             gsap.set(layer, { opacity: 0 })
           }
         })
 
         enterTl
-          .fromTo(bottleRef.current, { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, 0)
-          .fromTo(giantTextRef.current, { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, '-=0.4')
+          .fromTo(bottleRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0)
+          .fromTo(giantTextRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.4')
           .fromTo(counterRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3 }, '-=0.3')
           .fromTo(manifestoRef.current, { opacity: 0 }, { opacity: 1, duration: 0.35 }, '-=0.3')
       },
@@ -199,7 +199,7 @@ export default function Hero() {
     // Exit currently active fruit pieces and background layer
     const currentActiveLayer = layers[prevIndex]
     if (currentActiveLayer) {
-      exitTl.to(currentActiveLayer, { opacity: 0, scale: 0.96, duration: 0.3 }, 0)
+      exitTl.to(currentActiveLayer, { opacity: 0, duration: 0.3 }, 0)
     }
 
     const currentActiveBg = bgLayers[prevIndex]
@@ -208,7 +208,7 @@ export default function Hero() {
     }
 
     exitTl
-      .to(bottleRef.current, { opacity: 0, scale: 0.96, duration: 0.25, ease: 'power2.in' }, 0)
+      .to(bottleRef.current, { opacity: 0, duration: 0.25, ease: 'power2.in' }, 0)
       .to(giantTextRef.current, { opacity: 0, duration: 0.2 }, 0)
       .to(manifestoRef.current, { opacity: 0, duration: 0.2 }, 0)
       .to(counterRef.current, { opacity: 0, duration: 0.2 }, 0)
@@ -370,8 +370,8 @@ export default function Hero() {
 
         scrollTl.to(bottleRef.current, { scale: 1.05, yPercent: 0, ease: 'power2.out', duration: 0.7 }, 0)
         scrollTl.to(giantTextRef.current, { yPercent: 0, scale: 1.02, ease: 'power2.out', duration: 1, force3D: true }, 0)
-        scrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { opacity: 0, yPercent: -25, ease: 'power2.in', duration: 0.5 }, 0)
-        scrollTl.to(bottleRef.current, { scale: 1.0, yPercent: 0, opacity: 0.95, ease: 'power2.in', duration: 0.3 }, 0.7)
+        scrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { yPercent: -25, ease: 'power2.in', duration: 0.5 }, 0)
+        scrollTl.to(bottleRef.current, { scale: 1.0, yPercent: 0, ease: 'power2.in', duration: 0.3 }, 0.7)
       })
 
       // Mobile (< 768px): Luxury Pinned Scrub matching Web View
@@ -419,7 +419,7 @@ export default function Hero() {
         // Bottle stays centered and expands like web view
         mobileScrollTl.to(bottleRef.current, { scale: 1.08, yPercent: 0, ease: 'power2.out', duration: 0.8, force3D: true }, 0)
         mobileScrollTl.to(giantTextRef.current, { yPercent: 0, scale: 1.04, ease: 'power2.out', duration: 1, force3D: true }, 0)
-        mobileScrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { opacity: 0, yPercent: -15, ease: 'power2.in', duration: 0.45 }, 0)
+        mobileScrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { yPercent: -15, ease: 'power2.in', duration: 0.45 }, 0)
       })
     },
     { scope: containerRef }

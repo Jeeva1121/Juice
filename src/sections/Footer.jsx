@@ -113,8 +113,8 @@ export default function Footer({ onScrollTop }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
         {/* Top Header Row with Back to Top */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 sm:pb-8 mb-8 sm:mb-12 border-b border-neutral-800">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-neutral-900 border border-neutral-800 text-[11px] sm:text-xs font-body font-bold tracking-widest text-(--color-coral) uppercase">
-            <span>[ CLEAN JUICE // PRIVATE HARVEST DISPATCH ]</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-neutral-900 border border-neutral-800 text-[11px] sm:text-xs font-body font-normal tracking-wider text-(--color-coral) uppercase">
+            <span>CLEAN JUICE • PRIVATE HARVEST DISPATCH</span>
           </div>
           <button
             type="button"
