@@ -689,7 +689,7 @@ export default function Hero() {
             {/* Cherry Piece 1: Top Left */}
             <div
               ref={cherryPiece1Ref}
-              className="absolute top-[13%] sm:top-[0%] md:top-[3%] left-[4%] sm:left-[2%] md:left-[8%] lg:left-[10%] w-22 sm:w-48 md:w-48 lg:w-56 pointer-events-none"
+              className="absolute top-[13%] sm:top-[0%] md:-top-[6%] lg:-top-[8%] left-[4%] sm:left-[2%] md:left-[2%] lg:left-[2%] w-22 sm:w-48 md:w-36 lg:w-40 pointer-events-none"
             >
               <div className="">
                 <img
@@ -717,7 +717,7 @@ export default function Hero() {
             {/* Cherry Piece 3: Top Right */}
             <div
               ref={cherryPiece3Ref}
-              className="absolute top-[13%] sm:top-[1%] right-[4%] sm:right-[1%] md:right-[2%] w-22 sm:w-36 md:w-48 lg:w-52 pointer-events-none"
+              className="absolute top-[13%] sm:top-[1%] md:top-[6%] right-[4%] sm:right-[1%] md:right-[12%] lg:right-[15%] w-22 sm:w-36 md:w-48 lg:w-52 pointer-events-none"
             >
               <div className="">
                 <img

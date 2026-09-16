@@ -9,6 +9,8 @@
   --font-jakarta: 'Plus Jakarta Sans', sans-serif;
   --font-display: 'Outfit', 'Poppins', sans-serif;
   --font-poppins: 'Poppins', sans-serif;
+  --font-dacomment: 'Dacomment', sans-serif;
+  --font-asul: 'Asal Usul', sans-serif;
 }
 
 @layer base {
@@ -153,14 +155,32 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Dacomment';
+  src: url('/fonts/Dacomment.otf') format('opentype'),
+       url('/Dacomment.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Typography styles */
+.font-dacomment {
+  font-family: 'Dacomment', sans-serif !important;
+}
 .font-display {
   font-family: 'Asal Usul', 'Outfit', sans-serif;
   letter-spacing: 0.01em;
 }
 
+.font-asul,
 .font-asal {
-  font-family: 'Asal Usul', sans-serif;
+  font-family: 'Asal Usul', 'Asul', sans-serif !important;
+}
+
+.font-caveat,
+.font-hand {
+  font-family: 'Caveat', cursive !important;
 }
 
 .font-blackbold {
@@ -315,3 +335,29 @@
     gap: 0.5rem !important;
   }
 }
+
+/* Apple Light Glass Aesthetics */
+.apple-light-glass {
+  background: rgba(251, 247, 240, 0.96);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: -15px 0 50px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.apple-light-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.apple-light-card:hover {
+  border-color: rgba(0, 0, 0, 0.16);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.apple-light-pill {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+

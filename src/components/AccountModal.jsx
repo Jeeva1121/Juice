@@ -87,36 +87,46 @@ export default function AccountModal() {
           </div>
         </div>
 
-        {/* Clean Rewards & Points Card */}
-        <div className="p-5 rounded-none bg-[#FAF5EA] border border-black/10 mb-6">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-neutral-600">Points Balance</span>
-            <span className="text-[10px] sm:text-xs font-bold tracking-widest text-(--color-coral) uppercase">₹450 Credit</span>
+        {/* Clean Rewards & Points Bento Card */}
+        <div className="relative overflow-hidden p-5 rounded-[20px] bg-linear-to-br from-[#8050FF] to-[#A855F7] shadow-lg mb-6 text-white">
+          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
+          <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-white/20 rounded-full blur-2xl" />
+          
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[11px] font-bold tracking-widest uppercase text-white/80">Points Balance</span>
+              <span className="text-[10px] font-bold tracking-wider text-white uppercase bg-white/20 px-2 py-1 rounded-lg shadow-inner">₹450 Credit</span>
+            </div>
+            <div className="flex items-baseline gap-2 mb-3">
+              <span className="text-4xl font-display font-black tracking-tight text-white">450</span>
+              <span className="text-[11px] text-white/80 font-bold uppercase tracking-widest">Points</span>
+            </div>
+            {/* Tier Progress */}
+            <div className="w-full bg-white/20 h-1.5 rounded-full overflow-hidden">
+              <div className="bg-white h-full rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(255,255,255,0.5)]" style={{ width: '90%' }} />
+            </div>
+            <p className="text-[11px] text-white/80 mt-3 font-medium leading-relaxed">
+              50 points to unlock <span className="font-bold text-white">Platinum Tier</span> (Free priority cold-chain express)
+            </p>
           </div>
-          <div className="flex items-baseline gap-2 mb-3">
-            <span className="text-3xl font-display font-black text-(--color-ink)">450</span>
-            <span className="text-xs text-neutral-500 font-semibold uppercase">Points</span>
-          </div>
-          {/* Tier Progress */}
-          <div className="w-full bg-black/5 h-2 rounded-full overflow-hidden">
-            <div className="bg-(--color-coral) h-full rounded-full w-[90%] transition-all duration-500" />
-          </div>
-          <p className="text-[11px] text-neutral-500 mt-2">
-            50 points to unlock Platinum Tier (Free priority cold-chain express on every drop)
-          </p>
         </div>
 
-        {/* Active Cold-Chain Subscription */}
-        <div className="p-5 rounded-none bg-white border border-black/10 mb-6">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-none bg-emerald-500 animate-pulse" />
-              <span className="text-[10px] sm:text-xs font-bold tracking-widest uppercase">Active Sub</span>
+        {/* Active Cold-Chain Subscription Bento */}
+        <div className="relative overflow-hidden p-5 rounded-[20px] bg-linear-to-br from-[#00CED1] to-[#20B2AA] shadow-lg mb-6 text-white">
+          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
+          <div className="absolute -bottom-5 -right-5 w-24 h-24 bg-white/20 rounded-full blur-xl" />
+          
+          <div className="relative z-10">
+             <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-white animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                <span className="text-[11px] font-bold tracking-widest uppercase text-white/90">Active Sub</span>
+              </div>
+              <span className="text-[10px] font-bold tracking-wider text-[#00CED1] bg-white px-2 py-1 rounded-lg shadow-inner uppercase">Weekly Dawn</span>
             </div>
-            <span className="text-[9px] sm:text-[10px] font-mono tracking-wider text-emerald-700 bg-emerald-50 px-2 py-1 rounded-none border border-emerald-200">Weekly Dawn</span>
+            <p className="text-[17px] font-display font-black tracking-wide uppercase mt-1">4-Pack Discovery Bundle</p>
+            <p className="text-[11px] text-white/90 mt-1.5 font-medium tracking-wide">Next Drop: Tomorrow, 6AM – 9AM</p>
           </div>
-          <p className="text-sm font-bold text-neutral-900 tracking-wide uppercase">4-Pack Discovery Bundle</p>
-          <p className="text-xs text-neutral-500 mt-1">Next Drop: Tomorrow, 6AM – 9AM</p>
         </div>
 
         {/* Quick Order History */}

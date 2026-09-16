@@ -40,9 +40,11 @@ export default function App() {
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo out
         smoothWheel: true,
         wheelMultiplier: 1.0,
+        prevent: (node) => !!node.closest?.('[data-lenis-prevent]'),
       })
 
       lenisRef.current = lenis
+      window.lenis = lenis
 
       // Synchronize Lenis scroll positions with ScrollTrigger
       lenis.on('scroll', ScrollTrigger.update)
@@ -77,6 +79,7 @@ export default function App() {
       }
       if (lenis) {
         lenis.destroy()
+        window.lenis = null
       }
       // Kill all ScrollTriggers cleanly on unmount
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
