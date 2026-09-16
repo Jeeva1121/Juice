@@ -305,6 +305,15 @@ export default function Hero() {
       gsap.set(cherryLayerRef.current, { opacity: 0 })
       gsap.set(lemonLayerRef.current, { opacity: 0 })
 
+      // Hardware acceleration for mobile performance
+      gsap.set([
+        piece1Ref.current, piece2Ref.current, piece3Ref.current, piece5Ref.current,
+        strawPiece1Ref.current, strawPiece2Ref.current, strawPiece3Ref.current, strawPiece4Ref.current, strawPiece5Ref.current,
+        cherryPiece1Ref.current, cherryPiece2Ref.current, cherryPiece3Ref.current, cherryPiece4Ref.current, cherryPiece5Ref.current,
+        lemonPiece1Ref.current, lemonPiece2Ref.current, lemonPiece3Ref.current, lemonPiece5Ref.current,
+        bottleRef.current, giantTextRef.current
+      ], { willChange: 'transform' })
+
       // Page Load Intro: Smooth clean fade in without jumping
       const introTl = gsap.timeline({ defaults: { ease: 'power3.out' } })
       introTl
@@ -801,7 +810,7 @@ export default function Hero() {
             <img
               src={activeSlide.bottleImage}
               alt={activeSlide.bottleAlt}
-              className={`w-full h-full object-contain object-center drop-shadow-2xl transition-transform duration-500 ${activeSlide.bottleImgClass || ''}`}
+              className={`w-full h-full object-contain object-center drop-shadow-xl md:drop-shadow-2xl transition-transform duration-500 ${activeSlide.bottleImgClass || ''}`}
               loading="eager"
             />
           </div>
