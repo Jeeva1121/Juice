@@ -956,7 +956,7 @@ export default function CartDrawer() {
             )}
 
             {/* Left Column: Summary & Address */}
-            <div className="w-full lg:w-[420px] xl:w-[460px] bg-[#F9F9F9] border-r border-neutral-200 p-6 sm:p-8 flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className="w-full lg:w-[420px] bg-[#F9F9F9] border-r border-neutral-200 p-6 sm:p-8 flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               
               <div className="mb-6">
                 <h3 className="font-bold text-neutral-900 text-xl sm:text-2xl tracking-tight">Order Summary</h3>
@@ -1026,20 +1026,6 @@ export default function CartDrawer() {
               <div className="flex justify-between font-bold text-lg text-neutral-900">
                 <span>Total Amount</span><span className="text-[#0F763F] text-3xl tracking-tight"><span className="font-sans text-2xl mr-1">₹</span>{finalTotal}</span>
               </div>
-              
-              {/* Promotional Banner Area (Restored as requested) */}
-              <div className="mt-auto pt-12 pb-4 flex items-center justify-between">
-                <div className="flex -space-x-3 items-end translate-y-2">
-                   <img src="/assets/orange-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-10" alt="can" />
-                   <img src="/assets/straw-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-20 scale-105" alt="can" />
-                   <img src="/assets/cherry-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-10" alt="can" />
-                   <img src="/assets/lemon-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-0 scale-95" alt="can" />
-                </div>
-                <div className="text-right">
-                  <p className="font-black text-xl text-[#0F763F] leading-[1.1] tracking-tight">Good<br/>Juice<br/>Brighter<br/>Days</p>
-                  <div className="w-8 h-[3px] bg-[#0F763F] ml-auto mt-2"></div>
-                </div>
-              </div>
 
             </div>
 
@@ -1087,31 +1073,29 @@ export default function CartDrawer() {
                             Open any UPI app and scan the QR code
                           </div>
 
-                          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                            {[
-                              { id: 'gpay', name: 'GPay', url: 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg' },
-                              { id: 'phonepe', name: 'PhonePe', url: 'https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg' },
-                              { id: 'paytm', name: 'Paytm', url: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg' },
-                              { id: 'bhim', name: 'BHIM', url: 'https://upload.wikimedia.org/wikipedia/commons/e/e4/BHIM_Logo.svg' },
-                              { id: 'cred', name: 'CRED', url: 'https://upload.wikimedia.org/wikipedia/en/2/23/Cred_logo.png' },
+                          <div className="flex items-center gap-2 sm:gap-4 flex-wrap w-full justify-between">
+                                                        {[
+                              { id: 'gpay', name: 'GPay', icon: <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center font-bold text-[#1a73e8] border border-[#1a73e8] tracking-tighter shadow-sm text-sm">G</div> },
+                              { id: 'phonepe', name: 'PhonePe', icon: <div className="w-8 h-8 rounded-full bg-[#5f259f] flex items-center justify-center text-white font-bold shadow-sm">पे</div> },
+                              { id: 'paytm', name: 'Paytm', icon: <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#00b9f1] font-black border border-[#00b9f1] shadow-sm text-xs tracking-tighter">Pay</div> },
+                              { id: 'bhim', name: 'BHIM', icon: <div className="w-8 h-8 flex flex-col items-center justify-center bg-[#FF8C00] rounded-sm text-white font-black text-[10px] leading-none shadow-sm"><span className="text-white">BH</span><span className="text-[#008000]">IM</span></div> },
+                              { id: 'cred', name: 'CRED', icon: <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white font-bold shadow-sm text-xs">C</div> },
                             ].map((app) => (
                               <button
                                 key={app.id}
                                 onClick={() => setSelectedUpiApp(app.id)}
-                                className={`w-[60px] h-[72px] sm:w-[72px] sm:h-[84px] bg-white border flex flex-col items-center justify-center gap-2 transition-all cursor-pointer ${selectedUpiApp === app.id ? 'border-[#0F763F] shadow-sm' : 'border-neutral-200 hover:border-neutral-300'}`}
+                                className={`flex-1 min-w-[70px] h-20 sm:h-24 bg-white border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${selectedUpiApp === app.id ? 'border-[#0F763F] shadow-sm' : 'border-neutral-200 hover:border-neutral-300'}`}
                               >
-                                <div className="h-6 flex items-center justify-center">
-                                  <img src={app.url} className="max-w-full max-h-full object-contain mix-blend-multiply" alt={app.name} />
-                                </div>
-                                <span className="text-[9px] sm:text-[10px] text-neutral-600 font-medium">{app.name}</span>
+                                {app.icon}
+                                <span className="text-[10px] text-neutral-500 font-medium">{app.name}</span>
                               </button>
                             ))}
                           </div>
                         </div>
 
                         {/* Right Side: QR Code */}
-                        <div className="w-full md:w-[280px] flex flex-col items-center justify-center pl-0 md:pl-8 border-l-0 md:border-l border-neutral-200 shrink-0">
-                          <div className="w-48 h-48 bg-white p-2 border border-neutral-200 shadow-sm mb-4 relative">
+                        <div className="w-full md:w-[320px] xl:w-[360px] flex flex-col items-center justify-center pl-0 md:pl-8 border-l-0 md:border-l border-neutral-200 shrink-0">
+                          <div className="w-56 h-56 xl:w-64 xl:h-64 bg-white p-2 border border-neutral-200 shadow-sm mb-4 relative">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="UPI QR Code" className="w-full h-full object-contain mix-blend-multiply" />
                             {/* Little leaf logo in the center of QR (Mockup style) */}
                             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
