@@ -589,7 +589,7 @@ export default function CartDrawer() {
                         className="absolute -top-3.5 transition-all duration-500 ease-out pointer-events-none z-10"
                         style={{ left: `calc(${Math.min(94, Math.max(0, Math.round((subtotal / freeShippingThreshold) * 100)))}% - 14px)` }}
                       >
-                        <div <div className="w-4 h-4 rounded-full bg-neutral-900 border-2 border-white shadow-sm"></div>
+                        <div className="w-4 h-4 rounded-full bg-neutral-900 border-2 border-white shadow-sm"></div>
                       </div>
 
                       {/* Destination Finish Point */}
