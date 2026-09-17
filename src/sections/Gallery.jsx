@@ -453,7 +453,7 @@ export default function Gallery() {
         </header>
 
         {/* Flavors Showcase Articles */}
-        <div className="flex flex-col gap-36 sm:gap-48">
+        <div className="flex flex-col gap-20 sm:gap-28">
           {FLAVORS.map((flavor, index) => {
             const isEven = index % 2 === 0
             const currentPackKey = selectedPacks[flavor.id] || 'single'
@@ -464,7 +464,7 @@ export default function Gallery() {
                 id={`flavor-${flavor.id}`}
                 key={flavor.id}
                 ref={(el) => (sectionRefs.current[index] = el)}
-                className="relative min-h-[75vh] flex flex-col justify-center select-none pt-36 sm:pt-48 lg:pt-56 pb-20 sm:pb-28"
+                className="relative min-h-[75vh] flex flex-col justify-center select-none pt-12 sm:pt-16 lg:pt-20 pb-16 sm:pb-24"
               >
                 {/* Giant Ghost Numeral for Parallax Depth */}
                 <div
@@ -678,7 +678,7 @@ export default function Gallery() {
 
                 {/* Fluid Splash Divider (Appears between items) */}
                 {index !== FLAVORS.length - 1 && (
-                  <div className="absolute -bottom-8 sm:-bottom-12 left-1/2 -translate-x-1/2 w-screen pointer-events-none flex justify-center z-10">
+                  <div className="absolute -bottom-16 sm:-bottom-24 left-1/2 -translate-x-1/2 w-screen pointer-events-none flex justify-center z-10">
                     <img 
                       src={flavor.splashDivider} 
                       alt={`${flavor.title} Splash Divider`} 
@@ -694,7 +694,7 @@ export default function Gallery() {
 
       {/* 4. Final Final Lemon Splash Divider */}
       <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-screen z-20 pointer-events-none select-none translate-y-1 sm:translate-y-2 overflow-hidden"
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-screen z-20 pointer-events-none select-none translate-y-4 sm:translate-y-8 overflow-hidden"
       >
         <img 
           src={FLAVORS[FLAVORS.length - 1].splashDivider} 

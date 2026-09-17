@@ -462,7 +462,7 @@ export default function CartDrawer() {
             data-lenis-prevent-touch="true"
             onWheel={(e) => e.stopPropagation()}
             onTouchMove={(e) => e.stopPropagation()}
-            className="relative w-full max-w-[540px] h-full bg-neutral-50 border-l border-neutral-200 flex flex-col z-10 overscroll-contain overflow-hidden text-neutral-900 shadow-2xl"
+            className="relative w-full max-w-[540px] h-full bg-white border-l border-neutral-200 flex flex-col z-10 overscroll-contain overflow-hidden text-neutral-900 shadow-2xl"
           >
             {/* Header: Square Back Button on Left, Centered 'Your Cart' Title, 'Edit' on Right */}
             <div 
@@ -600,7 +600,7 @@ export default function CartDrawer() {
                           </div>
                         ) : (
                           <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-none border border-neutral-400 bg-white flex items-center justify-center">
-                            <div className="w-1.5 h-1.5 rounded-none bg-neutral-500" />
+                            <div className="w-1.5 h-1.5 rounded-none bg-white0" />
                           </div>
                         )}
                       </div>
@@ -926,7 +926,7 @@ export default function CartDrawer() {
             )}
 
             {/* Left Column: Summary & Address (Light Orange/Warm Background) */}
-            <div className="w-full lg:w-[400px] bg-[#F9F9F9] border-r border-neutral-200 p-6 sm:p-8 flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className="w-full lg:w-[400px] bg-white border-r border-neutral-200 p-6 sm:p-8 flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               <h3 className="font-vagnola font-semibold text-neutral-900 mb-6 text-xl tracking-wide">Order Summary</h3>
               <div className="space-y-4 mb-6 bg-white p-4 rounded-none border border-neutral-200 shadow-sm">
                 {items.map((it) => (
@@ -958,12 +958,12 @@ export default function CartDrawer() {
                   </div>
                 ) : (
                   <div className="space-y-3 text-sm">
-                    <input type="text" placeholder="Full Name" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
-                    <input type="text" placeholder="Phone" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
-                    <input type="text" placeholder="Address" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
+                    <input type="text" placeholder="Full Name" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} className="w-full px-4 py-3 bg-white border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
+                    <input type="text" placeholder="Phone" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full px-4 py-3 bg-white border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
+                    <input type="text" placeholder="Address" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="w-full px-4 py-3 bg-white border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
                     <div className="flex gap-3">
-                      <input type="text" placeholder="City" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="w-1/2 px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
-                      <input type="text" placeholder="Pincode" value={formData.pincode} onChange={e => setFormData({...formData, pincode: e.target.value})} className="w-1/2 px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
+                      <input type="text" placeholder="City" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="w-1/2 px-4 py-3 bg-white border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
+                      <input type="text" placeholder="Pincode" value={formData.pincode} onChange={e => setFormData({...formData, pincode: e.target.value})} className="w-1/2 px-4 py-3 bg-white border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
                     </div>
                     <button onClick={() => setIsAddressEditing(false)} className="w-full py-3 bg-black hover:bg-neutral-800 text-white font-medium tracking-wide rounded-none transition-colors mt-2">SAVE ADDRESS</button>
                   </div>
@@ -975,7 +975,7 @@ export default function CartDrawer() {
                 <div className="flex justify-between"><span>Shipping</span><span className={isFreeShipping ? 'text-green-600 font-medium' : ''}>{isFreeShipping ? 'Free' : <><span className="font-sans mr-1">₹</span>{shippingFee}</>}</span></div>
                 <div className="flex justify-between"><span>Taxes (5%)</span><span><span className="font-sans mr-1">₹</span>{taxAmount}</span></div>
                 {discountAmount > 0 && <div className="flex justify-between text-green-600 font-medium"><span>Discount ({appliedPromoCode})</span><span>-<span className="font-sans mr-1">₹</span>{discountAmount}</span></div>}
-                <div className="flex justify-between font-semibold text-xl text-neutral-900 pt-4 border-t border-neutral-200 mt-2">
+                <div className="flex justify-between font-semibold text-lg text-neutral-900 pt-4 border-t border-neutral-200 mt-2">
                   <span>Total</span><span className="text-neutral-900"><span className="font-sans text-lg mr-0.5">₹</span>{finalTotal}</span>
                 </div>
               </div>
@@ -1015,7 +1015,7 @@ export default function CartDrawer() {
                     <div className="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 bg-white border border-neutral-200 rounded-none">
                       <div>
                         <p className="text-sm text-blue-900 font-medium uppercase tracking-wider mb-2">Instant Scan & Pay</p>
-                        <p className="text-4xl font-semibold text-neutral-900 mb-2"><span className="font-sans font-medium text-2xl mr-1">₹</span>{finalTotal}</p>
+                        <p className="text-3xl font-medium text-neutral-900 mb-2"><span className="font-sans font-medium text-xl mr-1">₹</span>{finalTotal}</p>
                         <p className="text-xs font-medium text-blue-700 uppercase tracking-wide bg-blue-100 inline-block px-3 py-1 rounded-none border border-blue-200">QR expires in {formatCountdown(qrCountdown)}</p>
                       </div>
                       <div className="w-28 h-28 bg-white p-2.5 border border-neutral-200 rounded-none shrink-0">
@@ -1037,7 +1037,7 @@ export default function CartDrawer() {
                           <button
                             key={app.id}
                             onClick={() => setSelectedUpiApp(app.id)}
-                            className={`p-4 border rounded-none flex flex-col items-center justify-center gap-3 transition-all ${selectedUpiApp === app.id ? 'border-orange-500 bg-[#F9F9F9] shadow-sm border-2' : 'border-neutral-200 bg-white hover:border-neutral-400'}`}
+                            className={`p-4 border rounded-none flex flex-col items-center justify-center gap-3 transition-all ${selectedUpiApp === app.id ? 'border-orange-500 bg-white shadow-sm border-2' : 'border-neutral-200 bg-white hover:border-neutral-400'}`}
                           >
                             <div dangerouslySetInnerHTML={{ __html: app.svg }} />
                             <span className="text-xs text-neutral-700">{app.name}</span>
@@ -1071,7 +1071,7 @@ export default function CartDrawer() {
                         <button
                           key={b.id}
                           onClick={() => setSelectedBank(b.id)}
-                          className={`p-4 border rounded-none flex items-center gap-4 transition-all ${selectedBank === b.id ? 'border-orange-500 bg-[#F9F9F9] font-medium text-orange-900 border-2' : 'border-neutral-300 hover:border-neutral-500 bg-white text-neutral-800 font-semibold'}`}
+                          className={`p-4 border rounded-none flex items-center gap-4 transition-all ${selectedBank === b.id ? 'border-orange-500 bg-white font-medium text-orange-900 border-2' : 'border-neutral-300 hover:border-neutral-500 bg-white text-neutral-800 font-semibold'}`}
                         >
                           <div dangerouslySetInnerHTML={{ __html: b.svg }} />
                           <span className="text-sm">{b.name}</span>
@@ -1141,7 +1141,7 @@ export default function CartDrawer() {
                       <button
                         key={w.id}
                         onClick={() => setSelectedWallet(w.id)}
-                        className={`w-full p-5 border rounded-none flex items-center justify-between transition-colors ${selectedWallet === w.id ? 'border-orange-500 bg-[#F9F9F9] text-orange-900 font-medium border-2' : 'border-neutral-300 hover:border-neutral-500 bg-white text-neutral-800 font-semibold'}`}
+                        className={`w-full p-5 border rounded-none flex items-center justify-between transition-colors ${selectedWallet === w.id ? 'border-orange-500 bg-white text-orange-900 font-medium border-2' : 'border-neutral-300 hover:border-neutral-500 bg-white text-neutral-800 font-semibold'}`}
                       >
                         <div className="flex items-center gap-4">
                           <div dangerouslySetInnerHTML={{ __html: w.icon }} />
@@ -1196,7 +1196,7 @@ export default function CartDrawer() {
               </div>
               
               <div className="p-8 bg-white">
-                <div className="bg-[#F9F9F9] border border-neutral-200 rounded-none p-6 mb-8 text-left">
+                <div className="bg-white border border-neutral-200 rounded-none p-6 mb-8 text-left">
                   <div className="flex justify-between text-base mb-3 items-center">
                     <span className="text-neutral-700 font-medium uppercase tracking-wider">Amount Paid</span>
                     <span className="font-semibold text-2xl text-neutral-900"><span className="font-sans mr-1">₹</span>{orderConfirmed.customerDetails.finalTotal}</span>
