@@ -905,261 +905,381 @@ export default function CartDrawer() {
       
       {/* Full Page Checkout */}
       {isCheckingOut && (
-        <div className="fixed inset-0 z-60 bg-white flex flex-col font-poppins overflow-hidden w-full h-full">
-          {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 bg-white shrink-0">
-            <h2 className="text-2xl font-vagnola font-medium text-neutral-900 tracking-wide">Checkout</h2>
-            <button onClick={() => setIsCheckingOut(false)} className="flex items-center gap-2 px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium rounded-none transition-colors">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-              Back to Cart
-            </button>
+        <div className="fixed inset-0 z-60 bg-white flex flex-col font-sans overflow-hidden w-full h-full">
+          {/* Header - Navbar & Progress */}
+          <div className="flex flex-col md:flex-row items-center justify-between px-6 sm:px-12 py-4 border-b border-neutral-200 bg-white shrink-0 gap-4 md:gap-0">
+            {/* Zesty Logo */}
+            <div className="w-full md:w-auto flex items-center justify-between md:block">
+              <div>
+                <h1 className="font-display font-bold text-3xl tracking-tighter text-[#0F763F] flex items-center gap-1">
+                  Zesty<span className="text-emerald-500 w-3 h-3 rounded-full inline-block rounded-tr-none -translate-y-1.5 rotate-45"></span>
+                </h1>
+                <p className="text-[8px] text-neutral-500 font-medium tracking-widest uppercase -mt-1.5 ml-0.5">Pure Juice. Real Good.</p>
+              </div>
+              
+              {/* Mobile Back button that appears only on mobile instead of the main nav links */}
+              <button onClick={() => setIsCheckingOut(false)} className="md:hidden flex items-center gap-1 text-neutral-500 hover:text-neutral-900 font-medium transition-colors text-sm">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                Back
+              </button>
+            </div>
+            
+            {/* Main Nav Links (Like in the mockup) */}
+            <div className="hidden lg:flex items-center gap-8 text-sm font-medium text-neutral-800">
+              <a href="#" className="hover:text-[#0F763F] transition-colors">Shop</a>
+              <a href="#" className="hover:text-[#0F763F] transition-colors">Our Story</a>
+              <a href="#" className="hover:text-[#0F763F] transition-colors">Contact</a>
+            </div>
+
+            {/* Search and User Icons */}
+            <div className="hidden lg:flex items-center gap-6">
+              <div className="relative">
+                <svg className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                <input type="text" placeholder="Search juices..." className="pl-9 pr-4 py-2 bg-white border border-neutral-200 text-sm focus:outline-none focus:border-neutral-300 w-48" />
+              </div>
+              <svg className="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+              <div className="relative">
+                <svg className="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#0F763F] text-white text-[9px] font-bold flex items-center justify-center rounded-full">2</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Progress Stepper Banner */}
+          <div className="w-full bg-white border-b border-neutral-200 py-3 flex justify-center shadow-sm z-10 relative">
+            <div className="flex items-center gap-3 sm:gap-6 text-xs sm:text-sm font-medium">
+              <div className="flex items-center gap-2 text-[#0F763F]">
+                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-none bg-[#0F763F] text-white flex items-center justify-center text-xs">1</div>
+                Checkout
+              </div>
+              <div className="w-8 sm:w-12 h-px bg-neutral-200"></div>
+              <div className="flex items-center gap-2 text-neutral-500">
+                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-none bg-neutral-400 text-white flex items-center justify-center text-xs">2</div>
+                Payment
+              </div>
+              <div className="w-8 sm:w-12 h-px bg-neutral-200"></div>
+              <div className="flex items-center gap-2 text-neutral-400">
+                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-none bg-neutral-300 text-white flex items-center justify-center text-xs">3</div>
+                Order Placed
+              </div>
+            </div>
           </div>
 
           <div className="flex flex-col lg:flex-row flex-1 overflow-hidden relative">
             
             {isProcessingPayment && (
               <div className="absolute inset-0 bg-white/95 z-50 flex flex-col items-center justify-center p-6 text-center">
-                <div className="w-12 h-12 border-4 border-neutral-200 border-t-orange-600 rounded-none animate-spin mb-4" />
-                <h4 className="font-semibold text-xl font-vagnola text-neutral-900 mb-2">Processing Payment...</h4>
+                <div className="w-12 h-12 border-4 border-neutral-200 border-t-[#0F763F] rounded-none animate-spin mb-4" />
+                <h4 className="font-semibold text-xl text-neutral-900 mb-2">Processing Payment...</h4>
                 <p className="text-sm text-neutral-600 max-w-xs">Please do not close this page or press back.</p>
               </div>
             )}
 
-            {/* Left Column: Summary & Address (Light Orange/Warm Background) */}
-            <div className="w-full lg:w-[400px] bg-white border-r border-neutral-200 p-6 sm:p-8 flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-              <h3 className="font-vagnola font-semibold text-neutral-900 mb-6 text-xl tracking-wide">Order Summary</h3>
-              <div className="space-y-4 mb-6 bg-white p-4 rounded-none border border-neutral-200 shadow-sm">
+            {/* Left Column: Summary & Address */}
+            <div className="w-full lg:w-[420px] xl:w-[460px] bg-[#F9F9F9] border-r border-neutral-200 p-6 sm:p-8 flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              
+              <div className="mb-6">
+                <h3 className="font-bold text-neutral-900 text-xl sm:text-2xl tracking-tight">Order Summary</h3>
+                <p className="text-sm text-neutral-500 mt-1">Review your items and delivery details</p>
+              </div>
+
+              <div className="space-y-4 mb-6 border-b border-neutral-200 pb-6">
                 {items.map((it) => (
-                  <div key={it.id + it.pack} className="flex justify-between text-sm items-center">
-                    <div className="flex items-center gap-3 overflow-hidden">
-                      {it.image && <img src={it.image} alt={it.title} className="w-8 h-10 object-contain shrink-0" />}
-                      <span className="text-neutral-700 truncate pr-2 font-medium">{it.qty}x {it.title}</span>
+                  <div key={it.id + it.pack} className="flex justify-between items-center bg-[#F9F9F9]">
+                    <div className="flex items-center gap-4">
+                      {it.image && <img src={it.image} alt={it.title} className="w-8 h-12 object-contain shrink-0 drop-shadow-sm" />}
+                      <div>
+                        <span className="text-neutral-900 font-semibold text-sm block">{it.title}</span>
+                        <span className="text-neutral-500 text-xs">{it.volume || '350ml'}</span>
+                      </div>
                     </div>
-                    <span className="text-neutral-900 font-medium shrink-0 text-base"><span className="font-sans font-normal text-sm mr-0.5">₹</span>{it.totalPrice * it.qty}</span>
+                    
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center border border-neutral-200 bg-white rounded-none">
+                        <button type="button" onClick={(e) => handleQtyClick(it.id, it.pack, -1, e)} className="w-6 h-6 flex items-center justify-center text-neutral-500 hover:text-neutral-900">&minus;</button>
+                        <span className="w-6 text-center text-xs font-semibold">{it.qty}</span>
+                        <button type="button" onClick={(e) => handleQtyClick(it.id, it.pack, 1, e)} className="w-6 h-6 flex items-center justify-center text-neutral-500 hover:text-neutral-900">+</button>
+                      </div>
+                      <span className="text-neutral-900 font-bold shrink-0 text-sm"><span className="font-sans mr-0.5">₹</span>{it.totalPrice * it.qty}</span>
+                    </div>
                   </div>
                 ))}
               </div>
 
-              <div className="bg-white p-5 rounded-none border border-neutral-200 mb-6 shadow-sm">
-                <div className="flex justify-between items-center mb-4">
-                  <h4 className="font-medium text-neutral-900 text-sm flex items-center gap-2">
-                    <svg className="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              <div className="mb-6 border-b border-neutral-200 pb-6">
+                <div className="flex justify-between items-center mb-3">
+                  <h4 className="font-semibold text-neutral-900 text-sm flex items-center gap-2">
+                    <svg className="w-4 h-4 text-neutral-900" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg>
                     Delivery Details
                   </h4>
-                  <button onClick={() => setIsAddressEditing(!isAddressEditing)} className="text-sm font-medium text-neutral-500 hover:text-neutral-900">
+                  <button onClick={() => setIsAddressEditing(!isAddressEditing)} className="text-sm font-semibold text-[#0F763F] hover:text-[#0C5E32] underline">
                     {isAddressEditing ? 'Cancel' : 'Edit'}
                   </button>
                 </div>
                 {!isAddressEditing ? (
-                  <div className="text-sm text-neutral-600 space-y-1">
-                    <p className="font-medium text-neutral-900 text-base mb-1">{formData.fullName || 'User'}</p>
+                  <div className="text-sm text-neutral-600 pl-6 space-y-1">
+                    <p className="font-medium text-neutral-900 text-sm">{formData.fullName || 'User'}</p>
                     <p>{formData.phone || 'Phone not provided'}</p>
-                    <p className="pt-2 leading-relaxed">{formData.address ? `${formData.address}, ${formData.city} - ${formData.pincode}` : 'Address not provided'}</p>
+                    <p>{formData.address ? `${formData.address}, ${formData.city} - ${formData.pincode}` : 'Address not provided'}</p>
                   </div>
                 ) : (
-                  <div className="space-y-3 text-sm">
-                    <input type="text" placeholder="Full Name" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} className="w-full px-4 py-3 bg-white border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
-                    <input type="text" placeholder="Phone" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full px-4 py-3 bg-white border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
-                    <input type="text" placeholder="Address" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="w-full px-4 py-3 bg-white border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
+                  <div className="space-y-3 text-sm pl-6 mt-3">
+                    <input type="text" placeholder="Full Name" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} className="w-full px-3 py-2 bg-white border border-neutral-200 rounded-none focus:border-[#0F763F] outline-none" />
+                    <input type="text" placeholder="Phone" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full px-3 py-2 bg-white border border-neutral-200 rounded-none focus:border-[#0F763F] outline-none" />
+                    <input type="text" placeholder="Address" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="w-full px-3 py-2 bg-white border border-neutral-200 rounded-none focus:border-[#0F763F] outline-none" />
                     <div className="flex gap-3">
-                      <input type="text" placeholder="City" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="w-1/2 px-4 py-3 bg-white border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
-                      <input type="text" placeholder="Pincode" value={formData.pincode} onChange={e => setFormData({...formData, pincode: e.target.value})} className="w-1/2 px-4 py-3 bg-white border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
+                      <input type="text" placeholder="City" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="w-1/2 px-3 py-2 bg-white border border-neutral-200 rounded-none focus:border-[#0F763F] outline-none" />
+                      <input type="text" placeholder="Pincode" value={formData.pincode} onChange={e => setFormData({...formData, pincode: e.target.value})} className="w-1/2 px-3 py-2 bg-white border border-neutral-200 rounded-none focus:border-[#0F763F] outline-none" />
                     </div>
-                    <button onClick={() => setIsAddressEditing(false)} className="w-full py-3 bg-black hover:bg-neutral-800 text-white font-medium tracking-wide rounded-none transition-colors mt-2">SAVE ADDRESS</button>
+                    <button onClick={() => setIsAddressEditing(false)} className="px-4 py-2 bg-[#0F763F] hover:bg-[#0C5E32] text-white font-medium text-xs rounded-none mt-2">Save</button>
                   </div>
                 )}
               </div>
 
-              <div className="mt-auto bg-white p-5 rounded-none border border-neutral-200 space-y-2 text-sm font-medium text-neutral-600 shadow-sm">
-                <div className="flex justify-between"><span>Subtotal</span><span><span className="font-sans mr-1">₹</span>{subtotal}</span></div>
-                <div className="flex justify-between"><span>Shipping</span><span className={isFreeShipping ? 'text-green-600 font-medium' : ''}>{isFreeShipping ? 'Free' : <><span className="font-sans mr-1">₹</span>{shippingFee}</>}</span></div>
-                <div className="flex justify-between"><span>Taxes (5%)</span><span><span className="font-sans mr-1">₹</span>{taxAmount}</span></div>
-                {discountAmount > 0 && <div className="flex justify-between text-green-600 font-medium"><span>Discount ({appliedPromoCode})</span><span>-<span className="font-sans mr-1">₹</span>{discountAmount}</span></div>}
-                <div className="flex justify-between font-semibold text-lg text-neutral-900 pt-4 border-t border-neutral-200 mt-2">
-                  <span>Total</span><span className="text-neutral-900"><span className="font-sans text-lg mr-0.5">₹</span>{finalTotal}</span>
+              <div className="space-y-2 text-sm text-neutral-600 border-b border-neutral-200 pb-6 mb-6">
+                <div className="flex justify-between font-medium"><span>Subtotal</span><span className="text-neutral-900 font-semibold"><span className="font-sans mr-0.5">₹</span>{subtotal}</span></div>
+                <div className="flex justify-between font-medium"><span>Shipping</span><span className="text-[#0F763F] font-bold">Free</span></div>
+                <div className="flex justify-between font-medium"><span>Taxes (5%)</span><span className="text-neutral-900 font-semibold"><span className="font-sans mr-0.5">₹</span>{taxAmount}</span></div>
+                {discountAmount > 0 && <div className="flex justify-between text-[#0F763F] font-medium"><span>Discount ({appliedPromoCode})</span><span>-<span className="font-sans mr-0.5">₹</span>{discountAmount}</span></div>}
+              </div>
+
+              <div className="flex justify-between font-bold text-lg text-neutral-900">
+                <span>Total Amount</span><span className="text-[#0F763F] text-3xl tracking-tight"><span className="font-sans text-2xl mr-1">₹</span>{finalTotal}</span>
+              </div>
+              
+              {/* Promotional Banner Area (Mimicking the image) */}
+              <div className="mt-auto pt-12 pb-4 flex items-center justify-between">
+                <div className="flex -space-x-3 items-end translate-y-2">
+                   <img src="/assets/orange-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-10" alt="can" />
+                   <img src="/assets/straw-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-20 scale-105" alt="can" />
+                   <img src="/assets/cherry-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-10" alt="can" />
+                   <img src="/assets/lemon-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-0 scale-95" alt="can" />
+                </div>
+                <div className="text-right">
+                  <p className="font-black text-xl text-[#0F763F] leading-[1.1] tracking-tight">Good<br/>Juice<br/>Brighter<br/>Days</p>
+                  <div className="w-8 h-[3px] bg-[#0F763F] ml-auto mt-2"></div>
                 </div>
               </div>
+
             </div>
 
             {/* Right Column: Payment */}
-            <div className="flex-1 p-6 sm:p-10 lg:px-16 flex flex-col bg-white overflow-y-auto">
-              <div className="mb-8">
-                <h3 className="font-vagnola font-medium text-3xl text-neutral-900 tracking-wide">Payment Method</h3>
-                <p className="text-sm text-neutral-500 mt-2">Securely complete your order</p>
+            <div className="flex-1 p-6 sm:p-10 lg:p-12 xl:p-16 flex flex-col bg-white overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              
+              <div className="mb-10">
+                <h3 className="font-bold text-3xl md:text-4xl text-neutral-900 tracking-tight">Payment Method</h3>
+                <p className="text-sm text-neutral-500 mt-2 font-medium">Choose a payment option to complete your order</p>
               </div>
 
-              {/* Square Tabs with real SVG icons */}
-              <div className="flex space-x-1 border-b-2 border-neutral-200 mb-8 pb-px bg-white">
+              {/* Tabs */}
+              <div className="flex border-b border-neutral-200 mb-8 w-full">
                 {[
-                  {id: 'upi', label: 'UPI / QR', icon: '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>'}, 
-                  {id: 'netbanking', label: 'Net Banking', icon: '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" /></svg>'}, 
-                  {id: 'card', label: 'Cards', icon: '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>'}, 
-                  {id: 'wallets', label: 'Wallets', icon: '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>'}
+                  {id: 'upi', label: 'UPI / QR'}, 
+                  {id: 'netbanking', label: 'Net Banking'}, 
+                  {id: 'card', label: 'Cards'}, 
+                  {id: 'wallets', label: 'Wallets'}
                 ].map(tab => (
                   <button
                     key={tab.id}
                     onClick={() => setPaymentTab(tab.id)}
-                    className={`flex-1 py-3 text-sm font-medium tracking-wide transition-all flex items-center justify-center gap-2 border-b-2 -mb-[2px] ${paymentTab === tab.id ? 'border-orange-600 text-neutral-900' : 'border-transparent text-neutral-400 hover:text-neutral-700'}`}
+                    className={`flex-1 pb-4 text-sm font-semibold transition-all flex items-center justify-center ${paymentTab === tab.id ? 'border-b-[3px] border-[#0F763F] text-[#0F763F]' : 'text-neutral-500 hover:text-neutral-800'}`}
                   >
-                    <div dangerouslySetInnerHTML={{ __html: tab.icon }} /> 
-                    <span className="hidden sm:inline">{tab.label}</span>
+                    {tab.label}
                   </button>
                 ))}
               </div>
 
-              {/* Payment Content */}
-              <div className="flex-1 overflow-y-auto pr-2 pb-6 max-w-2xl [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              {/* Tab Content */}
+              <div className="flex-1 w-full max-w-[600px]">
                 {paymentTab === 'upi' && (
-                  <div className="space-y-8">
-                    {/* QR Code Section */}
-                    <div className="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 bg-white border border-neutral-200 rounded-none">
-                      <div>
-                        <p className="text-sm text-blue-900 font-medium uppercase tracking-wider mb-2">Instant Scan & Pay</p>
-                        <p className="text-3xl font-medium text-neutral-900 mb-2"><span className="font-sans font-medium text-xl mr-1">₹</span>{finalTotal}</p>
-                        <p className="text-xs font-medium text-blue-700 uppercase tracking-wide bg-blue-100 inline-block px-3 py-1 rounded-none border border-blue-200">QR expires in {formatCountdown(qrCountdown)}</p>
-                      </div>
-                      <div className="w-28 h-28 bg-white p-2.5 border border-neutral-200 rounded-none shrink-0">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="UPI QR Code" className="w-full h-full mix-blend-multiply opacity-90" />
-                      </div>
-                    </div>
+                  <div className="animate-in fade-in duration-300">
                     
-                    {/* Real UPI Apps SVGs */}
-                    <div>
-                      <p className="text-sm font-medium text-neutral-800 uppercase tracking-wider mb-4">Or Pay via UPI Apps</p>
-                      <div className="grid grid-cols-4 sm:grid-cols-5 gap-3">
-                        {[
-                          { id: 'gpay', name: 'GPay', svg: '<svg viewBox="0 0 24 24" class="w-8 h-8"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>' },
-                          { id: 'phonepe', name: 'PhonePe', svg: '<svg viewBox="0 0 100 100" class="w-8 h-8"><rect width="100" height="100" fill="#5F259F" rx="20"/><path d="M58.7 33.1L45.4 46.4c-2.5-2.5-6.5-2.5-9 0-2.5 2.5-2.5 6.5 0 9l8.6 8.6c1.2 1.2 1.2 3.1 0 4.2-1.2 1.2-3.1 1.2-4.2 0l-8.6-8.6c-4.8-4.8-4.8-12.7 0-17.5l13.3-13.3c1.2-1.2 3.1-1.2 4.2 0 1.1 1.2 1.1 3.1 0 4.3z" fill="#FFF"/><path d="M72 46.4c-2.5-2.5-6.5-2.5-9 0l-13.3 13.3c-1.2 1.2-1.2 3.1 0 4.2 1.2 1.2 3.1 1.2 4.2 0L67.2 50.6c4.8-4.8 4.8-12.7 0-17.5L58.6 24.5c-1.2-1.2-3.1-1.2-4.2 0-1.2 1.2-1.2 3.1 0 4.2l8.6 8.6c2.5 2.5 2.5 6.5 0 9.1z" fill="#FFF"/></svg>' },
-                          { id: 'paytm', name: 'Paytm', svg: '<svg viewBox="0 0 100 100" class="w-8 h-8"><rect width="100" height="100" fill="#002970" rx="20"/><path d="M30 40h12c5 0 8 3 8 7v4c0 4-3 7-8 7H30v-18zm8 11v-4h-4v4h4z" fill="#FFF"/><path d="M55 40h8l5 18h-6l-1-4h-4l-1 4h-5l4-18zm4 11h2l-1-4-1 4z" fill="#00B9F5"/><path d="M72 48l-4-8h5l2 5 2-5h5l-4 8v10h-6V48z" fill="#FFF"/></svg>' },
-                          { id: 'bhim', name: 'BHIM', svg: '<svg viewBox="0 0 100 100" class="w-8 h-8"><rect width="100" height="100" fill="#FFF" rx="20"/><path fill="#00A551" d="M25 35h15l-5 30H20z"/><path fill="#F37021" d="M45 35h15l-5 30H40z"/><path fill="#00A551" d="M65 35l-5 30h15z"/></svg>' },
-                          { id: 'cred', name: 'CRED', svg: '<svg viewBox="0 0 100 100" class="w-8 h-8"><rect width="100" height="100" fill="#000" rx="20"/><path d="M60 40H40v20h20V40zm-10 20H40v-10h10v10z" fill="#FFF"/></svg>' }
-                        ].map(app => (
-                          <button
-                            key={app.id}
-                            onClick={() => setSelectedUpiApp(app.id)}
-                            className={`p-4 border rounded-none flex flex-col items-center justify-center gap-3 transition-all ${selectedUpiApp === app.id ? 'border-orange-500 bg-white shadow-sm border-2' : 'border-neutral-200 bg-white hover:border-neutral-400'}`}
-                          >
-                            <div dangerouslySetInnerHTML={{ __html: app.svg }} />
-                            <span className="text-xs text-neutral-700">{app.name}</span>
-                          </button>
-                        ))}
+                    {/* Re-designed QR Box to exactly match mockup */}
+                    <div className="border border-neutral-200 rounded-none bg-white p-6 sm:p-8 mb-8 shadow-sm">
+                      <div className="flex flex-col md:flex-row items-center md:items-stretch justify-between gap-8 md:gap-4">
+                        
+                        {/* Left Side: Amount and Apps */}
+                        <div className="flex-1 w-full">
+                          <p className="text-sm text-neutral-800 font-medium mb-2">Scan QR and Pay</p>
+                          <p className="text-5xl font-bold text-neutral-900 mb-4 tracking-tight"><span className="font-sans font-medium text-4xl mr-1">₹</span>{finalTotal}</p>
+                          
+                          <div className="inline-block bg-[#EBF5ED] text-[#0F763F] text-xs font-semibold px-4 py-2 mb-8 rounded-none border border-[#0F763F]/20">
+                            Open any UPI app and scan the QR code
+                          </div>
+
+                          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                            {upiApps.map((app) => (
+                              <button
+                                key={app.id}
+                                onClick={() => setSelectedUpiApp(app.id)}
+                                className={`w-14 h-16 sm:w-16 sm:h-20 bg-white border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${selectedUpiApp === app.id ? 'border-[#0F763F] shadow-sm' : 'border-neutral-200 hover:border-neutral-300'}`}
+                              >
+                                {app.icon}
+                                <span className="text-[10px] text-neutral-500 font-medium">{app.name}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Right Side: QR Code */}
+                        <div className="w-full md:w-auto flex flex-col items-center justify-center pl-0 md:pl-8 border-l-0 md:border-l border-neutral-200 shrink-0">
+                          <div className="w-40 h-40 bg-white p-2 border border-neutral-200 shadow-sm mb-4 relative">
+                            {qrUrl ? (
+                              <img src={qrUrl} alt="UPI QR Code" className="w-full h-full object-contain mix-blend-multiply" />
+                            ) : (
+                              <div className="w-full h-full bg-neutral-100 flex items-center justify-center">
+                                <span className="text-neutral-400 text-xs font-medium">Generating...</span>
+                              </div>
+                            )}
+                            {/* Little leaf logo in the center of QR (Mockup style) */}
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                              <div className="bg-white p-1 rounded-sm border border-neutral-200 shadow-sm">
+                                <svg className="w-4 h-4 text-[#0F763F]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C12 22 4 16 4 10C4 5 8 2 12 2C16 2 20 5 20 10C20 16 12 22 12 22ZM12 18.5C15.5 13.5 18 9 18 10C18 6 15 4 12 4C9 4 6 6 6 10C6 9 8.5 13.5 12 18.5Z"/></svg>
+                              </div>
+                            </div>
+                          </div>
+                          <p className="text-xs text-neutral-500 mb-3 font-medium">Scan with any UPI app</p>
+                          <div className="w-full text-center bg-[#EBF5ED] text-[#0F763F] text-xs font-semibold px-3 py-2 border border-[#0F763F]/20 rounded-none">
+                            QR expires in {formatCountdown(qrCountdown)}
+                          </div>
+                        </div>
+
                       </div>
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-800 uppercase tracking-wider mb-3">Pay via UPI ID</label>
-                      <div className="flex gap-2">
-                        <input type="text" placeholder="Enter UPI ID (e.g. name@bank)" value={customUpiId} onChange={e => setCustomUpiId(e.target.value)} className="flex-1 px-4 py-3 border border-neutral-300 rounded-none focus:border-orange-600 outline-none text-base bg-white shadow-sm" />
-                        <button onClick={handleVerifyUpi} className={`px-6 py-2.5 rounded-none text-sm font-medium transition-colors ${upiVerified ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-black text-white rounded-none hover:bg-black'}`}>
-                          {upiVerifying ? 'Verifying...' : upiVerified ? '✓ Verified' : 'Verify'}
-                        </button>
-                      </div>
+                    <label className="block text-sm font-bold text-neutral-900 mb-3">Or Enter UPI ID</label>
+                    <div className="flex gap-4">
+                      <input
+                        type="text"
+                        value={upiId}
+                        onChange={(e) => {
+                          setUpiId(e.target.value)
+                          setUpiError('')
+                        }}
+                        placeholder="Enter UPI ID (e.g. name@bank)"
+                        className="flex-1 px-4 py-3 border border-neutral-300 rounded-none focus:outline-none focus:border-[#0F763F] text-sm"
+                      />
+                      <button
+                        onClick={handleVerifyUpi}
+                        className={`px-8 py-3 rounded-none text-sm font-medium transition-colors w-32 ${isVerifying ? 'bg-[#0F763F] text-white' : isVerified ? 'bg-[#EBF5ED] text-[#0F763F] border border-[#0F763F]' : 'bg-[#0F763F] text-white hover:bg-[#0C5E32]'}`}
+                      >
+                        {isVerifying ? 'Verifying...' : isVerified ? '✓ Verified' : 'Verify'}
+                      </button>
                     </div>
+                    {upiError && <p className="text-red-500 text-xs mt-2 font-medium">{upiError}</p>}
                   </div>
                 )}
 
                 {paymentTab === 'netbanking' && (
-                  <div className="space-y-8 max-w-2xl">
-                    <label className="block text-sm font-medium text-neutral-800 uppercase tracking-wider mb-3">Popular Indian Banks</label>
-                    <div className="grid grid-cols-2 gap-4">
-                      {[
-                        { id: 'hdfc', name: 'HDFC Bank', svg: '<svg viewBox="0 0 24 24" class="w-6 h-6"><rect width="24" height="24" fill="#004C8F" rx="0" /><rect x="3" y="10" width="18" height="4" fill="#ED232A" /><rect x="10" y="3" width="4" height="18" fill="#ED232A" /><rect x="7" y="7" width="10" height="10" fill="#004C8F" /></svg>' },
-                        { id: 'sbi', name: 'State Bank', svg: '<svg viewBox="0 0 24 24" class="w-6 h-6"><circle cx="12" cy="12" r="11" fill="#008CD0"/><circle cx="12" cy="12" r="4.5" fill="#FFFFFF"/><rect x="10.8" y="12" width="2.4" height="9" fill="#008CD0"/></svg>' },
-                        { id: 'icici', name: 'ICICI Bank', svg: '<svg viewBox="0 0 100 100" class="w-6 h-6"><rect width="100" height="100" fill="#B02A30"/><path d="M45 25h10v50H45z" fill="#FFF"/></svg>' },
-                        { id: 'axis', name: 'Axis Bank', svg: '<svg viewBox="0 0 100 100" class="w-6 h-6"><rect width="100" height="100" fill="#97144D"/><path d="M50 20l25 60H25z" fill="#FFF"/></svg>' }
-                      ].map(b => (
+                  <div className="animate-in fade-in duration-300">
+                    <label className="block text-sm font-bold text-neutral-900 mb-3">Select your bank</label>
+                    <div className="grid grid-cols-2 gap-3 mb-4">
+                      {['hdfc', 'sbi', 'icici', 'axis', 'kotak', 'pnb'].map((bank) => (
                         <button
-                          key={b.id}
-                          onClick={() => setSelectedBank(b.id)}
-                          className={`p-4 border rounded-none flex items-center gap-4 transition-all ${selectedBank === b.id ? 'border-orange-500 bg-white font-medium text-orange-900 border-2' : 'border-neutral-300 hover:border-neutral-500 bg-white text-neutral-800 font-semibold'}`}
+                          key={bank}
+                          onClick={() => setSelectedBank(bank)}
+                          className={`px-4 py-4 rounded-none border text-sm font-medium transition-all ${selectedBank === bank ? 'border-[#0F763F] bg-[#EBF5ED] text-[#0F763F]' : 'border-neutral-300 bg-white hover:border-neutral-400 text-neutral-700'}`}
                         >
-                          <div dangerouslySetInnerHTML={{ __html: b.svg }} />
-                          <span className="text-sm">{b.name}</span>
+                          {bank.toUpperCase()} Bank
                         </button>
                       ))}
                     </div>
-                    
-                    <div className="pt-4">
-                      <label className="block text-sm font-medium text-neutral-800 uppercase tracking-wider mb-3">Other Banks</label>
-                      <select value={selectedBank} onChange={e => setSelectedBank(e.target.value)} className="w-full p-4 border border-neutral-300 rounded-none text-base outline-none bg-white focus:border-orange-600 shadow-sm font-semibold text-neutral-800">
-                        <option value="hdfc">HDFC Bank</option>
-                        <option value="sbi">State Bank of India</option>
-                        <option value="icici">ICICI Bank</option>
-                        <option value="axis">Axis Bank</option>
-                        <option value="kotak">Kotak Mahindra</option>
-                        <option value="pnb">Punjab National Bank</option>
-                        <option value="bob">Bank of Baroda</option>
-                      </select>
-                    </div>
+                    <select
+                      value={selectedBank}
+                      onChange={(e) => setSelectedBank(e.target.value)}
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-none focus:outline-none focus:border-[#0F763F] text-sm bg-white"
+                    >
+                      <option value="" disabled>Search other banks...</option>
+                      <option value="bob">Bank of Baroda</option>
+                      <option value="canara">Canara Bank</option>
+                      <option value="union">Union Bank of India</option>
+                      <option value="indusind">IndusInd Bank</option>
+                      <option value="yes">Yes Bank</option>
+                      <option value="idfc">IDFC FIRST Bank</option>
+                      <option value="federal">Federal Bank</option>
+                    </select>
                   </div>
                 )}
 
                 {paymentTab === 'card' && (
-                  <div className="space-y-5 text-sm max-w-2xl">
-                    {/* Visual Card Wrapper for Color */}
-                    <div className="p-6 bg-slate-900 text-white rounded-none mb-6 shadow-md border border-slate-800 relative overflow-hidden">
-                      <div className="flex justify-between items-center mb-10 relative z-10">
-                        <div className="w-10 h-7 bg-yellow-400 opacity-90 rounded-sm"></div>
-                        <span className="text-sm font-medium tracking-wide text-slate-400 uppercase">{cardData.number?.startsWith('4') ? 'VISA' : cardData.number?.startsWith('5') ? 'MASTERCARD' : 'CARD'}</span>
-                      </div>
-                      <div className="font-mono text-xl sm:text-2xl tracking-wide mb-4 relative z-10">{cardData.number || '•••• •••• •••• ••••'}</div>
-                      <div className="flex justify-between text-sm text-slate-300 relative z-10 font-medium">
-                        <span className="uppercase">{cardData.name || 'CARDHOLDER NAME'}</span>
-                        <span className="font-mono">{cardData.expiry || 'MM/YY'}</span>
-                      </div>
+                  <div className="space-y-4 animate-in fade-in duration-300">
+                    <label className="block text-sm font-bold text-neutral-900 mb-1">Enter Card Details</label>
+                    <input
+                      type="text"
+                      placeholder="Card Number"
+                      value={cardData.number}
+                      onChange={(e) => setCardData({ ...cardData, number: e.target.value })}
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-none focus:outline-none focus:border-[#0F763F] text-sm"
+                    />
+                    <div className="flex gap-4">
+                      <input
+                        type="text"
+                        placeholder="MM/YY"
+                        value={cardData.expiry}
+                        onChange={(e) => setCardData({ ...cardData, expiry: e.target.value })}
+                        className="w-1/2 px-4 py-3 border border-neutral-300 rounded-none focus:outline-none focus:border-[#0F763F] text-sm"
+                      />
+                      <input
+                        type="password"
+                        placeholder="CVV"
+                        value={cardData.cvv}
+                        onChange={(e) => setCardData({ ...cardData, cvv: e.target.value })}
+                        className="w-1/2 px-4 py-3 border border-neutral-300 rounded-none focus:outline-none focus:border-[#0F763F] text-sm"
+                      />
                     </div>
-
-                    <div>
-                      <label className="block text-neutral-800 font-medium text-sm uppercase tracking-wider mb-2">Card Number</label>
-                      <input type="text" placeholder="0000 0000 0000 0000" value={cardData.number} onChange={e => setCardData({...cardData, number: e.target.value})} className="w-full px-4 py-3.5 border border-neutral-300 rounded-none focus:border-orange-600 outline-none font-mono text-base bg-white shadow-sm" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-neutral-800 font-medium text-sm uppercase tracking-wider mb-2">Expiry Date</label>
-                        <input type="text" placeholder="MM/YY" value={cardData.expiry} onChange={e => setCardData({...cardData, expiry: e.target.value})} className="w-full px-4 py-3.5 border border-neutral-300 rounded-none focus:border-orange-600 outline-none font-mono text-base bg-white shadow-sm" />
-                      </div>
-                      <div>
-                        <label className="block text-neutral-800 font-medium text-sm uppercase tracking-wider mb-2">CVV</label>
-                        <input type="password" placeholder="123" value={cardData.cvv} onChange={e => setCardData({...cardData, cvv: e.target.value})} className="w-full px-4 py-3.5 border border-neutral-300 rounded-none focus:border-orange-600 outline-none font-mono text-base bg-white shadow-sm" />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-neutral-800 font-medium text-sm uppercase tracking-wider mb-2">Name on Card</label>
-                      <input type="text" placeholder="Cardholder Name" value={cardData.name} onChange={e => setCardData({...cardData, name: e.target.value})} className="w-full px-4 py-3.5 border border-neutral-300 rounded-none focus:border-orange-600 outline-none text-base bg-white shadow-sm font-semibold" />
+                    <input
+                      type="text"
+                      placeholder="Name on Card"
+                      value={cardData.name}
+                      onChange={(e) => setCardData({ ...cardData, name: e.target.value })}
+                      className="w-full px-4 py-3 border border-neutral-300 rounded-none focus:outline-none focus:border-[#0F763F] text-sm"
+                    />
+                    <div className="flex items-center gap-2 mt-2">
+                      <input type="checkbox" id="save-card" className="w-4 h-4 accent-[#0F763F]" />
+                      <label htmlFor="save-card" className="text-xs text-neutral-600">Save this card securely for future purchases</label>
                     </div>
                   </div>
                 )}
 
                 {paymentTab === 'wallets' && (
-                  <div className="space-y-4 max-w-2xl">
-                    <label className="block text-sm font-medium text-neutral-800 uppercase tracking-wider mb-3">Select Wallet</label>
-                    {[
-                      {id: 'paytm', name: 'Paytm Wallet', icon: '<svg viewBox="0 0 100 100" class="w-6 h-6"><rect width="100" height="100" fill="#002970"/><path d="M30 40h12c5 0 8 3 8 7v4c0 4-3 7-8 7H30v-18zm8 11v-4h-4v4h4z" fill="#FFF"/></svg>'}, 
-                      {id: 'amazon', name: 'Amazon Pay', icon: '<svg viewBox="0 0 100 100" class="w-6 h-6"><rect width="100" height="100" fill="#FF9900"/><path d="M25 70s20 15 50-5" fill="none" stroke="#000" stroke-width="8" stroke-linecap="round"/></svg>'}, 
-                      {id: 'phonepe', name: 'PhonePe', icon: '<svg viewBox="0 0 100 100" class="w-6 h-6"><rect width="100" height="100" fill="#5F259F"/><path d="M58.7 33.1L45.4 46.4c-2.5-2.5-6.5-2.5-9 0-2.5 2.5-2.5 6.5 0 9l8.6 8.6c1.2 1.2 1.2 3.1 0 4.2-1.2 1.2-3.1 1.2-4.2 0l-8.6-8.6c-4.8-4.8-4.8-12.7 0-17.5l13.3-13.3c1.2-1.2 3.1-1.2 4.2 0 1.1 1.2 1.1 3.1 0 4.3z" fill="#FFF"/></svg>'}
-                    ].map(w => (
-                      <button
-                        key={w.id}
-                        onClick={() => setSelectedWallet(w.id)}
-                        className={`w-full p-5 border rounded-none flex items-center justify-between transition-colors ${selectedWallet === w.id ? 'border-orange-500 bg-white text-orange-900 font-medium border-2' : 'border-neutral-300 hover:border-neutral-500 bg-white text-neutral-800 font-semibold'}`}
-                      >
-                        <div className="flex items-center gap-4">
-                          <div dangerouslySetInnerHTML={{ __html: w.icon }} />
-                          <span className="text-base">{w.name}</span>
-                        </div>
-                        {selectedWallet === w.id && <span className="text-neutral-900 font-medium text-xl">✓</span>}
-                      </button>
-                    ))}
+                  <div className="animate-in fade-in duration-300">
+                    <label className="block text-sm font-bold text-neutral-900 mb-3">Select a Wallet</label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {['paytm', 'amazonpay', 'phonepe', 'mobikwik'].map((wallet) => (
+                        <button
+                          key={wallet}
+                          onClick={() => setSelectedWallet(wallet)}
+                          className={`px-4 py-4 rounded-none border text-sm font-medium transition-all ${selectedWallet === wallet ? 'border-[#0F763F] bg-[#EBF5ED] text-[#0F763F]' : 'border-neutral-300 bg-white hover:border-neutral-400 text-neutral-700'}`}
+                        >
+                          {wallet === 'amazonpay' ? 'Amazon Pay' : wallet.charAt(0).toUpperCase() + wallet.slice(1)}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
 
-              <div className="mt-auto pt-6 border-t border-neutral-200 shrink-0 max-w-2xl w-full">
-                <button onClick={handleCheckoutSubmit} className="w-full py-4 bg-black hover:bg-neutral-800 text-white font-semibold tracking-wide uppercase rounded-none transition-colors text-lg flex items-center justify-center gap-3 shadow-sm">
-                  <span>Pay <span className="font-sans mr-1">₹</span>{finalTotal}</span>
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+              {/* Proceed Button */}
+              <div className="mt-12 w-full max-w-[600px]">
+                <button
+                  type="button"
+                  onClick={handleCheckoutSubmit}
+                  disabled={isProcessingPayment}
+                  className="group w-full py-4 bg-[#0F763F] hover:bg-[#0C5E32] text-white font-semibold text-lg rounded-none transition-all flex items-center justify-center gap-3 cursor-pointer shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {isProcessingPayment ? (
+                    <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-none animate-spin" />
+                  ) : (
+                    <>
+                      <span>Pay <span className="font-sans mr-0.5">₹</span>{finalTotal}</span>
+                      <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </>
+                  )}
                 </button>
               </div>
+
             </div>
           </div>
         </div>
