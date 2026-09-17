@@ -1027,6 +1027,16 @@ export default function CartDrawer() {
                 <span>Total Amount</span><span className="text-[#0F763F] text-3xl tracking-tight"><span className="font-sans text-2xl mr-1">₹</span>{finalTotal}</span>
               </div>
 
+              {/* Promotional Bottom Image */}
+              <div className="mt-auto pt-16 pb-4 flex items-center justify-center relative">
+                <div className="flex -space-x-3 items-end">
+                   <img src="/assets/orange-can-hero.png" className="w-16 h-28 object-contain drop-shadow-md relative z-10" alt="can" />
+                   <img src="/assets/straw-can-hero.png" className="w-16 h-28 object-contain drop-shadow-xl relative z-20 scale-110 -translate-y-2" alt="can" />
+                   <img src="/assets/cherry-can-hero.png" className="w-16 h-28 object-contain drop-shadow-md relative z-10" alt="can" />
+                   <img src="/assets/lemon-can-hero.png" className="w-16 h-28 object-contain drop-shadow-md relative z-0 scale-95" alt="can" />
+                </div>
+              </div>
+
             </div>
 
             {/* Right Column: Payment */}
@@ -1061,7 +1071,7 @@ export default function CartDrawer() {
                   <div className="animate-in fade-in duration-300">
                     
                     {/* Re-designed QR Box to exactly match mockup */}
-                    <div className="border border-neutral-200 rounded-none bg-white p-6 sm:p-8 mb-8 shadow-sm">
+                    <div className="border border-neutral-200 rounded-none bg-white p-6 sm:px-10 sm:py-16 mb-8 shadow-sm">
                       <div className="flex flex-col md:flex-row items-center md:items-stretch justify-between gap-8 md:gap-4">
                         
                         {/* Left Side: Amount and Apps */}
@@ -1074,12 +1084,12 @@ export default function CartDrawer() {
                           </div>
 
                           <div className="flex items-center gap-2 sm:gap-4 flex-wrap w-full justify-between">
-                                                        {[
-                              { id: 'gpay', name: 'GPay', icon: <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center font-bold text-[#1a73e8] border border-[#1a73e8] tracking-tighter shadow-sm text-sm">G</div> },
-                              { id: 'phonepe', name: 'PhonePe', icon: <div className="w-8 h-8 rounded-full bg-[#5f259f] flex items-center justify-center text-white font-bold shadow-sm">पे</div> },
-                              { id: 'paytm', name: 'Paytm', icon: <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#00b9f1] font-black border border-[#00b9f1] shadow-sm text-xs tracking-tighter">Pay</div> },
-                              { id: 'bhim', name: 'BHIM', icon: <div className="w-8 h-8 flex flex-col items-center justify-center bg-[#FF8C00] rounded-sm text-white font-black text-[10px] leading-none shadow-sm"><span className="text-white">BH</span><span className="text-[#008000]">IM</span></div> },
-                              { id: 'cred', name: 'CRED', icon: <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white font-bold shadow-sm text-xs">C</div> },
+                            {[
+                              { id: 'gpay', name: 'GPay', icon: <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" alt="GPay" /> },
+                              { id: 'phonepe', name: 'PhonePe', icon: <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" alt="PhonePe" /> },
+                              { id: 'paytm', name: 'Paytm', icon: <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Paytm_logo.svg" className="w-10 h-10 sm:w-14 sm:h-14 object-contain" alt="Paytm" /> },
+                              { id: 'bhim', name: 'BHIM', icon: <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" alt="BHIM" /> },
+                              { id: 'cred', name: 'CRED', icon: <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/CRED_%28logo%29.png" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" alt="CRED" /> },
                             ].map((app) => (
                               <button
                                 key={app.id}
