@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Dacomment';
+  src: url('/fonts/Dacomment.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @theme {
   --font-sans: 'Plus Jakarta Sans', 'Poppins', sans-serif;
   --font-mono: 'Poppins', sans-serif;

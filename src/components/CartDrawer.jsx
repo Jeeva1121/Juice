@@ -919,7 +919,7 @@ export default function CartDrawer() {
 
             {/* Left Column: Summary & Address (Light Orange/Warm Background) */}
             <div className="w-full lg:w-[340px] bg-orange-50/50 border-b lg:border-b-0 lg:border-r border-orange-100 p-5 sm:p-6 flex flex-col overflow-y-auto">
-              <h3 className="font-semibold text-neutral-900 mb-4 text-lg">Order Summary</h3>
+              <h3 className="font-dacomment font-semibold text-neutral-900 mb-4 text-2xl tracking-wide">Order Summary</h3>
               <div className="space-y-3 mb-5 bg-white p-3 rounded-xl border border-orange-100">
                 {items.map((it) => (
                   <div key={it.id + it.pack} className="flex justify-between text-sm items-center">
@@ -976,7 +976,7 @@ export default function CartDrawer() {
             <div className="flex-1 p-5 sm:p-7 flex flex-col bg-white">
               <div className="flex justify-between items-center mb-5">
                 <div>
-                  <h3 className="font-semibold text-2xl text-neutral-900">Payment</h3>
+                  <h3 className="font-dacomment font-semibold text-3xl text-neutral-900 tracking-wide">Payment</h3>
                   <p className="text-xs text-neutral-500 mt-1">Securely complete your order</p>
                 </div>
                 <button onClick={() => setIsCheckingOut(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 transition-colors">
@@ -1169,7 +1169,7 @@ export default function CartDrawer() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-neutral-900 mb-1">Payment Successful!</h3>
+              <h3 className="font-dacomment text-4xl font-bold text-neutral-900 mb-2 tracking-wide">Payment Successful!</h3>
               <p className="text-sm text-neutral-600">Your organic juice box is being packed.</p>
             </div>
 
