@@ -563,7 +563,7 @@ export default function CartDrawer() {
                           </span>
                         ) : (
                           <span>
-                            You're <span className="font-semibold text-neutral-950 font-dacomment text-xs sm:text-[13px]">₹{freeShippingLeft}</span> away from <span className="font-semibold text-neutral-950">Free Chilled Delivery</span>
+                            You're <span className="font-semibold text-neutral-950 font-dacomment text-xs sm:text-[13px]"><span className="font-sans">₹</span>{freeShippingLeft}</span> away from <span className="font-semibold text-neutral-950">Free Chilled Delivery</span>
                           </span>
                         )}
                       </span>
@@ -654,11 +654,11 @@ export default function CartDrawer() {
                             {/* Price in Asul with reduced font size on mobile */}
                             <div>
                               <span className="font-asul font-normal text-xs sm:text-sm text-neutral-900">
-                                ₹{item.totalPrice * item.qty}
+                                <span className="font-sans">₹</span>{item.totalPrice * item.qty}
                               </span>
                               {item.qty > 1 && (
                                 <span className="font-poppins block text-[9px] sm:text-[10px] text-neutral-400 font-normal">
-                                  ₹{item.totalPrice} each
+                                  <span className="font-sans">₹</span>{item.totalPrice} each
                                 </span>
                               )}
                             </div>
@@ -714,7 +714,7 @@ export default function CartDrawer() {
                             Wild Strawberry
                           </h5>
                           <span className="font-dacomment text-[10px] sm:text-[11px] font-semibold text-neutral-600 block">
-                            ₹350
+                            <span className="font-sans">₹</span>350
                           </span>
                         </div>
                         {/* Square Add Button */}
@@ -754,7 +754,7 @@ export default function CartDrawer() {
                             Black Cherry
                           </h5>
                           <span className="font-dacomment text-[10px] sm:text-[11px] font-semibold text-neutral-600 block">
-                            ₹350
+                            <span className="font-sans">₹</span>350
                           </span>
                         </div>
                         {/* Square Add Button */}
@@ -901,111 +901,147 @@ export default function CartDrawer() {
       )}
 
       
-      {/* Clean Minimal Checkout Modal */}
+      
+      {/* Clean Colorful Checkout Modal */}
       {isCheckingOut && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center p-4">
-          <div onClick={() => setIsCheckingOut(false)} className="fixed inset-0 bg-neutral-900/60 transition-opacity" />
+        <div className="fixed inset-0 z-60 flex items-center justify-center p-2 sm:p-4">
+          <div onClick={() => setIsCheckingOut(false)} className="fixed inset-0 bg-neutral-900/70 transition-opacity" />
           
-          <div className="relative w-full max-w-4xl bg-white rounded-xl shadow-lg flex flex-col lg:flex-row max-h-[90vh] z-10 overflow-hidden font-poppins">
+          <div className="relative w-full max-w-4xl bg-white rounded-2xl shadow-xl flex flex-col lg:flex-row max-h-[92vh] z-10 overflow-hidden font-poppins">
             
             {isProcessingPayment && (
-              <div className="absolute inset-0 bg-white/90 z-50 flex flex-col items-center justify-center p-6 text-center">
-                <div className="w-10 h-10 border-4 border-neutral-200 border-t-neutral-900 rounded-full animate-spin mb-4" />
-                <h4 className="font-medium text-lg text-neutral-900 mb-1">Processing Payment</h4>
-                <p className="text-sm text-neutral-500">{processingMessage}</p>
+              <div className="absolute inset-0 bg-white/95 z-50 flex flex-col items-center justify-center p-6 text-center">
+                <div className="w-12 h-12 border-4 border-orange-100 border-t-orange-600 rounded-full animate-spin mb-4" />
+                <h4 className="font-semibold text-xl text-neutral-900 mb-2">Processing Payment...</h4>
+                <p className="text-sm text-neutral-600 max-w-xs">{processingMessage}</p>
               </div>
             )}
 
-            {/* Left Column: Summary & Address */}
-            <div className="w-full lg:w-[340px] bg-neutral-50 border-r border-neutral-200 p-6 flex flex-col overflow-y-auto">
-              <h3 className="font-semibold text-neutral-900 mb-4">Order Summary</h3>
-              <div className="space-y-3 mb-6">
+            {/* Left Column: Summary & Address (Light Orange/Warm Background) */}
+            <div className="w-full lg:w-[340px] bg-orange-50/50 border-b lg:border-b-0 lg:border-r border-orange-100 p-5 sm:p-6 flex flex-col overflow-y-auto">
+              <h3 className="font-semibold text-neutral-900 mb-4 text-lg">Order Summary</h3>
+              <div className="space-y-3 mb-5 bg-white p-3 rounded-xl border border-orange-100">
                 {items.map((it) => (
-                  <div key={it.id + it.pack} className="flex justify-between text-sm">
-                    <span className="text-neutral-600 truncate pr-2">{it.qty}x {it.title}</span>
-                    <span className="text-neutral-900 font-medium">₹{it.totalPrice * it.qty}</span>
+                  <div key={it.id + it.pack} className="flex justify-between text-sm items-center">
+                    <div className="flex items-center gap-2 overflow-hidden">
+                      {it.image && <img src={it.image} alt={it.title} className="w-6 h-8 object-contain shrink-0" />}
+                      <span className="text-neutral-700 truncate pr-2 font-medium text-xs">{it.qty}x {it.title}</span>
+                    </div>
+                    <span className="text-neutral-900 font-semibold shrink-0"><span className="font-sans">₹</span>{it.totalPrice * it.qty}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="border-t border-neutral-200 pt-4 mb-6">
-                <div className="flex justify-between items-center mb-2">
-                  <h4 className="font-semibold text-neutral-900 text-sm">Delivery Details</h4>
-                  <button onClick={() => setIsAddressEditing(!isAddressEditing)} className="text-xs text-blue-600 hover:underline">
+              <div className="bg-white p-4 rounded-xl border border-orange-100 mb-5">
+                <div className="flex justify-between items-center mb-3">
+                  <h4 className="font-semibold text-neutral-900 text-sm flex items-center gap-1.5">
+                    <span className="text-orange-500">📍</span> Delivery Details
+                  </h4>
+                  <button onClick={() => setIsAddressEditing(!isAddressEditing)} className="text-xs font-semibold text-orange-600 hover:text-orange-700">
                     {isAddressEditing ? 'Cancel' : 'Edit'}
                   </button>
                 </div>
                 {!isAddressEditing ? (
-                  <div className="text-sm text-neutral-600">
-                    <p className="font-medium text-neutral-900">{formData.fullName || 'User'}</p>
+                  <div className="text-xs text-neutral-600 space-y-0.5">
+                    <p className="font-semibold text-neutral-900 text-sm">{formData.fullName || 'User'}</p>
                     <p>{formData.phone || 'Phone not provided'}</p>
-                    <p>{formData.address ? `${formData.address}, ${formData.city} - ${formData.pincode}` : 'Address not provided'}</p>
+                    <p className="pt-1">{formData.address ? `${formData.address}, ${formData.city} - ${formData.pincode}` : 'Address not provided'}</p>
                   </div>
                 ) : (
-                  <div className="space-y-2 text-sm">
-                    <input type="text" placeholder="Full Name" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} className="w-full px-3 py-2 bg-white border border-neutral-300 rounded focus:border-neutral-900 outline-none" />
-                    <input type="text" placeholder="Phone" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full px-3 py-2 bg-white border border-neutral-300 rounded focus:border-neutral-900 outline-none" />
-                    <input type="text" placeholder="Address" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="w-full px-3 py-2 bg-white border border-neutral-300 rounded focus:border-neutral-900 outline-none" />
+                  <div className="space-y-2 text-xs">
+                    <input type="text" placeholder="Full Name" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} className="w-full px-3 py-2 bg-orange-50/30 border border-orange-200 rounded-lg focus:border-orange-500 outline-none" />
+                    <input type="text" placeholder="Phone" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full px-3 py-2 bg-orange-50/30 border border-orange-200 rounded-lg focus:border-orange-500 outline-none" />
+                    <input type="text" placeholder="Address" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="w-full px-3 py-2 bg-orange-50/30 border border-orange-200 rounded-lg focus:border-orange-500 outline-none" />
                     <div className="flex gap-2">
-                      <input type="text" placeholder="City" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="w-1/2 px-3 py-2 bg-white border border-neutral-300 rounded focus:border-neutral-900 outline-none" />
-                      <input type="text" placeholder="Pincode" value={formData.pincode} onChange={e => setFormData({...formData, pincode: e.target.value})} className="w-1/2 px-3 py-2 bg-white border border-neutral-300 rounded focus:border-neutral-900 outline-none" />
+                      <input type="text" placeholder="City" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="w-1/2 px-3 py-2 bg-orange-50/30 border border-orange-200 rounded-lg focus:border-orange-500 outline-none" />
+                      <input type="text" placeholder="Pincode" value={formData.pincode} onChange={e => setFormData({...formData, pincode: e.target.value})} className="w-1/2 px-3 py-2 bg-orange-50/30 border border-orange-200 rounded-lg focus:border-orange-500 outline-none" />
                     </div>
-                    <button onClick={() => setIsAddressEditing(false)} className="w-full py-2 bg-neutral-900 hover:bg-neutral-800 text-white font-medium rounded transition-colors">Save</button>
+                    <button onClick={() => setIsAddressEditing(false)} className="w-full py-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-colors mt-1">Save Address</button>
                   </div>
                 )}
               </div>
 
-              <div className="mt-auto border-t border-neutral-200 pt-4 space-y-2 text-sm">
-                <div className="flex justify-between text-neutral-600"><span>Subtotal</span><span>₹{subtotal}</span></div>
-                <div className="flex justify-between text-neutral-600"><span>Shipping</span><span>{isFreeShipping ? 'Free' : `₹${shippingFee}`}</span></div>
-                <div className="flex justify-between text-neutral-600"><span>Taxes</span><span>₹{taxAmount}</span></div>
-                {discountAmount > 0 && <div className="flex justify-between text-green-600"><span>Discount</span><span>-₹{discountAmount}</span></div>}
-                <div className="flex justify-between font-semibold text-lg text-neutral-900 pt-2 border-t border-neutral-200 mt-2">
-                  <span>Total</span><span>₹{finalTotal}</span>
+              <div className="mt-auto bg-white p-4 rounded-xl border border-orange-100 space-y-1.5 text-xs font-medium text-neutral-600">
+                <div className="flex justify-between"><span>Subtotal</span><span><span className="font-sans">₹</span>{subtotal}</span></div>
+                <div className="flex justify-between"><span>Shipping</span><span className={isFreeShipping ? 'text-green-600' : ''}>{isFreeShipping ? 'Free' : <><span className="font-sans">₹</span>{shippingFee}</>}</span></div>
+                <div className="flex justify-between"><span>Taxes (5%)</span><span><span className="font-sans">₹</span>{taxAmount}</span></div>
+                {discountAmount > 0 && <div className="flex justify-between text-green-600 font-semibold"><span>Discount ({appliedPromoCode})</span><span>-<span className="font-sans">₹</span>{discountAmount}</span></div>}
+                <div className="flex justify-between font-bold text-lg text-neutral-900 pt-2.5 border-t border-neutral-100 mt-1.5">
+                  <span>Total</span><span className="text-orange-600"><span className="font-sans text-base">₹</span>{finalTotal}</span>
                 </div>
               </div>
             </div>
 
             {/* Right Column: Payment */}
-            <div className="flex-1 p-6 flex flex-col bg-white">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="font-semibold text-xl text-neutral-900">Payment Method</h3>
-                <button onClick={() => setIsCheckingOut(false)} className="text-neutral-400 hover:text-neutral-900 text-2xl leading-none">&times;</button>
+            <div className="flex-1 p-5 sm:p-7 flex flex-col bg-white">
+              <div className="flex justify-between items-center mb-5">
+                <div>
+                  <h3 className="font-semibold text-2xl text-neutral-900">Payment</h3>
+                  <p className="text-xs text-neutral-500 mt-1">Securely complete your order</p>
+                </div>
+                <button onClick={() => setIsCheckingOut(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 transition-colors">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
               </div>
 
-              {/* Tabs */}
-              <div className="flex space-x-1 border-b border-neutral-200 mb-6">
-                {[{id: 'upi', label: 'UPI / QR'}, {id: 'netbanking', label: 'Net Banking'}, {id: 'card', label: 'Card'}, {id: 'wallets', label: 'Wallets'}].map(tab => (
+              {/* Colorful Tabs */}
+              <div className="flex space-x-1 border-b border-neutral-200 mb-6 bg-neutral-50 p-1 rounded-lg">
+                {[{id: 'upi', label: 'UPI / QR', icon: '📱'}, {id: 'netbanking', label: 'Net Banking', icon: '🏦'}, {id: 'card', label: 'Cards', icon: '💳'}, {id: 'wallets', label: 'Wallets', icon: '👛'}].map(tab => (
                   <button
                     key={tab.id}
                     onClick={() => setPaymentTab(tab.id)}
-                    className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${paymentTab === tab.id ? 'border-neutral-900 text-neutral-900' : 'border-transparent text-neutral-500 hover:text-neutral-800'}`}
+                    className={`flex-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-all flex items-center justify-center gap-1.5 ${paymentTab === tab.id ? 'bg-white text-orange-600 shadow-sm border border-black/5' : 'text-neutral-500 hover:text-neutral-800'}`}
                   >
-                    {tab.label}
+                    <span>{tab.icon}</span> <span className="hidden sm:inline">{tab.label}</span>
                   </button>
                 ))}
               </div>
 
               {/* Payment Content */}
-              <div className="flex-1 overflow-y-auto pr-2">
+              <div className="flex-1 overflow-y-auto pr-2 pb-4">
                 {paymentTab === 'upi' && (
                   <div className="space-y-6">
-                    <div className="p-4 border border-neutral-200 rounded flex items-center justify-between gap-6 bg-neutral-50">
+                    {/* QR Code Section */}
+                    <div className="p-4 rounded-xl flex items-center justify-between gap-6 bg-blue-50 border border-blue-100">
                       <div>
-                        <p className="text-sm text-neutral-700 font-medium mb-1">Scan QR to pay</p>
-                        <p className="text-2xl font-bold text-neutral-900 mb-1">₹{finalTotal}</p>
-                        <p className="text-xs text-neutral-500">QR expires in {formatCountdown(qrCountdown)}</p>
+                        <p className="text-xs text-blue-800 font-semibold uppercase tracking-wider mb-1">Instant Scan & Pay</p>
+                        <p className="text-3xl font-bold text-neutral-900 mb-1"><span className="font-sans text-2xl">₹</span>{finalTotal}</p>
+                        <p className="text-xs font-medium text-blue-700 bg-blue-100 inline-block px-2 py-0.5 rounded-full">QR expires in {formatCountdown(qrCountdown)}</p>
                       </div>
-                      <div className="w-24 h-24 bg-white p-2 border border-neutral-200 rounded shrink-0">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="UPI QR Code" className="w-full h-full mix-blend-multiply opacity-80" />
+                      <div className="w-24 h-24 bg-white p-2 border border-blue-200 rounded-xl shrink-0 shadow-sm">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="UPI QR Code" className="w-full h-full mix-blend-multiply opacity-90" />
                       </div>
                     </div>
+                    
+                    {/* Real UPI Apps SVGs */}
                     <div>
-                      <label className="block text-sm font-medium text-neutral-700 mb-2">Pay via UPI ID</label>
+                      <p className="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-3">Or Pay via UPI Apps</p>
+                      <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 sm:gap-3">
+                        {[
+                          { id: 'gpay', name: 'GPay', svg: '<svg viewBox="0 0 24 24" class="w-6 h-6"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>' },
+                          { id: 'phonepe', name: 'PhonePe', svg: '<div class="w-6 h-6 rounded-full bg-[#5F259F] text-white font-bold text-xs flex items-center justify-center">पे</div>' },
+                          { id: 'paytm', name: 'Paytm', svg: '<span class="text-xs font-black text-[#002970]">Pay<span class="text-[#00B9F5]">tm</span></span>' },
+                          { id: 'bhim', name: 'BHIM', svg: '<svg viewBox="0 0 24 24" class="w-6 h-6"><polygon points="4,2 14,2 8,22 2,22" fill="#00A652" /><polygon points="12,2 22,2 16,22 10,22" fill="#F37021" /></svg>' },
+                          { id: 'cred', name: 'CRED', svg: '<div class="w-6 h-6 rounded-md bg-black text-white font-black text-[10px] flex items-center justify-center">C</div>' }
+                        ].map(app => (
+                          <button
+                            key={app.id}
+                            onClick={() => setSelectedUpiApp(app.id)}
+                            className={`p-3 border rounded-xl flex flex-col items-center justify-center gap-2 transition-all ${selectedUpiApp === app.id ? 'border-orange-500 bg-orange-50 ring-1 ring-orange-500' : 'border-neutral-200 bg-white hover:border-neutral-300'}`}
+                          >
+                            <div dangerouslySetInnerHTML={{ __html: app.svg }} />
+                            <span className="text-[10px] font-semibold text-neutral-800">{app.name}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Pay via UPI ID</label>
                       <div className="flex gap-2">
-                        <input type="text" placeholder="Enter UPI ID (e.g. name@bank)" value={customUpiId} onChange={e => setCustomUpiId(e.target.value)} className="flex-1 px-3 py-2 border border-neutral-300 rounded focus:border-neutral-900 outline-none text-sm bg-white" />
-                        <button onClick={handleVerifyUpi} className="px-4 py-2 bg-neutral-100 border border-neutral-200 hover:bg-neutral-200 text-neutral-900 rounded text-sm font-medium transition-colors">
-                          {upiVerifying ? 'Verifying...' : upiVerified ? 'Verified' : 'Verify'}
+                        <input type="text" placeholder="Enter UPI ID (e.g. name@bank)" value={customUpiId} onChange={e => setCustomUpiId(e.target.value)} className="flex-1 px-4 py-2.5 border border-neutral-300 rounded-xl focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none text-sm bg-white" />
+                        <button onClick={handleVerifyUpi} className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors ${upiVerified ? 'bg-green-100 text-green-700' : 'bg-neutral-100 border border-neutral-200 hover:bg-neutral-200 text-neutral-900'}`}>
+                          {upiVerifying ? 'Verifying...' : upiVerified ? '✓ Verified' : 'Verify'}
                         </button>
                       </div>
                     </div>
@@ -1013,71 +1049,106 @@ export default function CartDrawer() {
                 )}
 
                 {paymentTab === 'netbanking' && (
-                  <div className="space-y-4">
-                    <label className="block text-sm font-medium text-neutral-700 mb-2">Select Bank</label>
+                  <div className="space-y-5">
+                    <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Popular Indian Banks</label>
                     <div className="grid grid-cols-2 gap-3">
-                      {[{id: 'hdfc', name: 'HDFC Bank'}, {id: 'sbi', name: 'State Bank of India'}, {id: 'icici', name: 'ICICI Bank'}, {id: 'axis', name: 'Axis Bank'}].map(b => (
+                      {[
+                        { id: 'hdfc', name: 'HDFC Bank', svg: '<svg viewBox="0 0 24 24" class="w-5 h-5"><rect width="24" height="24" fill="#004C8F" rx="3" /><rect x="3" y="10" width="18" height="4" fill="#ED232A" /><rect x="10" y="3" width="4" height="18" fill="#ED232A" /><rect x="7" y="7" width="10" height="10" fill="#004C8F" /></svg>' },
+                        { id: 'sbi', name: 'State Bank', svg: '<svg viewBox="0 0 24 24" class="w-5 h-5"><circle cx="12" cy="12" r="11" fill="#008CD0"/><circle cx="12" cy="12" r="4.5" fill="#FFFFFF"/><rect x="10.8" y="12" width="2.4" height="9" fill="#008CD0"/></svg>' },
+                        { id: 'icici', name: 'ICICI Bank', svg: '<div class="w-5 h-5 rounded-md bg-[#B02A30] text-white font-black text-xs flex items-center justify-center">I</div>' },
+                        { id: 'axis', name: 'Axis Bank', svg: '<div class="w-5 h-5 rounded-md bg-[#97144D] text-white font-black text-xs flex items-center justify-center">▲</div>' }
+                      ].map(b => (
                         <button
                           key={b.id}
                           onClick={() => setSelectedBank(b.id)}
-                          className={`p-3 border rounded text-left text-sm transition-colors ${selectedBank === b.id ? 'border-neutral-900 bg-neutral-50 font-medium' : 'border-neutral-200 hover:border-neutral-400 bg-white'}`}
+                          className={`p-3 border rounded-xl flex items-center gap-3 transition-colors ${selectedBank === b.id ? 'border-orange-500 bg-orange-50 font-semibold text-orange-900' : 'border-neutral-200 hover:border-neutral-300 bg-white text-neutral-700'}`}
                         >
-                          {b.name}
+                          <div dangerouslySetInnerHTML={{ __html: b.svg }} />
+                          <span className="text-sm">{b.name}</span>
                         </button>
                       ))}
                     </div>
-                    <select value={selectedBank} onChange={e => setSelectedBank(e.target.value)} className="w-full mt-4 p-3 border border-neutral-300 rounded text-sm outline-none bg-white">
-                      <option value="hdfc">HDFC Bank</option>
-                      <option value="sbi">State Bank of India</option>
-                      <option value="icici">ICICI Bank</option>
-                      <option value="axis">Axis Bank</option>
-                      <option value="kotak">Kotak Mahindra</option>
-                    </select>
+                    
+                    <div className="pt-2">
+                      <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Other Banks</label>
+                      <select value={selectedBank} onChange={e => setSelectedBank(e.target.value)} className="w-full p-3.5 border border-neutral-300 rounded-xl text-sm outline-none bg-white focus:border-orange-500">
+                        <option value="hdfc">HDFC Bank</option>
+                        <option value="sbi">State Bank of India</option>
+                        <option value="icici">ICICI Bank</option>
+                        <option value="axis">Axis Bank</option>
+                        <option value="kotak">Kotak Mahindra</option>
+                        <option value="pnb">Punjab National Bank</option>
+                        <option value="bob">Bank of Baroda</option>
+                      </select>
+                    </div>
                   </div>
                 )}
 
                 {paymentTab === 'card' && (
                   <div className="space-y-4 text-sm">
+                    {/* Visual Card Wrapper for Color */}
+                    <div className="p-4 bg-slate-800 text-white rounded-xl mb-4 shadow-sm border border-slate-700 relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-slate-600 rounded-full blur-2xl opacity-50 -mr-10 -mt-10 pointer-events-none"></div>
+                      <div className="flex justify-between items-center mb-6 relative z-10">
+                        <div className="w-8 h-6 bg-yellow-400 rounded-sm opacity-80"></div>
+                        <span className="text-xs font-bold tracking-widest text-slate-300 uppercase">{cardData.number?.startsWith('4') ? 'VISA' : cardData.number?.startsWith('5') ? 'MASTERCARD' : 'CARD'}</span>
+                      </div>
+                      <div className="font-mono text-lg tracking-widest mb-2 relative z-10">{cardData.number || '•••• •••• •••• ••••'}</div>
+                      <div className="flex justify-between text-xs text-slate-300 relative z-10">
+                        <span className="uppercase">{cardData.name || 'CARDHOLDER NAME'}</span>
+                        <span className="font-mono">{cardData.expiry || 'MM/YY'}</span>
+                      </div>
+                    </div>
+
                     <div>
-                      <label className="block text-neutral-700 font-medium mb-1.5">Card Number</label>
-                      <input type="text" placeholder="0000 0000 0000 0000" value={cardData.number} onChange={e => setCardData({...cardData, number: e.target.value})} className="w-full px-3 py-2 border border-neutral-300 rounded focus:border-neutral-900 outline-none font-mono bg-white" />
+                      <label className="block text-neutral-600 font-semibold text-xs uppercase tracking-wider mb-1.5">Card Number</label>
+                      <input type="text" placeholder="0000 0000 0000 0000" value={cardData.number} onChange={e => setCardData({...cardData, number: e.target.value})} className="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:border-orange-500 outline-none font-mono bg-white" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-neutral-700 font-medium mb-1.5">Expiry Date</label>
-                        <input type="text" placeholder="MM/YY" value={cardData.expiry} onChange={e => setCardData({...cardData, expiry: e.target.value})} className="w-full px-3 py-2 border border-neutral-300 rounded focus:border-neutral-900 outline-none bg-white" />
+                        <label className="block text-neutral-600 font-semibold text-xs uppercase tracking-wider mb-1.5">Expiry Date</label>
+                        <input type="text" placeholder="MM/YY" value={cardData.expiry} onChange={e => setCardData({...cardData, expiry: e.target.value})} className="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:border-orange-500 outline-none bg-white" />
                       </div>
                       <div>
-                        <label className="block text-neutral-700 font-medium mb-1.5">CVV</label>
-                        <input type="password" placeholder="123" value={cardData.cvv} onChange={e => setCardData({...cardData, cvv: e.target.value})} className="w-full px-3 py-2 border border-neutral-300 rounded focus:border-neutral-900 outline-none bg-white" />
+                        <label className="block text-neutral-600 font-semibold text-xs uppercase tracking-wider mb-1.5">CVV</label>
+                        <input type="password" placeholder="123" value={cardData.cvv} onChange={e => setCardData({...cardData, cvv: e.target.value})} className="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:border-orange-500 outline-none bg-white" />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-neutral-700 font-medium mb-1.5">Name on Card</label>
-                      <input type="text" placeholder="Cardholder Name" value={cardData.name} onChange={e => setCardData({...cardData, name: e.target.value})} className="w-full px-3 py-2 border border-neutral-300 rounded focus:border-neutral-900 outline-none bg-white" />
+                      <label className="block text-neutral-600 font-semibold text-xs uppercase tracking-wider mb-1.5">Name on Card</label>
+                      <input type="text" placeholder="Cardholder Name" value={cardData.name} onChange={e => setCardData({...cardData, name: e.target.value})} className="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:border-orange-500 outline-none bg-white" />
                     </div>
                   </div>
                 )}
 
                 {paymentTab === 'wallets' && (
                   <div className="space-y-3">
-                    <label className="block text-sm font-medium text-neutral-700 mb-2">Select Wallet</label>
-                    {[{id: 'paytm', name: 'Paytm'}, {id: 'amazon', name: 'Amazon Pay'}, {id: 'phonepe', name: 'PhonePe'}].map(w => (
+                    <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Select Wallet</label>
+                    {[
+                      {id: 'paytm', name: 'Paytm Wallet', icon: '🔵'}, 
+                      {id: 'amazon', name: 'Amazon Pay', icon: '🛒'}, 
+                      {id: 'phonepe', name: 'PhonePe', icon: '🟣'}
+                    ].map(w => (
                       <button
                         key={w.id}
                         onClick={() => setSelectedWallet(w.id)}
-                        className={`w-full p-3 border rounded text-left text-sm transition-colors ${selectedWallet === w.id ? 'border-neutral-900 bg-neutral-50 font-medium' : 'border-neutral-200 hover:border-neutral-400 bg-white'}`}
+                        className={`w-full p-4 border rounded-xl flex items-center justify-between transition-colors ${selectedWallet === w.id ? 'border-orange-500 bg-orange-50 text-orange-900 font-semibold' : 'border-neutral-200 hover:border-neutral-300 bg-white text-neutral-700'}`}
                       >
-                        {w.name}
+                        <div className="flex items-center gap-3">
+                          <span className="text-xl">{w.icon}</span>
+                          <span>{w.name}</span>
+                        </div>
+                        {selectedWallet === w.id && <span className="text-orange-500">✓</span>}
                       </button>
                     ))}
                   </div>
                 )}
               </div>
 
-              <div className="mt-6 pt-5 border-t border-neutral-200">
-                <button onClick={handleCheckoutSubmit} className="w-full py-3 bg-neutral-900 hover:bg-neutral-800 text-white font-medium rounded transition-colors text-sm">
-                  Pay ₹{finalTotal}
+              <div className="mt-4 pt-4 border-t border-neutral-100 shrink-0">
+                <button onClick={handleCheckoutSubmit} className="w-full py-3.5 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-xl transition-colors text-base flex items-center justify-center gap-2">
+                  <span>Pay <span className="font-sans">₹</span>{finalTotal}</span>
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                 </button>
               </div>
             </div>
@@ -1085,47 +1156,61 @@ export default function CartDrawer() {
         </div>
       )}
 
-      {/* Success Page */}
+      {/* Colorful Success Page */}
       {orderConfirmed && (
         <div className="fixed inset-0 z-70 flex items-center justify-center p-4">
-          <div onClick={() => setOrderConfirmed(null)} className="fixed inset-0 bg-neutral-900/60 transition-opacity" />
-          <div className="relative w-full max-w-sm bg-white rounded-xl shadow-lg p-8 z-10 text-center font-poppins">
-            <div className="w-16 h-16 bg-neutral-100 border border-neutral-200 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-8 h-8 text-neutral-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold text-neutral-900 mb-2">Payment Successful</h3>
-            <p className="text-sm text-neutral-600 mb-6">Thank you, {orderConfirmed.customerDetails.fullName || 'User'}. Your order has been placed.</p>
+          <div onClick={() => setOrderConfirmed(null)} className="fixed inset-0 bg-neutral-900/80 backdrop-blur-sm transition-opacity" />
+          <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl z-10 text-center font-poppins overflow-hidden flex flex-col max-h-[92vh]">
             
-            <div className="bg-neutral-50 border border-neutral-200 rounded p-4 mb-6 text-left">
-              <div className="flex justify-between text-sm mb-2">
-                <span className="text-neutral-600">Amount Paid</span>
-                <span className="font-semibold text-neutral-900">₹{orderConfirmed.customerDetails.finalTotal}</span>
+            {/* Top Color Banner & Image */}
+            <div className="bg-emerald-50 border-b border-emerald-100 p-6 flex flex-col items-center">
+              <div className="w-16 h-16 bg-emerald-500 text-white rounded-full flex items-center justify-center mb-4 shadow-lg">
+                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-neutral-600">Order ID</span>
-                <span className="font-mono text-neutral-900">{orderConfirmed.orderId}</span>
-              </div>
+              <h3 className="text-2xl font-bold text-neutral-900 mb-1">Payment Successful!</h3>
+              <p className="text-sm text-neutral-600">Your organic juice box is being packed.</p>
             </div>
 
-            <div className="space-y-3">
-              <button
-                onClick={() => {
-                  setOrderConfirmed(null)
-                  setIsCartOpen(false)
-                  setIsAccountOpen(true)
-                }}
-                className="w-full py-3 bg-neutral-900 hover:bg-neutral-800 text-white font-medium rounded text-sm transition-colors"
-              >
-                Track Order
-              </button>
-              <button
-                onClick={() => setOrderConfirmed(null)}
-                className="w-full py-3 bg-white border border-neutral-200 hover:bg-neutral-100 text-neutral-900 font-medium rounded text-sm transition-colors"
-              >
-                Continue Shopping
-              </button>
+            {/* Generated Delivery Box Image inside Success Page */}
+            <div className="w-full h-48 bg-neutral-100 border-b border-neutral-100 relative overflow-hidden">
+              <img src="/images/success_delivery_box.jpg" alt="Your Clean Juice Box" className="w-full h-full object-cover" />
+              <div className="absolute bottom-2 right-2 bg-white/90 backdrop-blur px-2.5 py-1 rounded-md text-[10px] font-bold text-neutral-700 shadow-sm">
+                Preparing for Dispatch...
+              </div>
+            </div>
+            
+            <div className="p-6 overflow-y-auto">
+              <div className="bg-orange-50 border border-orange-100 rounded-xl p-4 mb-5 text-left">
+                <div className="flex justify-between text-sm mb-2.5 items-center">
+                  <span className="text-neutral-600 font-medium">Amount Paid</span>
+                  <span className="font-bold text-xl text-neutral-900"><span className="font-sans">₹</span>{orderConfirmed.customerDetails.finalTotal}</span>
+                </div>
+                <div className="flex justify-between text-sm items-center">
+                  <span className="text-neutral-600 font-medium">Order ID</span>
+                  <span className="font-mono text-neutral-900 bg-white px-2 py-1 rounded border border-neutral-200">{orderConfirmed.orderId}</span>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => {
+                    setOrderConfirmed(null)
+                    setIsCartOpen(false)
+                    setIsAccountOpen(true)
+                  }}
+                  className="flex-1 py-3 bg-neutral-900 hover:bg-black text-white font-semibold rounded-xl text-sm transition-colors"
+                >
+                  Track Order
+                </button>
+                <button
+                  onClick={() => setOrderConfirmed(null)}
+                  className="flex-1 py-3 bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-900 font-semibold rounded-xl text-sm transition-colors"
+                >
+                  Continue Shopping
+                </button>
+              </div>
             </div>
           </div>
         </div>
