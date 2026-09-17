@@ -1,12 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: 'Dacomment';
-  src: url('/fonts/Dacomment.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
 @theme {
   --font-sans: 'Plus Jakarta Sans', 'Poppins', sans-serif;
   --font-mono: 'Poppins', sans-serif;
@@ -392,3 +385,13 @@
 }
 
 
+
+@font-face {
+  font-family: 'Vagnola';
+  src: url('/fonts/VagnolaDemo-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+.font-vagnola {
+  font-family: 'Vagnola', serif;
+}
