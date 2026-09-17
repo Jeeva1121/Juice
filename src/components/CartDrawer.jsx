@@ -595,7 +595,7 @@ export default function CartDrawer() {
                       {/* Destination Finish Point */}
                       <div className="absolute -right-0.5 -top-2.5 flex items-center justify-center pointer-events-none">
                         {isFreeShipping ? (
-                          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-none bg-emerald-600 text-white flex items-center justify-center text-[8px] sm:text-[9px] font-bold shadow-xs">
+                          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-none bg-emerald-600 text-white flex items-center justify-center text-[8px] sm:text-[9px] font-medium shadow-xs">
                             ✓
                           </div>
                         ) : (
@@ -908,8 +908,8 @@ export default function CartDrawer() {
         <div className="fixed inset-0 z-60 bg-white flex flex-col font-poppins overflow-hidden w-full h-full">
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 bg-white shrink-0">
-            <h2 className="text-2xl font-vagnola font-bold text-neutral-900 tracking-wide">Checkout</h2>
-            <button onClick={() => setIsCheckingOut(false)} className="flex items-center gap-2 px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-semibold rounded-none transition-colors">
+            <h2 className="text-2xl font-vagnola font-medium text-neutral-900 tracking-wide">Checkout</h2>
+            <button onClick={() => setIsCheckingOut(false)} className="flex items-center gap-2 px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium rounded-none transition-colors">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
               Back to Cart
             </button>
@@ -926,7 +926,7 @@ export default function CartDrawer() {
             )}
 
             {/* Left Column: Summary & Address (Light Orange/Warm Background) */}
-            <div className="w-full lg:w-[400px] bg-orange-50 border-r border-orange-100 p-6 sm:p-8 flex flex-col overflow-y-auto">
+            <div className="w-full lg:w-[400px] bg-orange-50 border-r border-orange-100 p-6 sm:p-8 flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               <h3 className="font-vagnola font-semibold text-neutral-900 mb-6 text-xl tracking-wide">Order Summary</h3>
               <div className="space-y-4 mb-6 bg-white p-4 rounded-none border border-orange-100 shadow-sm">
                 {items.map((it) => (
@@ -935,24 +935,24 @@ export default function CartDrawer() {
                       {it.image && <img src={it.image} alt={it.title} className="w-8 h-10 object-contain shrink-0" />}
                       <span className="text-neutral-700 truncate pr-2 font-medium">{it.qty}x {it.title}</span>
                     </div>
-                    <span className="text-neutral-900 font-bold shrink-0 text-base"><span className="font-sans font-normal text-sm mr-0.5">₹</span>{it.totalPrice * it.qty}</span>
+                    <span className="text-neutral-900 font-medium shrink-0 text-base"><span className="font-sans font-normal text-sm mr-0.5">₹</span>{it.totalPrice * it.qty}</span>
                   </div>
                 ))}
               </div>
 
               <div className="bg-white p-5 rounded-none border border-orange-100 mb-6 shadow-sm">
                 <div className="flex justify-between items-center mb-4">
-                  <h4 className="font-semibold text-neutral-900 text-sm flex items-center gap-2">
+                  <h4 className="font-medium text-neutral-900 text-sm flex items-center gap-2">
                     <svg className="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     Delivery Details
                   </h4>
-                  <button onClick={() => setIsAddressEditing(!isAddressEditing)} className="text-sm font-semibold text-orange-600 hover:text-orange-700 uppercase tracking-wide">
+                  <button onClick={() => setIsAddressEditing(!isAddressEditing)} className="text-sm font-medium text-orange-600 hover:text-orange-700">
                     {isAddressEditing ? 'Cancel' : 'Edit'}
                   </button>
                 </div>
                 {!isAddressEditing ? (
                   <div className="text-sm text-neutral-600 space-y-1">
-                    <p className="font-bold text-neutral-900 text-base mb-1">{formData.fullName || 'User'}</p>
+                    <p className="font-medium text-neutral-900 text-base mb-1">{formData.fullName || 'User'}</p>
                     <p>{formData.phone || 'Phone not provided'}</p>
                     <p className="pt-2 leading-relaxed">{formData.address ? `${formData.address}, ${formData.city} - ${formData.pincode}` : 'Address not provided'}</p>
                   </div>
@@ -965,17 +965,17 @@ export default function CartDrawer() {
                       <input type="text" placeholder="City" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="w-1/2 px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
                       <input type="text" placeholder="Pincode" value={formData.pincode} onChange={e => setFormData({...formData, pincode: e.target.value})} className="w-1/2 px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-none focus:border-orange-500 outline-none" />
                     </div>
-                    <button onClick={() => setIsAddressEditing(false)} className="w-full py-3 bg-orange-600 hover:bg-orange-700 text-white font-bold tracking-wide rounded-none transition-colors mt-2">SAVE ADDRESS</button>
+                    <button onClick={() => setIsAddressEditing(false)} className="w-full py-3 bg-orange-600 hover:bg-orange-700 text-white font-medium tracking-wide rounded-none transition-colors mt-2">SAVE ADDRESS</button>
                   </div>
                 )}
               </div>
 
               <div className="mt-auto bg-white p-5 rounded-none border border-orange-100 space-y-2 text-sm font-medium text-neutral-600 shadow-sm">
                 <div className="flex justify-between"><span>Subtotal</span><span><span className="font-sans mr-1">₹</span>{subtotal}</span></div>
-                <div className="flex justify-between"><span>Shipping</span><span className={isFreeShipping ? 'text-green-600 font-bold' : ''}>{isFreeShipping ? 'Free' : <><span className="font-sans mr-1">₹</span>{shippingFee}</>}</span></div>
+                <div className="flex justify-between"><span>Shipping</span><span className={isFreeShipping ? 'text-green-600 font-medium' : ''}>{isFreeShipping ? 'Free' : <><span className="font-sans mr-1">₹</span>{shippingFee}</>}</span></div>
                 <div className="flex justify-between"><span>Taxes (5%)</span><span><span className="font-sans mr-1">₹</span>{taxAmount}</span></div>
-                {discountAmount > 0 && <div className="flex justify-between text-green-600 font-bold"><span>Discount ({appliedPromoCode})</span><span>-<span className="font-sans mr-1">₹</span>{discountAmount}</span></div>}
-                <div className="flex justify-between font-black text-xl text-neutral-900 pt-4 border-t border-neutral-200 mt-2">
+                {discountAmount > 0 && <div className="flex justify-between text-green-600 font-medium"><span>Discount ({appliedPromoCode})</span><span>-<span className="font-sans mr-1">₹</span>{discountAmount}</span></div>}
+                <div className="flex justify-between font-semibold text-xl text-neutral-900 pt-4 border-t border-neutral-200 mt-2">
                   <span>Total</span><span className="text-orange-600"><span className="font-sans text-lg mr-0.5">₹</span>{finalTotal}</span>
                 </div>
               </div>
@@ -984,7 +984,7 @@ export default function CartDrawer() {
             {/* Right Column: Payment */}
             <div className="flex-1 p-6 sm:p-10 lg:px-16 flex flex-col bg-white overflow-y-auto">
               <div className="mb-8">
-                <h3 className="font-vagnola font-bold text-3xl text-neutral-900 tracking-wide">Payment Method</h3>
+                <h3 className="font-vagnola font-medium text-3xl text-neutral-900 tracking-wide">Payment Method</h3>
                 <p className="text-sm text-neutral-500 mt-2">Securely complete your order</p>
               </div>
 
@@ -999,7 +999,7 @@ export default function CartDrawer() {
                   <button
                     key={tab.id}
                     onClick={() => setPaymentTab(tab.id)}
-                    className={`flex-1 py-3 text-sm font-bold tracking-wide uppercase transition-all flex items-center justify-center gap-2 border-b-2 -mb-[2px] ${paymentTab === tab.id ? 'border-orange-600 text-orange-600' : 'border-transparent text-neutral-400 hover:text-neutral-700'}`}
+                    className={`flex-1 py-3 text-sm font-medium tracking-wide transition-all flex items-center justify-center gap-2 border-b-2 -mb-[2px] ${paymentTab === tab.id ? 'border-orange-600 text-orange-600' : 'border-transparent text-neutral-400 hover:text-neutral-700'}`}
                   >
                     <div dangerouslySetInnerHTML={{ __html: tab.icon }} /> 
                     <span className="hidden sm:inline">{tab.label}</span>
@@ -1008,24 +1008,24 @@ export default function CartDrawer() {
               </div>
 
               {/* Payment Content */}
-              <div className="flex-1 overflow-y-auto pr-2 pb-6 max-w-2xl">
+              <div className="flex-1 overflow-y-auto pr-2 pb-6 max-w-2xl [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 {paymentTab === 'upi' && (
                   <div className="space-y-8">
                     {/* QR Code Section */}
-                    <div className="p-6 flex items-center justify-between gap-6 bg-blue-50 border border-blue-200 rounded-none shadow-sm">
+                    <div className="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 bg-white border border-neutral-200 rounded-none">
                       <div>
-                        <p className="text-sm text-blue-900 font-bold uppercase tracking-wider mb-2">Instant Scan & Pay</p>
-                        <p className="text-4xl font-black text-neutral-900 mb-2"><span className="font-sans font-medium text-2xl mr-1">₹</span>{finalTotal}</p>
-                        <p className="text-xs font-bold text-blue-700 uppercase tracking-wide bg-blue-100 inline-block px-3 py-1 rounded-none border border-blue-200">QR expires in {formatCountdown(qrCountdown)}</p>
+                        <p className="text-sm text-blue-900 font-medium uppercase tracking-wider mb-2">Instant Scan & Pay</p>
+                        <p className="text-4xl font-semibold text-neutral-900 mb-2"><span className="font-sans font-medium text-2xl mr-1">₹</span>{finalTotal}</p>
+                        <p className="text-xs font-medium text-blue-700 uppercase tracking-wide bg-blue-100 inline-block px-3 py-1 rounded-none border border-blue-200">QR expires in {formatCountdown(qrCountdown)}</p>
                       </div>
-                      <div className="w-28 h-28 bg-white p-3 border border-blue-200 rounded-none shadow-sm shrink-0">
+                      <div className="w-28 h-28 bg-white p-2.5 border border-neutral-200 rounded-none shrink-0">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="UPI QR Code" className="w-full h-full mix-blend-multiply opacity-90" />
                       </div>
                     </div>
                     
                     {/* Real UPI Apps SVGs */}
                     <div>
-                      <p className="text-sm font-bold text-neutral-800 uppercase tracking-wider mb-4">Or Pay via UPI Apps</p>
+                      <p className="text-sm font-medium text-neutral-800 uppercase tracking-wider mb-4">Or Pay via UPI Apps</p>
                       <div className="grid grid-cols-4 sm:grid-cols-5 gap-3">
                         {[
                           { id: 'gpay', name: 'GPay', svg: '<svg viewBox="0 0 24 24" class="w-8 h-8"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>' },
@@ -1040,18 +1040,18 @@ export default function CartDrawer() {
                             className={`p-4 border rounded-none flex flex-col items-center justify-center gap-3 transition-all ${selectedUpiApp === app.id ? 'border-orange-500 bg-orange-50 shadow-sm border-2' : 'border-neutral-200 bg-white hover:border-neutral-400'}`}
                           >
                             <div dangerouslySetInnerHTML={{ __html: app.svg }} />
-                            <span className="text-[11px] font-bold text-neutral-800 tracking-wide">{app.name}</span>
+                            <span className="text-xs text-neutral-700">{app.name}</span>
                           </button>
                         ))}
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-neutral-800 uppercase tracking-wider mb-3">Pay via UPI ID</label>
+                      <label className="block text-sm font-medium text-neutral-800 uppercase tracking-wider mb-3">Pay via UPI ID</label>
                       <div className="flex gap-2">
                         <input type="text" placeholder="Enter UPI ID (e.g. name@bank)" value={customUpiId} onChange={e => setCustomUpiId(e.target.value)} className="flex-1 px-4 py-3 border border-neutral-300 rounded-none focus:border-orange-600 outline-none text-base bg-white shadow-sm" />
-                        <button onClick={handleVerifyUpi} className={`px-8 py-3 rounded-none text-sm font-bold uppercase tracking-widest transition-colors ${upiVerified ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-black text-white rounded-none hover:bg-black'}`}>
-                          {upiVerifying ? 'VERIFYING...' : upiVerified ? '✓ VERIFIED' : 'VERIFY'}
+                        <button onClick={handleVerifyUpi} className={`px-6 py-2.5 rounded-none text-sm font-medium transition-colors ${upiVerified ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-black text-white rounded-none hover:bg-black'}`}>
+                          {upiVerifying ? 'Verifying...' : upiVerified ? '✓ Verified' : 'Verify'}
                         </button>
                       </div>
                     </div>
@@ -1060,7 +1060,7 @@ export default function CartDrawer() {
 
                 {paymentTab === 'netbanking' && (
                   <div className="space-y-8 max-w-2xl">
-                    <label className="block text-sm font-bold text-neutral-800 uppercase tracking-wider mb-3">Popular Indian Banks</label>
+                    <label className="block text-sm font-medium text-neutral-800 uppercase tracking-wider mb-3">Popular Indian Banks</label>
                     <div className="grid grid-cols-2 gap-4">
                       {[
                         { id: 'hdfc', name: 'HDFC Bank', svg: '<svg viewBox="0 0 24 24" class="w-6 h-6"><rect width="24" height="24" fill="#004C8F" rx="0" /><rect x="3" y="10" width="18" height="4" fill="#ED232A" /><rect x="10" y="3" width="4" height="18" fill="#ED232A" /><rect x="7" y="7" width="10" height="10" fill="#004C8F" /></svg>' },
@@ -1071,7 +1071,7 @@ export default function CartDrawer() {
                         <button
                           key={b.id}
                           onClick={() => setSelectedBank(b.id)}
-                          className={`p-4 border rounded-none flex items-center gap-4 transition-all ${selectedBank === b.id ? 'border-orange-500 bg-orange-50 font-bold text-orange-900 border-2' : 'border-neutral-300 hover:border-neutral-500 bg-white text-neutral-800 font-semibold'}`}
+                          className={`p-4 border rounded-none flex items-center gap-4 transition-all ${selectedBank === b.id ? 'border-orange-500 bg-orange-50 font-medium text-orange-900 border-2' : 'border-neutral-300 hover:border-neutral-500 bg-white text-neutral-800 font-semibold'}`}
                         >
                           <div dangerouslySetInnerHTML={{ __html: b.svg }} />
                           <span className="text-sm">{b.name}</span>
@@ -1080,7 +1080,7 @@ export default function CartDrawer() {
                     </div>
                     
                     <div className="pt-4">
-                      <label className="block text-sm font-bold text-neutral-800 uppercase tracking-wider mb-3">Other Banks</label>
+                      <label className="block text-sm font-medium text-neutral-800 uppercase tracking-wider mb-3">Other Banks</label>
                       <select value={selectedBank} onChange={e => setSelectedBank(e.target.value)} className="w-full p-4 border border-neutral-300 rounded-none text-base outline-none bg-white focus:border-orange-600 shadow-sm font-semibold text-neutral-800">
                         <option value="hdfc">HDFC Bank</option>
                         <option value="sbi">State Bank of India</option>
@@ -1100,31 +1100,31 @@ export default function CartDrawer() {
                     <div className="p-6 bg-slate-900 text-white rounded-none mb-6 shadow-md border border-slate-800 relative overflow-hidden">
                       <div className="flex justify-between items-center mb-10 relative z-10">
                         <div className="w-10 h-7 bg-yellow-400 opacity-90 rounded-sm"></div>
-                        <span className="text-sm font-bold tracking-widest text-slate-400 uppercase">{cardData.number?.startsWith('4') ? 'VISA' : cardData.number?.startsWith('5') ? 'MASTERCARD' : 'CARD'}</span>
+                        <span className="text-sm font-medium tracking-wide text-slate-400 uppercase">{cardData.number?.startsWith('4') ? 'VISA' : cardData.number?.startsWith('5') ? 'MASTERCARD' : 'CARD'}</span>
                       </div>
-                      <div className="font-mono text-xl sm:text-2xl tracking-widest mb-4 relative z-10">{cardData.number || '•••• •••• •••• ••••'}</div>
-                      <div className="flex justify-between text-sm text-slate-300 relative z-10 font-bold">
+                      <div className="font-mono text-xl sm:text-2xl tracking-wide mb-4 relative z-10">{cardData.number || '•••• •••• •••• ••••'}</div>
+                      <div className="flex justify-between text-sm text-slate-300 relative z-10 font-medium">
                         <span className="uppercase">{cardData.name || 'CARDHOLDER NAME'}</span>
                         <span className="font-mono">{cardData.expiry || 'MM/YY'}</span>
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-neutral-800 font-bold text-sm uppercase tracking-wider mb-2">Card Number</label>
+                      <label className="block text-neutral-800 font-medium text-sm uppercase tracking-wider mb-2">Card Number</label>
                       <input type="text" placeholder="0000 0000 0000 0000" value={cardData.number} onChange={e => setCardData({...cardData, number: e.target.value})} className="w-full px-4 py-3.5 border border-neutral-300 rounded-none focus:border-orange-600 outline-none font-mono text-base bg-white shadow-sm" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-neutral-800 font-bold text-sm uppercase tracking-wider mb-2">Expiry Date</label>
+                        <label className="block text-neutral-800 font-medium text-sm uppercase tracking-wider mb-2">Expiry Date</label>
                         <input type="text" placeholder="MM/YY" value={cardData.expiry} onChange={e => setCardData({...cardData, expiry: e.target.value})} className="w-full px-4 py-3.5 border border-neutral-300 rounded-none focus:border-orange-600 outline-none font-mono text-base bg-white shadow-sm" />
                       </div>
                       <div>
-                        <label className="block text-neutral-800 font-bold text-sm uppercase tracking-wider mb-2">CVV</label>
+                        <label className="block text-neutral-800 font-medium text-sm uppercase tracking-wider mb-2">CVV</label>
                         <input type="password" placeholder="123" value={cardData.cvv} onChange={e => setCardData({...cardData, cvv: e.target.value})} className="w-full px-4 py-3.5 border border-neutral-300 rounded-none focus:border-orange-600 outline-none font-mono text-base bg-white shadow-sm" />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-neutral-800 font-bold text-sm uppercase tracking-wider mb-2">Name on Card</label>
+                      <label className="block text-neutral-800 font-medium text-sm uppercase tracking-wider mb-2">Name on Card</label>
                       <input type="text" placeholder="Cardholder Name" value={cardData.name} onChange={e => setCardData({...cardData, name: e.target.value})} className="w-full px-4 py-3.5 border border-neutral-300 rounded-none focus:border-orange-600 outline-none text-base bg-white shadow-sm font-semibold" />
                     </div>
                   </div>
@@ -1132,7 +1132,7 @@ export default function CartDrawer() {
 
                 {paymentTab === 'wallets' && (
                   <div className="space-y-4 max-w-2xl">
-                    <label className="block text-sm font-bold text-neutral-800 uppercase tracking-wider mb-3">Select Wallet</label>
+                    <label className="block text-sm font-medium text-neutral-800 uppercase tracking-wider mb-3">Select Wallet</label>
                     {[
                       {id: 'paytm', name: 'Paytm Wallet', icon: '<svg viewBox="0 0 100 100" class="w-6 h-6"><rect width="100" height="100" fill="#002970"/><path d="M30 40h12c5 0 8 3 8 7v4c0 4-3 7-8 7H30v-18zm8 11v-4h-4v4h4z" fill="#FFF"/></svg>'}, 
                       {id: 'amazon', name: 'Amazon Pay', icon: '<svg viewBox="0 0 100 100" class="w-6 h-6"><rect width="100" height="100" fill="#FF9900"/><path d="M25 70s20 15 50-5" fill="none" stroke="#000" stroke-width="8" stroke-linecap="round"/></svg>'}, 
@@ -1141,13 +1141,13 @@ export default function CartDrawer() {
                       <button
                         key={w.id}
                         onClick={() => setSelectedWallet(w.id)}
-                        className={`w-full p-5 border rounded-none flex items-center justify-between transition-colors ${selectedWallet === w.id ? 'border-orange-500 bg-orange-50 text-orange-900 font-bold border-2' : 'border-neutral-300 hover:border-neutral-500 bg-white text-neutral-800 font-semibold'}`}
+                        className={`w-full p-5 border rounded-none flex items-center justify-between transition-colors ${selectedWallet === w.id ? 'border-orange-500 bg-orange-50 text-orange-900 font-medium border-2' : 'border-neutral-300 hover:border-neutral-500 bg-white text-neutral-800 font-semibold'}`}
                       >
                         <div className="flex items-center gap-4">
                           <div dangerouslySetInnerHTML={{ __html: w.icon }} />
                           <span className="text-base">{w.name}</span>
                         </div>
-                        {selectedWallet === w.id && <span className="text-orange-600 font-bold text-xl">✓</span>}
+                        {selectedWallet === w.id && <span className="text-orange-600 font-medium text-xl">✓</span>}
                       </button>
                     ))}
                   </div>
@@ -1155,8 +1155,8 @@ export default function CartDrawer() {
               </div>
 
               <div className="mt-auto pt-6 border-t border-neutral-200 shrink-0 max-w-2xl w-full">
-                <button onClick={handleCheckoutSubmit} className="w-full py-4 bg-orange-600 hover:bg-orange-700 text-white font-black tracking-widest uppercase rounded-none transition-colors text-lg flex items-center justify-center gap-3 shadow-sm">
-                  <span>PAY <span className="font-sans mr-1">₹</span>{finalTotal}</span>
+                <button onClick={handleCheckoutSubmit} className="w-full py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold tracking-wide uppercase rounded-none transition-colors text-lg flex items-center justify-center gap-3 shadow-sm">
+                  <span>Pay <span className="font-sans mr-1">₹</span>{finalTotal}</span>
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                 </button>
               </div>
@@ -1170,7 +1170,7 @@ export default function CartDrawer() {
         <div className="fixed inset-0 z-70 flex flex-col bg-neutral-100 font-poppins w-full h-full">
           {/* Header */}
           <div className="flex items-center justify-center px-6 py-5 border-b border-neutral-200 bg-white shrink-0 shadow-sm">
-            <h2 className="text-2xl font-vagnola font-bold text-neutral-900 tracking-wide">Order Confirmation</h2>
+            <h2 className="text-2xl font-vagnola font-medium text-neutral-900 tracking-wide">Order Confirmation</h2>
           </div>
 
           <div className="flex-1 overflow-y-auto flex flex-col items-center justify-start p-4 sm:p-8">
@@ -1183,14 +1183,14 @@ export default function CartDrawer() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h3 className="text-4xl font-vagnola font-bold text-neutral-900 mb-2">Payment Successful!</h3>
+                <h3 className="text-4xl font-vagnola font-medium text-neutral-900 mb-2">Payment Successful!</h3>
                 <p className="text-base text-neutral-600 font-medium">Your organic juice box is being packed.</p>
               </div>
 
               {/* Generated Delivery Box Image inside Success Page */}
               <div className="w-full h-64 bg-neutral-100 border-b border-neutral-200 relative overflow-hidden">
                 <img src="/images/success_delivery_box.jpg" alt="Your Clean Juice Box" className="w-full h-full object-cover" />
-                <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur px-4 py-2 rounded-none text-xs font-bold text-neutral-800 shadow-md border border-neutral-200 uppercase tracking-widest">
+                <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur px-4 py-2 rounded-none text-xs font-medium text-neutral-800 shadow-md border border-neutral-200 uppercase tracking-wide">
                   Preparing for Dispatch
                 </div>
               </div>
@@ -1198,12 +1198,12 @@ export default function CartDrawer() {
               <div className="p-8 bg-white">
                 <div className="bg-orange-50 border border-orange-200 rounded-none p-6 mb-8 text-left">
                   <div className="flex justify-between text-base mb-3 items-center">
-                    <span className="text-neutral-700 font-bold uppercase tracking-wider">Amount Paid</span>
-                    <span className="font-black text-2xl text-neutral-900"><span className="font-sans mr-1">₹</span>{orderConfirmed.customerDetails.finalTotal}</span>
+                    <span className="text-neutral-700 font-medium uppercase tracking-wider">Amount Paid</span>
+                    <span className="font-semibold text-2xl text-neutral-900"><span className="font-sans mr-1">₹</span>{orderConfirmed.customerDetails.finalTotal}</span>
                   </div>
                   <div className="flex justify-between text-base items-center">
-                    <span className="text-neutral-700 font-bold uppercase tracking-wider">Order ID</span>
-                    <span className="font-mono font-bold text-neutral-900 bg-white px-3 py-1 border border-orange-200 text-lg tracking-widest">{orderConfirmed.orderId}</span>
+                    <span className="text-neutral-700 font-medium uppercase tracking-wider">Order ID</span>
+                    <span className="font-mono font-medium text-neutral-900 bg-white px-3 py-1 border border-orange-200 text-lg tracking-wide">{orderConfirmed.orderId}</span>
                   </div>
                 </div>
 
@@ -1214,13 +1214,13 @@ export default function CartDrawer() {
                       setIsCartOpen(false)
                       setIsAccountOpen(true)
                     }}
-                    className="flex-1 py-4 bg-neutral-900 hover:bg-black text-white font-bold tracking-widest uppercase rounded-none text-sm transition-colors border-2 border-black"
+                    className="flex-1 py-4 bg-neutral-900 hover:bg-black text-white font-medium tracking-wide uppercase rounded-none text-sm transition-colors border-2 border-black"
                   >
                     Track Order
                   </button>
                   <button
                     onClick={() => setOrderConfirmed(null)}
-                    className="flex-1 py-4 bg-white border-2 border-neutral-300 hover:border-neutral-500 text-neutral-900 font-bold tracking-widest uppercase rounded-none text-sm transition-colors"
+                    className="flex-1 py-4 bg-white border-2 border-neutral-300 hover:border-neutral-500 text-neutral-900 font-medium tracking-wide uppercase rounded-none text-sm transition-colors"
                   >
                     Continue Shopping
                   </button>
