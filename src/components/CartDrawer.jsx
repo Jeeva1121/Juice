@@ -407,9 +407,9 @@ export default function CartDrawer() {
     <>
       {/* Toast Notification */}
       {toastMessage && !isCartOpen && (
-        <div className="fixed bottom-6 right-6 z-60 max-w-sm w-full bg-neutral-950 text-white shadow-2xl rounded-2xl p-3 pr-4 flex items-center gap-3.5 animate-in slide-in-from-bottom-5 fade-in duration-300 border border-black/10">
+        <div className="fixed bottom-6 right-6 z-60 max-w-sm w-full bg-neutral-950 text-white shadow-2xl rounded-none p-3 pr-4 flex items-center gap-3.5 animate-in slide-in-from-bottom-5 fade-in duration-300 border border-black/10">
           {toastMessage.image && (
-            <div className="w-12 h-12 shrink-0 bg-white/10 rounded-xl p-1.5 flex items-center justify-center border border-white/10">
+            <div className="w-12 h-12 shrink-0 bg-white/10 rounded-none p-1.5 flex items-center justify-center border border-white/10">
               <img src={toastMessage.image} alt={toastMessage.title} className="w-full h-full object-contain" />
             </div>
           )}
@@ -427,7 +427,7 @@ export default function CartDrawer() {
           <button
             type="button"
             onClick={() => setIsCartOpen(true)}
-            className="font-poppins px-3.5 py-1.5 bg-white/15 hover:bg-(--color-coral) text-white text-xs font-semibold rounded-lg transition-colors cursor-pointer shrink-0"
+            className="font-poppins px-3.5 py-1.5 bg-white/15 hover:bg-(--color-coral) text-white text-xs font-semibold rounded-none transition-colors cursor-pointer shrink-0"
           >
             View Bag
           </button>
@@ -462,7 +462,7 @@ export default function CartDrawer() {
             data-lenis-prevent-touch="true"
             onWheel={(e) => e.stopPropagation()}
             onTouchMove={(e) => e.stopPropagation()}
-            className="relative w-full max-w-[540px] h-full apple-light-glass flex flex-col z-10 overscroll-contain overflow-hidden text-neutral-900 shadow-2xl"
+            className="relative w-full max-w-[540px] h-full bg-neutral-50 border-l border-neutral-200 flex flex-col z-10 overscroll-contain overflow-hidden text-neutral-900 shadow-2xl"
           >
             {/* Header: Square Back Button on Left, Centered 'Your Cart' Title, 'Edit' on Right */}
             <div 
@@ -477,16 +477,16 @@ export default function CartDrawer() {
                   setIsCheckingOut(false)
                 }}
                 aria-label="Back to store"
-                className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white hover:bg-neutral-100 border border-black/10 flex items-center justify-center text-neutral-800 transition-all cursor-pointer shadow-2xs active:scale-95"
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-none bg-white hover:bg-neutral-100 border border-black/10 flex items-center justify-center text-neutral-800 transition-all cursor-pointer shadow-2xs active:scale-95"
               >
                 <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.25}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
 
-              {/* Centered Title: font-asul with 'Your' and 'Cart' - Reduced size on mobile */}
+              {/* Centered Title: font-vagnola with 'Your' and 'Cart' - Reduced size on mobile */}
               <div className="text-center">
-                <h3 className="font-asul text-lg sm:text-xl font-normal tracking-wide text-neutral-900">
+                <h3 className="font-vagnola text-lg sm:text-xl font-normal tracking-wide text-neutral-900">
                   Your <span className="text-orange-600">Cart</span>
                 </h3>
               </div>
@@ -507,7 +507,7 @@ export default function CartDrawer() {
               data-lenis-prevent="true"
               data-lenis-prevent-wheel="true"
               onWheel={(e) => e.stopPropagation()}
-              className={`relative z-10 flex-1 overflow-y-auto overflow-x-hidden ${items.length === 0 ? 'px-4 sm:px-6 py-6 sm:py-8 flex flex-col justify-center items-center' : 'px-4 sm:px-6 py-4 sm:py-5 pb-10 space-y-3.5 sm:space-y-4.5'} scroll-smooth overscroll-contain [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-black/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-black/20`}
+              className={`relative z-10 flex-1 overflow-y-auto overflow-x-hidden ${items.length === 0 ? 'px-4 sm:px-6 py-6 sm:py-8 flex flex-col justify-center items-center' : 'px-4 sm:px-6 py-4 sm:py-5 pb-10 space-y-3.5 sm:space-y-4.5'} scroll-smooth overscroll-contain [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-black/10 [&::-webkit-scrollbar-thumb]:rounded-none hover:[&::-webkit-scrollbar-thumb]:bg-black/20`}
             >
               {items.length === 0 ? (
                 /* Empty Cart Screen: Clean Organic Artisanal Aesthetic with Asul & Zesty Splashing Box (Reduced on Mobile) */
@@ -523,7 +523,7 @@ export default function CartDrawer() {
                     </div>
 
                     {/* Headline & Description in Asul - Reduced on mobile */}
-                    <h4 className="font-asul text-2xl sm:text-4xl font-normal text-neutral-900 tracking-normal mt-2 mb-1.5">
+                    <h4 className="font-vagnola text-2xl sm:text-4xl font-normal text-neutral-900 tracking-normal mt-2 mb-1.5">
                       Your cart is empty
                     </h4>
                     <p className="font-poppins text-[11px] sm:text-[13px] text-neutral-500 max-w-[260px] sm:max-w-xs mx-auto leading-relaxed mb-5 font-normal">
@@ -538,7 +538,7 @@ export default function CartDrawer() {
                         const el = document.querySelector('#flavors')
                         if (el) el.scrollIntoView({ behavior: 'smooth' })
                       }}
-                      className="group inline-flex items-center justify-center gap-2 px-7 sm:px-9 py-2.5 sm:py-3.5 bg-orange-600 hover:bg-orange-700 text-white font-asul font-medium text-sm sm:text-lg tracking-wide rounded-full shadow-xs hover:shadow-sm transition-all cursor-pointer active:scale-98"
+                      className="group inline-flex items-center justify-center gap-2 px-7 sm:px-9 py-2.5 sm:py-3.5 bg-orange-600 hover:bg-orange-700 text-white font-vagnola font-medium text-sm sm:text-lg tracking-wide rounded-none shadow-xs hover:shadow-sm transition-all cursor-pointer active:scale-98"
                     >
                       <span>Explore 4 Editions</span>
                       {/* Right Arrow */}
@@ -551,7 +551,7 @@ export default function CartDrawer() {
               ) : (
                 <>
                   {/* Luxury Delivery Status Bar with Animated Chilled Van */}
-                  <div className="apple-light-card rounded-2xl px-4 sm:px-5 py-3 sm:py-4 shadow-2xs transition-all overflow-hidden relative">
+                  <div className="bg-white border border-neutral-200 rounded-none shadow-sm px-4 sm:px-5 py-3 sm:py-4 shadow-2xs transition-all overflow-hidden relative">
                     <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-poppins mb-2.5 sm:mb-3">
                       <span className="font-medium text-neutral-800 flex items-center gap-1.5">
                         {isFreeShipping ? (
@@ -567,7 +567,7 @@ export default function CartDrawer() {
                           </span>
                         )}
                       </span>
-                      <span className="text-[10px] sm:text-[11px] font-semibold text-neutral-500 font-asul bg-neutral-100 px-1.5 sm:px-2 py-0.5 rounded-md">
+                      <span className="text-[10px] sm:text-[11px] font-semibold text-neutral-500 font-vagnola bg-neutral-100 px-1.5 sm:px-2 py-0.5 rounded-md">
                         {Math.round(Math.min(100, (subtotal / freeShippingThreshold) * 100))}%
                       </span>
                     </div>
@@ -575,10 +575,10 @@ export default function CartDrawer() {
                     {/* Animated Delivery Road Track with Van */}
                     <div className="relative pt-2.5 pb-1">
                       {/* Base road track */}
-                      <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden relative">
+                      <div className="w-full h-1.5 bg-neutral-100 rounded-none overflow-hidden relative">
                         <div 
                           ref={progressBarRef}
-                          className="h-full bg-neutral-950 rounded-full transition-all duration-500 ease-out"
+                          className="h-full bg-neutral-950 rounded-none transition-all duration-500 ease-out"
                           style={{ width: `${Math.min(100, (subtotal / freeShippingThreshold) * 100)}%` }}
                         />
                       </div>
@@ -589,18 +589,18 @@ export default function CartDrawer() {
                         className="absolute -top-3.5 transition-all duration-500 ease-out pointer-events-none z-10"
                         style={{ left: `calc(${Math.min(94, Math.max(0, Math.round((subtotal / freeShippingThreshold) * 100)))}% - 14px)` }}
                       >
-                        <div className="w-4 h-4 rounded-full bg-neutral-900 border-2 border-white shadow-sm"></div>
+                        <div className="w-4 h-4 rounded-none bg-neutral-900 border-2 border-white shadow-sm"></div>
                       </div>
 
                       {/* Destination Finish Point */}
                       <div className="absolute -right-0.5 -top-2.5 flex items-center justify-center pointer-events-none">
                         {isFreeShipping ? (
-                          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[8px] sm:text-[9px] font-bold shadow-xs">
+                          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-none bg-emerald-600 text-white flex items-center justify-center text-[8px] sm:text-[9px] font-bold shadow-xs">
                             ✓
                           </div>
                         ) : (
-                          <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full border border-neutral-400 bg-white flex items-center justify-center">
-                            <div className="w-1.5 h-1.5 rounded-full bg-neutral-500" />
+                          <div className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-none border border-neutral-400 bg-white flex items-center justify-center">
+                            <div className="w-1.5 h-1.5 rounded-none bg-neutral-500" />
                           </div>
                         )}
                       </div>
@@ -612,10 +612,10 @@ export default function CartDrawer() {
                     {items.map((item) => (
                       <div 
                         key={`${item.id}-${item.pack}`} 
-                        className="cart-product-item apple-light-card rounded-2xl p-3 sm:p-4 flex gap-3 sm:gap-4 items-center transition-all duration-200"
+                        className="cart-product-item bg-white border border-neutral-200 rounded-none shadow-sm p-3 sm:p-4 flex gap-3 sm:gap-4 items-center transition-all duration-200"
                       >
                         {/* Square Image Box */}
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-neutral-100/70 border border-black/5 flex items-center justify-center p-1.5 sm:p-2 shrink-0 relative overflow-hidden">
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-none bg-neutral-100/70 border border-black/5 flex items-center justify-center p-1.5 sm:p-2 shrink-0 relative overflow-hidden">
                           <img 
                             src={item.image} 
                             alt={item.title} 
@@ -628,7 +628,7 @@ export default function CartDrawer() {
                           {/* Title & Delete button row */}
                           <div className="flex items-start justify-between gap-2">
                             <div className="min-w-0">
-                              <h4 className="font-asul font-normal text-xs sm:text-sm text-neutral-900 leading-snug tracking-wide truncate">
+                              <h4 className="font-vagnola font-normal text-xs sm:text-sm text-neutral-900 leading-snug tracking-wide truncate">
                                 {item.title}
                               </h4>
                               <p className="font-poppins text-[10px] sm:text-[11px] text-neutral-500 font-normal mt-0.5 truncate">
@@ -641,7 +641,7 @@ export default function CartDrawer() {
                               type="button"
                               onClick={(e) => handleAnimatedRemove(item.id, item.pack, e)}
                               aria-label="Remove item"
-                              className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-neutral-100/80 hover:bg-red-50 text-neutral-400 hover:text-red-500 border border-black/5 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                              className="w-7 h-7 sm:w-8 sm:h-8 rounded-none bg-neutral-100/80 hover:bg-red-50 text-neutral-400 hover:text-red-500 border border-black/5 flex items-center justify-center transition-colors cursor-pointer shrink-0"
                             >
                               <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -653,7 +653,7 @@ export default function CartDrawer() {
                           <div className="flex items-center justify-between mt-2.5 sm:mt-3 pt-1 border-t border-black/5">
                             {/* Price in Asul with reduced font size on mobile */}
                             <div>
-                              <span className="font-asul font-normal text-xs sm:text-sm text-neutral-900">
+                              <span className="font-vagnola font-normal text-xs sm:text-sm text-neutral-900">
                                 <span className="font-sans">₹</span>{item.totalPrice * item.qty}
                               </span>
                               {item.qty > 1 && (
@@ -664,13 +664,13 @@ export default function CartDrawer() {
                             </div>
 
                             {/* Quantity Stepper with SQUARE BUTTONS */}
-                            <div className="qty-stepper-container flex items-center gap-0.5 sm:gap-1 bg-neutral-100/90 border border-black/10 rounded-xl p-0.5 sm:p-1">
+                            <div className="qty-stepper-container flex items-center gap-0.5 sm:gap-1 bg-neutral-100/90 border border-black/10 rounded-none p-0.5 sm:p-1">
                               {/* Square Minus Button */}
                               <button
                                 type="button"
                                 onClick={(e) => handleQtyClick(item.id, item.pack, -1, e)}
                                 aria-label="Decrease quantity"
-                                className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white hover:bg-neutral-200 text-neutral-800 flex items-center justify-center text-xs sm:text-sm font-semibold border border-black/5 transition-colors cursor-pointer"
+                                className="w-6 h-6 sm:w-7 sm:h-7 rounded-none bg-white hover:bg-neutral-200 text-neutral-800 flex items-center justify-center text-xs sm:text-sm font-semibold border border-black/5 transition-colors cursor-pointer"
                               >
                                 &minus;
                               </button>
@@ -685,7 +685,7 @@ export default function CartDrawer() {
                                 type="button"
                                 onClick={(e) => handleQtyClick(item.id, item.pack, 1, e)}
                                 aria-label="Increase quantity"
-                                className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white hover:bg-neutral-200 text-neutral-800 flex items-center justify-center text-xs sm:text-sm font-semibold border border-black/5 transition-colors cursor-pointer"
+                                className="w-6 h-6 sm:w-7 sm:h-7 rounded-none bg-white hover:bg-neutral-200 text-neutral-800 flex items-center justify-center text-xs sm:text-sm font-semibold border border-black/5 transition-colors cursor-pointer"
                               >
                                 +
                               </button>
@@ -698,19 +698,19 @@ export default function CartDrawer() {
 
                   {/* Recommended Add-ons Section - Scaled down for mobile */}
                   <div ref={addonsRef} className="pt-1.5 sm:pt-2">
-                    <span className="font-asul text-xs sm:text-sm font-normal uppercase tracking-wider text-neutral-600 block mb-2.5">
+                    <span className="font-vagnola text-xs sm:text-sm font-normal uppercase tracking-wider text-neutral-600 block mb-2.5">
                       Recommended Add-ons
                     </span>
                     <div className="grid grid-cols-2 gap-2 sm:gap-3">
                       {/* Wild Strawberry Addon */}
-                      <div className="apple-light-card rounded-2xl p-2.5 sm:p-3 flex items-center gap-2 sm:gap-2.5 transition-all">
+                      <div className="bg-white border border-neutral-200 rounded-none shadow-sm p-2.5 sm:p-3 flex items-center gap-2 sm:gap-2.5 transition-all">
                         <img 
                           src="/assets/straw-can-hero.png" 
                           alt="Wild Strawberry" 
                           className="w-7 h-9 sm:w-9 sm:h-11 object-contain shrink-0" 
                         />
                         <div className="flex-1 min-w-0">
-                          <h5 className="font-asul text-xs sm:text-sm font-normal text-neutral-900 truncate">
+                          <h5 className="font-vagnola text-xs sm:text-sm font-normal text-neutral-900 truncate">
                             Wild Strawberry
                           </h5>
                           <span className="font-dacomment text-[10px] sm:text-[11px] font-semibold text-neutral-600 block">
@@ -732,9 +732,9 @@ export default function CartDrawer() {
                               e
                             )
                           }
-                          className={`font-poppins px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-[10px] sm:text-xs font-semibold transition-all cursor-pointer shrink-0 normal-case ${
+                          className={`font-poppins px-2 sm:px-3 py-1 sm:py-1.5 rounded-none border text-[10px] sm:text-xs font-semibold transition-all cursor-pointer shrink-0 normal-case ${
                             addedAddons['strawberry']
-                              ? 'bg-neutral-900 text-white border-neutral-900'
+                              ? 'bg-black text-white rounded-none border-neutral-900'
                               : 'bg-white hover:bg-neutral-900 hover:text-white border-black/15 text-neutral-900'
                           }`}
                         >
@@ -743,14 +743,14 @@ export default function CartDrawer() {
                       </div>
 
                       {/* Black Cherry Addon */}
-                      <div className="apple-light-card rounded-2xl p-2.5 sm:p-3 flex items-center gap-2 sm:gap-2.5 transition-all">
+                      <div className="bg-white border border-neutral-200 rounded-none shadow-sm p-2.5 sm:p-3 flex items-center gap-2 sm:gap-2.5 transition-all">
                         <img 
                           src="/assets/cherry-can-hero.png" 
                           alt="Black Cherry" 
                           className="w-7 h-9 sm:w-9 sm:h-11 object-contain shrink-0" 
                         />
                         <div className="flex-1 min-w-0">
-                          <h5 className="font-asul text-xs sm:text-sm font-normal text-neutral-900 truncate">
+                          <h5 className="font-vagnola text-xs sm:text-sm font-normal text-neutral-900 truncate">
                             Black Cherry
                           </h5>
                           <span className="font-dacomment text-[10px] sm:text-[11px] font-semibold text-neutral-600 block">
@@ -772,9 +772,9 @@ export default function CartDrawer() {
                               e
                             )
                           }
-                          className={`font-poppins px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-[10px] sm:text-xs font-semibold transition-all cursor-pointer shrink-0 normal-case ${
+                          className={`font-poppins px-2 sm:px-3 py-1 sm:py-1.5 rounded-none border text-[10px] sm:text-xs font-semibold transition-all cursor-pointer shrink-0 normal-case ${
                             addedAddons['cherry']
-                              ? 'bg-neutral-900 text-white border-neutral-900'
+                              ? 'bg-black text-white rounded-none border-neutral-900'
                               : 'bg-white hover:bg-neutral-900 hover:text-white border-black/15 text-neutral-900'
                           }`}
                         >
@@ -821,10 +821,10 @@ export default function CartDrawer() {
 
                   {/* Total row in Clean Asul Font */}
                   <div className="flex justify-between items-center pt-2 sm:pt-2.5 border-t border-neutral-200">
-                    <span className="font-asul text-xs sm:text-base font-normal text-neutral-900">
+                    <span className="font-vagnola text-xs sm:text-base font-normal text-neutral-900">
                       Total
                     </span>
-                    <span className="font-asul text-lg sm:text-xl font-normal text-neutral-950">
+                    <span className="font-vagnola text-lg sm:text-xl font-normal text-neutral-950">
                       ₹{finalTotal}
                     </span>
                   </div>
@@ -835,7 +835,7 @@ export default function CartDrawer() {
                   <button
                     type="button"
                     onClick={() => setPromoInputOpen(true)}
-                    className="w-full py-2.5 sm:py-3 px-3.5 sm:px-4 rounded-xl bg-neutral-100 hover:bg-neutral-200/80 border border-black/5 flex items-center justify-between text-neutral-600 text-[10px] sm:text-[11px] font-poppins font-medium transition-all cursor-pointer"
+                    className="w-full py-2.5 sm:py-3 px-3.5 sm:px-4 rounded-none bg-neutral-100 hover:bg-neutral-200/80 border border-black/5 flex items-center justify-between text-neutral-600 text-[10px] sm:text-[11px] font-poppins font-medium transition-all cursor-pointer"
                   >
                     <div className="flex items-center gap-2 sm:gap-2.5">
                       <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
@@ -855,14 +855,14 @@ export default function CartDrawer() {
                         value={promoCode}
                         onChange={(e) => setPromoCode(e.target.value)}
                         placeholder="ENTER CODE (CLEAN10, ORGANIC)"
-                        className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-white border border-neutral-300 rounded-xl text-[10px] sm:text-[11px] font-poppins font-medium text-neutral-900 uppercase tracking-wider outline-none focus:ring-1 focus:ring-neutral-900"
+                        className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-white border border-neutral-300 rounded-none text-[10px] sm:text-[11px] font-poppins font-medium text-neutral-900 uppercase tracking-wider outline-none focus:ring-1 focus:ring-neutral-900"
                         autoFocus
                       />
                     </div>
                     {/* Square Apply Button */}
                     <button
                       type="submit"
-                      className="px-3.5 sm:px-4 py-2.5 sm:py-3 bg-neutral-950 hover:bg-black text-white text-[10px] sm:text-[11px] font-poppins font-semibold rounded-xl transition-all cursor-pointer shrink-0 normal-case shadow-sm"
+                      className="px-3.5 sm:px-4 py-2.5 sm:py-3 bg-neutral-950 hover:bg-black text-white text-[10px] sm:text-[11px] font-poppins font-semibold rounded-none transition-all cursor-pointer shrink-0 normal-case shadow-sm"
                     >
                       Apply
                     </button>
@@ -870,24 +870,24 @@ export default function CartDrawer() {
                 )}
 
                 {promoError && (
-                  <p ref={errorRef} className="font-poppins text-xs text-red-600 bg-red-50 border border-red-200 px-3 py-1.5 rounded-lg">
+                  <p ref={errorRef} className="font-poppins text-xs text-red-600 bg-red-50 border border-red-200 px-3 py-1.5 rounded-none">
                     {promoError}
                   </p>
                 )}
 
-                {/* Primary Proceed to Checkout CTA in Luxury Deep Charcoal with Square Arrow Button */}
+                {/* Primary PROCEED TO CHECKOUT CTA in Luxury Deep Charcoal with Square Arrow Button */}
                 <div className="pt-0.5 sm:pt-1 pb-[calc(var(--sab)+0.5rem)]">
                   <button
                     ref={checkoutBtnRef}
                     type="button"
                     onClick={() => setIsCheckingOut(true)}
-                    className="w-full h-12 sm:h-14 pl-5 sm:pl-6 pr-1.5 sm:pr-2 rounded-2xl bg-neutral-950 hover:bg-black text-white flex items-center justify-between transition-all duration-300 cursor-pointer shadow-md hover:shadow-xl active:scale-98"
+                    className="w-full h-12 sm:h-14 pl-5 sm:pl-6 pr-1.5 sm:pr-2 rounded-none bg-neutral-950 hover:bg-black text-white flex items-center justify-between transition-all duration-300 cursor-pointer shadow-md hover:shadow-xl active:scale-98"
                   >
-                    <span className="font-asul text-xs sm:text-sm font-normal tracking-wide text-white">
-                      Proceed to Checkout
+                    <span className="font-vagnola text-xs sm:text-sm font-normal tracking-wide text-white">
+                      PROCEED TO CHECKOUT
                     </span>
                     {/* Square Arrow Button */}
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition-colors">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-none bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition-colors">
                       <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.25}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                       </svg>
@@ -919,7 +919,7 @@ export default function CartDrawer() {
             
             {isProcessingPayment && (
               <div className="absolute inset-0 bg-white/95 z-50 flex flex-col items-center justify-center p-6 text-center">
-                <div className="w-12 h-12 border-4 border-orange-100 border-t-orange-600 rounded-full animate-spin mb-4" />
+                <div className="w-12 h-12 border-4 border-orange-100 border-t-orange-600 rounded-none animate-spin mb-4" />
                 <h4 className="font-semibold text-xl font-vagnola text-neutral-900 mb-2">Processing Payment...</h4>
                 <p className="text-sm text-neutral-600 max-w-xs">Please do not close this page or press back.</p>
               </div>
@@ -971,10 +971,10 @@ export default function CartDrawer() {
               </div>
 
               <div className="mt-auto bg-white p-5 rounded-none border border-orange-100 space-y-2 text-sm font-medium text-neutral-600 shadow-sm">
-                <div className="flex justify-between"><span>Subtotal</span><span><span className="font-sans mr-0.5">₹</span>{subtotal}</span></div>
-                <div className="flex justify-between"><span>Shipping</span><span className={isFreeShipping ? 'text-green-600 font-bold' : ''}>{isFreeShipping ? 'Free' : <><span className="font-sans mr-0.5">₹</span>{shippingFee}</>}</span></div>
-                <div className="flex justify-between"><span>Taxes (5%)</span><span><span className="font-sans mr-0.5">₹</span>{taxAmount}</span></div>
-                {discountAmount > 0 && <div className="flex justify-between text-green-600 font-bold"><span>Discount ({appliedPromoCode})</span><span>-<span className="font-sans mr-0.5">₹</span>{discountAmount}</span></div>}
+                <div className="flex justify-between"><span>Subtotal</span><span><span className="font-sans mr-1">₹</span>{subtotal}</span></div>
+                <div className="flex justify-between"><span>Shipping</span><span className={isFreeShipping ? 'text-green-600 font-bold' : ''}>{isFreeShipping ? 'Free' : <><span className="font-sans mr-1">₹</span>{shippingFee}</>}</span></div>
+                <div className="flex justify-between"><span>Taxes (5%)</span><span><span className="font-sans mr-1">₹</span>{taxAmount}</span></div>
+                {discountAmount > 0 && <div className="flex justify-between text-green-600 font-bold"><span>Discount ({appliedPromoCode})</span><span>-<span className="font-sans mr-1">₹</span>{discountAmount}</span></div>}
                 <div className="flex justify-between font-black text-xl text-neutral-900 pt-4 border-t border-neutral-200 mt-2">
                   <span>Total</span><span className="text-orange-600"><span className="font-sans text-lg mr-0.5">₹</span>{finalTotal}</span>
                 </div>
@@ -1050,7 +1050,7 @@ export default function CartDrawer() {
                       <label className="block text-sm font-bold text-neutral-800 uppercase tracking-wider mb-3">Pay via UPI ID</label>
                       <div className="flex gap-2">
                         <input type="text" placeholder="Enter UPI ID (e.g. name@bank)" value={customUpiId} onChange={e => setCustomUpiId(e.target.value)} className="flex-1 px-4 py-3 border border-neutral-300 rounded-none focus:border-orange-600 outline-none text-base bg-white shadow-sm" />
-                        <button onClick={handleVerifyUpi} className={`px-8 py-3 rounded-none text-sm font-bold uppercase tracking-widest transition-colors ${upiVerified ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-neutral-900 text-white hover:bg-black'}`}>
+                        <button onClick={handleVerifyUpi} className={`px-8 py-3 rounded-none text-sm font-bold uppercase tracking-widest transition-colors ${upiVerified ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-black text-white rounded-none hover:bg-black'}`}>
                           {upiVerifying ? 'VERIFYING...' : upiVerified ? '✓ VERIFIED' : 'VERIFY'}
                         </button>
                       </div>
@@ -1156,7 +1156,7 @@ export default function CartDrawer() {
 
               <div className="mt-auto pt-6 border-t border-neutral-200 shrink-0 max-w-2xl w-full">
                 <button onClick={handleCheckoutSubmit} className="w-full py-4 bg-orange-600 hover:bg-orange-700 text-white font-black tracking-widest uppercase rounded-none transition-colors text-lg flex items-center justify-center gap-3 shadow-sm">
-                  <span>PAY <span className="font-sans mr-0.5">₹</span>{finalTotal}</span>
+                  <span>PAY <span className="font-sans mr-1">₹</span>{finalTotal}</span>
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                 </button>
               </div>
@@ -1199,7 +1199,7 @@ export default function CartDrawer() {
                 <div className="bg-orange-50 border border-orange-200 rounded-none p-6 mb-8 text-left">
                   <div className="flex justify-between text-base mb-3 items-center">
                     <span className="text-neutral-700 font-bold uppercase tracking-wider">Amount Paid</span>
-                    <span className="font-black text-2xl text-neutral-900"><span className="font-sans mr-0.5">₹</span>{orderConfirmed.customerDetails.finalTotal}</span>
+                    <span className="font-black text-2xl text-neutral-900"><span className="font-sans mr-1">₹</span>{orderConfirmed.customerDetails.finalTotal}</span>
                   </div>
                   <div className="flex justify-between text-base items-center">
                     <span className="text-neutral-700 font-bold uppercase tracking-wider">Order ID</span>
@@ -1239,9 +1239,9 @@ export default function CartDrawer() {
         >
           <div 
             ref={promoPopupRef}
-            className="relative w-full max-w-[340px] bg-white rounded-3xl p-7 z-10 text-center border border-black/10 shadow-2xl text-neutral-900"
+            className="relative w-full max-w-[340px] bg-white rounded-none p-7 z-10 text-center border border-black/10 shadow-2xl text-neutral-900"
           >
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center mx-auto mb-4 text-[#1E5BF7]">
+            <div className="w-12 h-12 rounded-none bg-blue-50 border border-blue-200 flex items-center justify-center mx-auto mb-4 text-[#1E5BF7]">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
               </svg>
@@ -1257,7 +1257,7 @@ export default function CartDrawer() {
             <button
               type="button"
               onClick={() => setShowPromoPopup(false)}
-              className="font-poppins w-full py-3.5 bg-neutral-950 hover:bg-black text-white text-xs font-semibold rounded-xl transition-all cursor-pointer shadow-md normal-case"
+              className="font-poppins w-full py-3.5 bg-neutral-950 hover:bg-black text-white text-xs font-semibold rounded-none transition-all cursor-pointer shadow-md normal-case"
             >
               Apply Coupons
             </button>
