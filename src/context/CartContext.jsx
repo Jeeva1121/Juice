@@ -3,6 +3,21 @@ import { createContext, useContext, useState, useEffect } from 'react'
 const CartContext = createContext(null)
 
 const STORAGE_KEY = 'clean_juice_cart_v1'
+const PROFILE_KEY = 'zesty_user_profile_v1'
+const ORDERS_KEY = 'zesty_orders_v1'
+
+const DEFAULT_PROFILE = {
+  fullName: '',
+  phone: '',
+  email: '',
+  address: '',
+  city: '',
+  pincode: '',
+  membershipId: '#CJ-8429',
+  memberSince: 'Sept 2024',
+}
+
+const DEFAULT_ORDERS = []
 
 const INITIAL_ITEMS = [
   {
@@ -27,6 +42,37 @@ export function CartProvider({ children }) {
       return saved ? JSON.parse(saved) : INITIAL_ITEMS
     } catch {
       return INITIAL_ITEMS
+    }
+  })
+
+  const [userProfile, setUserProfile] = useState(() => {
+    try {
+      const saved = localStorage.getItem(PROFILE_KEY)
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        // If it still holds the previous hardcoded dummy profile, start clean
+        if (parsed.fullName === 'Jeeva Kumar' && parsed.address === 'Flat 402, Lotus Greens, Indiranagar' && !localStorage.getItem('zesty_profile_verified')) {
+          return DEFAULT_PROFILE
+        }
+        return parsed
+      }
+      return DEFAULT_PROFILE
+    } catch {
+      return DEFAULT_PROFILE
+    }
+  })
+
+  const [orders, setOrders] = useState(() => {
+    try {
+      const saved = localStorage.getItem(ORDERS_KEY)
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        // Filter out old dummy order
+        return parsed.filter(o => o.orderId !== 'CJ-8921')
+      }
+      return DEFAULT_ORDERS
+    } catch {
+      return DEFAULT_ORDERS
     }
   })
 
@@ -155,11 +201,57 @@ export function CartProvider({ children }) {
         day: 'numeric',
         year: 'numeric',
       }),
-      deliverySlot: customerDetails.slot || 'Dawn Express (6 AM - 9 AM)',
+      time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+      deliverySlot: customerDetails.slot || 'Dawn Express (Juiced at 4 AM • Delivered 6 AM - 9 AM)',
+      status: 'Cold-Chain In Transit',
     }
+
+    setOrders((prev) => {
+      const updated = [orderData, ...prev]
+      try {
+        localStorage.setItem(ORDERS_KEY, JSON.stringify(updated))
+      } catch (e) {
+        console.error(e)
+      }
+      return updated
+    })
+
+    if (customerDetails) {
+      setUserProfile((prev) => {
+        const updated = {
+          ...prev,
+          fullName: customerDetails.fullName || prev.fullName,
+          phone: customerDetails.phone || prev.phone,
+          address: customerDetails.address || prev.address,
+          city: customerDetails.city || prev.city,
+          pincode: customerDetails.pincode || prev.pincode,
+        }
+        try {
+          localStorage.setItem(PROFILE_KEY, JSON.stringify(updated))
+          localStorage.setItem('zesty_profile_verified', 'true')
+        } catch (e) {
+          console.error(e)
+        }
+        return updated
+      })
+    }
+
     setOrderConfirmed(orderData)
     setIsCheckingOut(false)
     clearCart()
+  }
+
+  const updateUserProfile = (newProfile) => {
+    setUserProfile((prev) => {
+      const updated = { ...prev, ...newProfile }
+      try {
+        localStorage.setItem(PROFILE_KEY, JSON.stringify(updated))
+        localStorage.setItem('zesty_profile_verified', 'true')
+      } catch (e) {
+        console.error(e)
+      }
+      return updated
+    })
   }
 
   return (
@@ -188,6 +280,9 @@ export function CartProvider({ children }) {
         removeItem,
         clearCart,
         completeOrder,
+        userProfile,
+        updateUserProfile,
+        orders,
       }}
     >
       {children}

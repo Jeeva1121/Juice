@@ -689,7 +689,7 @@ export default function Hero() {
             {/* Cherry Piece 1: Top Left */}
             <div
               ref={cherryPiece1Ref}
-              className="absolute top-[13%] sm:top-[0%] md:-top-[6%] lg:-top-[8%] left-[4%] sm:left-[2%] md:left-[2%] lg:left-[2%] w-22 sm:w-48 md:w-36 lg:w-40 pointer-events-none"
+              className="absolute top-[13%] sm:top-[0%] md:top-[-6%] lg:top-[-8%] left-[4%] sm:left-[2%] md:left-[2%] lg:left-[2%] w-22 sm:w-48 md:w-36 lg:w-40 pointer-events-none"
             >
               <div className="">
                 <img

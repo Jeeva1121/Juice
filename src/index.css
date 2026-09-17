@@ -5,12 +5,13 @@
   --font-mono: 'Poppins', sans-serif;
   --font-body: 'Plus Jakarta Sans', 'Poppins', sans-serif;
   --font-hand: 'Caveat', cursive;
+  --font-caveat: 'Caveat', cursive;
   --font-outfit: 'Outfit', sans-serif;
   --font-jakarta: 'Plus Jakarta Sans', sans-serif;
   --font-display: 'Outfit', 'Poppins', sans-serif;
   --font-poppins: 'Poppins', sans-serif;
   --font-dacomment: 'Dacomment', sans-serif;
-  --font-asul: 'Asal Usul', sans-serif;
+  --font-asul: 'Asul', 'Asal Usul', serif;
 }
 
 @layer base {
@@ -173,9 +174,12 @@
   letter-spacing: 0.01em;
 }
 
-.font-asul,
+.font-asul {
+  font-family: 'Asul', serif !important;
+}
+
 .font-asal {
-  font-family: 'Asal Usul', 'Asul', sans-serif !important;
+  font-family: 'Asal Usul', sans-serif !important;
 }
 
 .font-caveat,
@@ -336,13 +340,22 @@
   }
 }
 
-/* Apple Light Glass Aesthetics */
+/* Apple Light Glass Aesthetics - High Performance on Mobile */
 .apple-light-glass {
-  background: rgba(251, 247, 240, 0.96);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  background: #FAF5EA;
   border-left: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: -15px 0 50px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: -15px 0 50px rgba(0, 0, 0, 0.08);
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@media (min-width: 768px) {
+  .apple-light-glass {
+    background: rgba(251, 247, 240, 0.96);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    box-shadow: -15px 0 50px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
 }
 
 .apple-light-card {
@@ -360,4 +373,15 @@
   background: rgba(0, 0, 0, 0.03);
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
+
+@keyframes vanBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
+}
+
+.delivery-van-bounce {
+  animation: vanBounce 0.45s ease-in-out infinite;
+  will-change: transform;
+}
+
 
