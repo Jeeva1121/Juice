@@ -1026,6 +1026,20 @@ export default function CartDrawer() {
               <div className="flex justify-between font-bold text-lg text-neutral-900">
                 <span>Total Amount</span><span className="text-[#0F763F] text-3xl tracking-tight"><span className="font-sans text-2xl mr-1">₹</span>{finalTotal}</span>
               </div>
+              
+              {/* Promotional Banner Area (Restored as requested) */}
+              <div className="mt-auto pt-12 pb-4 flex items-center justify-between">
+                <div className="flex -space-x-3 items-end translate-y-2">
+                   <img src="/assets/orange-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-10" alt="can" />
+                   <img src="/assets/straw-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-20 scale-105" alt="can" />
+                   <img src="/assets/cherry-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-10" alt="can" />
+                   <img src="/assets/lemon-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-0 scale-95" alt="can" />
+                </div>
+                <div className="text-right">
+                  <p className="font-black text-xl text-[#0F763F] leading-[1.1] tracking-tight">Good<br/>Juice<br/>Brighter<br/>Days</p>
+                  <div className="w-8 h-[3px] bg-[#0F763F] ml-auto mt-2"></div>
+                </div>
+              </div>
 
             </div>
 
@@ -1075,19 +1089,21 @@ export default function CartDrawer() {
 
                           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                             {[
-                              { id: 'gpay', name: 'GPay', icon: <img src="/assets/gpay.svg" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" alt="GPay" onError={(e) => {e.target.onerror = null; e.target.src = '/assets/gpay.png'}}/> },
-                              { id: 'phonepe', name: 'PhonePe', icon: <img src="/assets/phonepe.svg" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" alt="PhonePe" onError={(e) => {e.target.onerror = null; e.target.src = '/assets/phonepe.png'}}/> },
-                              { id: 'paytm', name: 'Paytm', icon: <img src="/assets/paytm.svg" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" alt="Paytm" onError={(e) => {e.target.onerror = null; e.target.src = '/assets/paytm.png'}}/> },
-                              { id: 'bhim', name: 'BHIM', icon: <img src="/assets/bhim.svg" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" alt="BHIM" onError={(e) => {e.target.onerror = null; e.target.src = '/assets/bhim.png'}}/> },
-                              { id: 'cred', name: 'CRED', icon: <img src="/assets/cred.svg" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" alt="CRED" onError={(e) => {e.target.onerror = null; e.target.src = '/assets/cred.png'}}/> },
+                              { id: 'gpay', name: 'GPay', url: 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg' },
+                              { id: 'phonepe', name: 'PhonePe', url: 'https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg' },
+                              { id: 'paytm', name: 'Paytm', url: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg' },
+                              { id: 'bhim', name: 'BHIM', url: 'https://upload.wikimedia.org/wikipedia/commons/e/e4/BHIM_Logo.svg' },
+                              { id: 'cred', name: 'CRED', url: 'https://upload.wikimedia.org/wikipedia/en/2/23/Cred_logo.png' },
                             ].map((app) => (
                               <button
                                 key={app.id}
                                 onClick={() => setSelectedUpiApp(app.id)}
-                                className={`w-14 h-16 sm:w-16 sm:h-20 bg-white border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${selectedUpiApp === app.id ? 'border-[#0F763F] shadow-sm' : 'border-neutral-200 hover:border-neutral-300'}`}
+                                className={`w-[60px] h-[72px] sm:w-[72px] sm:h-[84px] bg-white border flex flex-col items-center justify-center gap-2 transition-all cursor-pointer ${selectedUpiApp === app.id ? 'border-[#0F763F] shadow-sm' : 'border-neutral-200 hover:border-neutral-300'}`}
                               >
-                                {app.icon}
-                                <span className="text-[10px] text-neutral-500 font-medium">{app.name}</span>
+                                <div className="h-6 flex items-center justify-center">
+                                  <img src={app.url} className="max-w-full max-h-full object-contain mix-blend-multiply" alt={app.name} />
+                                </div>
+                                <span className="text-[9px] sm:text-[10px] text-neutral-600 font-medium">{app.name}</span>
                               </button>
                             ))}
                           </div>
