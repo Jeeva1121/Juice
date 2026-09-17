@@ -169,6 +169,7 @@ export default function CartDrawer() {
   const [customUpiId, setCustomUpiId] = useState('')
   const [upiVerified, setUpiVerified] = useState(false)
   const [upiVerifying, setUpiVerifying] = useState(false)
+  const [upiError, setUpiError] = useState('')
   const [qrCountdown, setQrCountdown] = useState(299) // 4 min 59 sec
   const [selectedBank, setSelectedBank] = useState('hdfc') // 'hdfc', 'icici', 'sbi', 'axis', 'kotak', 'pnb'
   const [selectedWallet, setSelectedWallet] = useState('paytm') // 'paytm', 'amazonpay', 'phonepe', 'mobikwik'
@@ -923,28 +924,7 @@ export default function CartDrawer() {
                 Back
               </button>
             </div>
-            
-            {/* Main Nav Links (Like in the mockup) */}
-            <div className="hidden lg:flex items-center gap-8 text-sm font-medium text-neutral-800">
-              <a href="#" className="hover:text-[#0F763F] transition-colors">Shop</a>
-              <a href="#" className="hover:text-[#0F763F] transition-colors">Our Story</a>
-              <a href="#" className="hover:text-[#0F763F] transition-colors">Contact</a>
-            </div>
-
-            {/* Search and User Icons */}
-            <div className="hidden lg:flex items-center gap-6">
-              <div className="relative">
-                <svg className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                <input type="text" placeholder="Search juices..." className="pl-9 pr-4 py-2 bg-white border border-neutral-200 text-sm focus:outline-none focus:border-neutral-300 w-48" />
-              </div>
-              <svg className="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-              <div className="relative">
-                <svg className="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#0F763F] text-white text-[9px] font-bold flex items-center justify-center rounded-full">2</span>
-              </div>
-            </div>
           </div>
-          
           {/* Progress Stepper Banner */}
           <div className="w-full bg-white border-b border-neutral-200 py-3 flex justify-center shadow-sm z-10 relative">
             <div className="flex items-center gap-3 sm:gap-6 text-xs sm:text-sm font-medium">
@@ -1046,20 +1026,6 @@ export default function CartDrawer() {
               <div className="flex justify-between font-bold text-lg text-neutral-900">
                 <span>Total Amount</span><span className="text-[#0F763F] text-3xl tracking-tight"><span className="font-sans text-2xl mr-1">₹</span>{finalTotal}</span>
               </div>
-              
-              {/* Promotional Banner Area (Mimicking the image) */}
-              <div className="mt-auto pt-12 pb-4 flex items-center justify-between">
-                <div className="flex -space-x-3 items-end translate-y-2">
-                   <img src="/assets/orange-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-10" alt="can" />
-                   <img src="/assets/straw-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-20 scale-105" alt="can" />
-                   <img src="/assets/cherry-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-10" alt="can" />
-                   <img src="/assets/lemon-can-hero.png" className="w-14 h-24 object-contain drop-shadow-md relative z-0 scale-95" alt="can" />
-                </div>
-                <div className="text-right">
-                  <p className="font-black text-xl text-[#0F763F] leading-[1.1] tracking-tight">Good<br/>Juice<br/>Brighter<br/>Days</p>
-                  <div className="w-8 h-[3px] bg-[#0F763F] ml-auto mt-2"></div>
-                </div>
-              </div>
 
             </div>
 
@@ -1108,7 +1074,13 @@ export default function CartDrawer() {
                           </div>
 
                           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                            {upiApps.map((app) => (
+                            {[
+                              { id: 'gpay', name: 'GPay', icon: <img src="/assets/gpay.svg" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" alt="GPay" onError={(e) => {e.target.onerror = null; e.target.src = '/assets/gpay.png'}}/> },
+                              { id: 'phonepe', name: 'PhonePe', icon: <img src="/assets/phonepe.svg" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" alt="PhonePe" onError={(e) => {e.target.onerror = null; e.target.src = '/assets/phonepe.png'}}/> },
+                              { id: 'paytm', name: 'Paytm', icon: <img src="/assets/paytm.svg" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" alt="Paytm" onError={(e) => {e.target.onerror = null; e.target.src = '/assets/paytm.png'}}/> },
+                              { id: 'bhim', name: 'BHIM', icon: <img src="/assets/bhim.svg" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" alt="BHIM" onError={(e) => {e.target.onerror = null; e.target.src = '/assets/bhim.png'}}/> },
+                              { id: 'cred', name: 'CRED', icon: <img src="/assets/cred.svg" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" alt="CRED" onError={(e) => {e.target.onerror = null; e.target.src = '/assets/cred.png'}}/> },
+                            ].map((app) => (
                               <button
                                 key={app.id}
                                 onClick={() => setSelectedUpiApp(app.id)}
@@ -1122,25 +1094,21 @@ export default function CartDrawer() {
                         </div>
 
                         {/* Right Side: QR Code */}
-                        <div className="w-full md:w-auto flex flex-col items-center justify-center pl-0 md:pl-8 border-l-0 md:border-l border-neutral-200 shrink-0">
-                          <div className="w-40 h-40 bg-white p-2 border border-neutral-200 shadow-sm mb-4 relative">
-                            {qrUrl ? (
-                              <img src={qrUrl} alt="UPI QR Code" className="w-full h-full object-contain mix-blend-multiply" />
-                            ) : (
-                              <div className="w-full h-full bg-neutral-100 flex items-center justify-center">
-                                <span className="text-neutral-400 text-xs font-medium">Generating...</span>
-                              </div>
-                            )}
+                        <div className="w-full md:w-[280px] flex flex-col items-center justify-center pl-0 md:pl-8 border-l-0 md:border-l border-neutral-200 shrink-0">
+                          <div className="w-48 h-48 bg-white p-2 border border-neutral-200 shadow-sm mb-4 relative">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="UPI QR Code" className="w-full h-full object-contain mix-blend-multiply" />
                             {/* Little leaf logo in the center of QR (Mockup style) */}
                             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                               <div className="bg-white p-1 rounded-sm border border-neutral-200 shadow-sm">
-                                <svg className="w-4 h-4 text-[#0F763F]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C12 22 4 16 4 10C4 5 8 2 12 2C16 2 20 5 20 10C20 16 12 22 12 22ZM12 18.5C15.5 13.5 18 9 18 10C18 6 15 4 12 4C9 4 6 6 6 10C6 9 8.5 13.5 12 18.5Z"/></svg>
+                                <svg className="w-4 h-4 text-[#0F763F]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
                               </div>
                             </div>
                           </div>
-                          <p className="text-xs text-neutral-500 mb-3 font-medium">Scan with any UPI app</p>
-                          <div className="w-full text-center bg-[#EBF5ED] text-[#0F763F] text-xs font-semibold px-3 py-2 border border-[#0F763F]/20 rounded-none">
-                            QR expires in {formatCountdown(qrCountdown)}
+                          
+                          <span className="text-xs text-neutral-500 font-medium mb-3">Scan with any UPI app</span>
+                          
+                          <div className="bg-[#EBF5ED] px-4 py-2 w-full text-center">
+                            <span className="text-[#0F763F] text-[11px] font-bold">QR expires in {formatCountdown(qrCountdown)}</span>
                           </div>
                         </div>
 
@@ -1151,9 +1119,9 @@ export default function CartDrawer() {
                     <div className="flex gap-4">
                       <input
                         type="text"
-                        value={upiId}
+                        value={customUpiId}
                         onChange={(e) => {
-                          setUpiId(e.target.value)
+                          setCustomUpiId(e.target.value)
                           setUpiError('')
                         }}
                         placeholder="Enter UPI ID (e.g. name@bank)"
@@ -1161,9 +1129,9 @@ export default function CartDrawer() {
                       />
                       <button
                         onClick={handleVerifyUpi}
-                        className={`px-8 py-3 rounded-none text-sm font-medium transition-colors w-32 ${isVerifying ? 'bg-[#0F763F] text-white' : isVerified ? 'bg-[#EBF5ED] text-[#0F763F] border border-[#0F763F]' : 'bg-[#0F763F] text-white hover:bg-[#0C5E32]'}`}
+                        className={`px-8 py-3 rounded-none text-sm font-medium transition-colors w-32 ${upiVerifying ? 'bg-[#0F763F] text-white' : upiVerified ? 'bg-[#EBF5ED] text-[#0F763F] border border-[#0F763F]' : 'bg-[#0F763F] text-white hover:bg-[#0C5E32]'}`}
                       >
-                        {isVerifying ? 'Verifying...' : isVerified ? '✓ Verified' : 'Verify'}
+                        {upiVerifying ? 'Verifying...' : upiVerified ? '✓ Verified' : 'Verify'}
                       </button>
                     </div>
                     {upiError && <p className="text-red-500 text-xs mt-2 font-medium">{upiError}</p>}
