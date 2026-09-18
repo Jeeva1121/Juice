@@ -4,6 +4,8 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import { CartProvider } from './context/CartContext'
+import { PageTransitionProvider } from './context/PageTransitionContext'
+import SquareBlockTransition from './components/SquareBlockTransition'
 import Navbar from './components/Navbar'
 import CartDrawer from './components/CartDrawer'
 import SearchModal from './components/SearchModal'
@@ -11,6 +13,7 @@ import AccountModal from './components/AccountModal'
 import ScrollProgress from './components/ScrollProgress'
 import Hero from './sections/Hero'
 import Gallery from './sections/Gallery'
+import BrandManifesto from './sections/BrandManifesto'
 import About from './sections/About'
 import Footer from './sections/Footer'
 
@@ -40,7 +43,18 @@ export default function App() {
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo out
         smoothWheel: true,
         wheelMultiplier: 1.0,
-        prevent: (node) => !!node.closest?.('[data-lenis-prevent]'),
+        prevent: (node) => {
+          if (typeof document !== 'undefined') {
+            if (
+              document.body.classList.contains('checkout-active') ||
+              document.body.classList.contains('modal-open')
+            ) {
+              return true
+            }
+          }
+          const el = node && node.nodeType === 1 ? node : node?.parentElement
+          return !!el?.closest?.('[data-lenis-prevent], .lenis-prevent, #checkout-root, #order-confirmed-root')
+        },
       })
 
       lenisRef.current = lenis
@@ -95,38 +109,46 @@ export default function App() {
   }
 
   return (
-    <CartProvider>
-      <div className="relative min-h-screen bg-(--color-surface) text-(--color-ink) selection:bg-(--color-coral) selection:text-white font-body">
-        {/* Global Scroll Progress Bar */}
-        <ScrollProgress />
+    <PageTransitionProvider>
+      <CartProvider>
+        <div className="relative min-h-screen bg-(--color-surface) text-(--color-ink) selection:bg-(--color-coral) selection:text-white font-body">
+          {/* GSAP Modern Square Blocks Page Transition Overlay */}
+          <SquareBlockTransition />
 
-        {/* Editorial Minimalist Navbar */}
-        <Navbar />
+          {/* Global Scroll Progress Bar */}
+          <ScrollProgress />
 
-        {/* Global Slide-over Cart Drawer & Checkout */}
-        <CartDrawer />
+          {/* Editorial Minimalist Navbar */}
+          <Navbar />
 
-        {/* Global Ultra-Modern Spotlight Search Modal */}
-        <SearchModal />
+          {/* Global Slide-over Cart Drawer & Checkout */}
+          <CartDrawer />
 
-        {/* Global Clean Club VIP Account Modal */}
-        <AccountModal />
+          {/* Global Ultra-Modern Spotlight Search Modal */}
+          <SearchModal />
 
-        {/* Main Full-Page Scroll Sequence */}
-        <main id="main-content" className="relative w-full">
-          {/* Section 1: Hero */}
-          <Hero />
+          {/* Global Clean Club VIP Account Modal */}
+          <AccountModal />
 
-          {/* Section 2: Gallery (Interactive 3D Flavors with GSAP) */}
-          <Gallery />
+          {/* Main Full-Page Scroll Sequence */}
+          <main id="main-content" className="relative w-full">
+            {/* Section 1: Hero */}
+            <Hero />
 
-          {/* Section 3: About (Heritage & Timeline) */}
-          <About />
-        </main>
+            {/* Section 2: Gallery (Interactive 3D Flavors with GSAP) */}
+            <Gallery />
 
-        {/* Section 4: Footer */}
-        <Footer onScrollTop={handleScrollTop} />
-      </div>
-    </CartProvider>
+            {/* Section 2.5: Interactive Pixel Trail Brand Manifesto */}
+            <BrandManifesto />
+
+            {/* Section 3: About (Heritage & Timeline) */}
+            <About />
+          </main>
+
+          {/* Section 4: Footer */}
+          <Footer onScrollTop={handleScrollTop} />
+        </div>
+      </CartProvider>
+    </PageTransitionProvider>
   )
 }

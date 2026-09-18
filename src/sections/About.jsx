@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useState, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -7,209 +7,491 @@ gsap.registerPlugin(ScrollTrigger)
 
 const STORY_MILESTONES = [
   {
+    id: 'grove',
+    num: '01',
     year: '2018',
-    title: 'The Generational Grove',
-    tag: 'Foundation',
-    desc: 'Founded in our family’s generational citrus groves with a singular conviction: fruit should never be boiled, pasteurized with heat, or adulterated with artificial sweeteners.',
-    accentColor: '#F59E0B', // Amber
+    title: 'Valencia Groves',
+    desc: 'Grown under the Mediterranean sun in our family citrus groves. Picked fresh at dawn and cold-pressed within hours. Never boiled, never pasteurized, zero added sugar.',
     image: '/assets/timeline-1.png',
-    alt: 'Fresh organic citrus harvest',
-    imgClass: 'scale-110',
+    alt: 'Organic citrus harvest in generational orchards',
+    theme: {
+      primary: '#FF5722',
+      leftBg: '#FFF9F5',
+      rightGradient: 'from-[#FF8A00] via-[#FF5722] to-[#D84315]',
+      statBorder: '#FF5722',
+    },
+    stats: [
+      { val: '100%', label: 'Raw Single Grove' },
+      { val: '0%', label: 'Added Sugar' },
+    ],
   },
   {
+    id: 'extraction',
+    num: '02',
     year: '2020',
-    title: 'Zero Thermal Extraction',
-    tag: 'Proprietary Press',
-    desc: 'Traditional juicing destroys nutrients through heat. We pioneered a proprietary cold-centrifuge extraction method that operates entirely below 4°C, preserving 100% of the raw vitamins, enzymes, and delicate flavor profiles.',
-    accentColor: '#10B981', // Emerald
+    title: 'Zero Heat Press',
+    desc: 'Heat pasteurization destroys living vitamins and enzymes. We press raw fruit gently below 4°C to preserve 100% of organic vitamins and vital plant nutrients.',
     image: '/assets/timeline-2.png',
-    alt: 'Cold micro-pressure extraction',
-    imgClass: 'scale-110 sm:scale-125',
+    alt: 'Cold micro-pressure extraction equipment',
+    theme: {
+      primary: '#059669',
+      leftBg: '#F2FDF6',
+      rightGradient: 'from-[#10B981] via-[#059669] to-[#047857]',
+      statBorder: '#059669',
+    },
+    stats: [
+      { val: '< 4°C', label: 'Extraction Temp' },
+      { val: '100%', label: 'Active Enzymes' },
+    ],
   },
   {
+    id: 'matrix',
+    num: '03',
     year: '2022',
-    title: 'Certified Cellular Hydration',
-    tag: 'Electrolyte Matrix',
-    desc: "We weren't just making juice; we were making functional hydration. By infusing ionic rock salts and pure young coconut water, we created a cellular-level hydration matrix that standard juices couldn't match.",
-    accentColor: '#EF4444', // Red
+    title: 'Coconut & Minerals',
+    desc: 'Infusing pure young coconut water with natural pink mineral salt creates an isotonic balance that delivers fast, deep cellular hydration without sugar spikes.',
     image: '/assets/timeline-3.png',
-    alt: 'Cellular hydration matrix',
-    imgClass: 'scale-110 sm:scale-125',
+    alt: 'Cellular electrolyte hydration balance',
+    theme: {
+      primary: '#0284C7',
+      leftBg: '#F0F9FF',
+      rightGradient: 'from-[#38BDF8] via-[#0284C7] to-[#0369A1]',
+      statBorder: '#0284C7',
+    },
+    stats: [
+      { val: '240mg', label: 'Plant Minerals' },
+      { val: '15 Cal', label: 'Clean Refresh' },
+    ],
   },
   {
+    id: 'coldchain',
+    num: '04',
     year: '2024',
-    title: 'Unbroken Cold-Chain',
-    tag: 'Express Delivery',
-    desc: 'Expanded our temperature-controlled cold-chain logistics across metropolitan hubs. Juiced at dawn, nitrogen chilled, and delivered directly within 24 to 48 hours.',
-    accentColor: '#3B82F6', // Blue
+    title: '24-Hour Cold Chain',
+    desc: 'Juiced in the morning, nitrogen-chilled, and shipped straight to your door in recyclable insulated cartons within 24 hours of harvest.',
     image: '/assets/timeline-4.png',
-    alt: 'Cold-chain dispatch fleet',
-    imgClass: 'scale-110 sm:scale-125',
+    alt: 'Refrigerated cold-chain delivery',
+    theme: {
+      primary: '#4F46E5',
+      leftBg: '#F5F6FF',
+      rightGradient: 'from-[#6366F1] via-[#4F46E5] to-[#312E81]',
+      statBorder: '#4F46E5',
+    },
+    stats: [
+      { val: '24h', label: 'Harvest to Door' },
+      { val: '100%', label: 'Recyclable Box' },
+    ],
   },
   {
+    id: 'editions',
+    num: '05',
     year: '2026',
-    title: 'The 4 Signature Editions',
-    tag: 'Present Day',
-    desc: 'Today, we offer four uncompromising flavors. No shortcuts. No pasteurization. Just pure, living vitality. We’ve proven that convenience doesn’t have to compromise cellular health.',
-    accentColor: '#EA580C', // Orange
+    title: '4 Pure Editions',
+    desc: 'Valencia Orange, Wild Strawberry, Black Cherry, and Crisp Meyer Lemon. 100% unpasteurized living juice crafted to fuel your vitality every day.',
     image: '/assets/timeline-5.png',
-    alt: 'Clean Juice iconic lineup',
-    imgClass: 'scale-100 sm:scale-110',
+    alt: 'Clean Juice four signature edition bottles',
+    theme: {
+      primary: '#E11D48',
+      leftBg: '#FFF1F4',
+      rightGradient: 'from-[#FB7185] via-[#E11D48] to-[#881337]',
+      statBorder: '#E11D48',
+    },
+    stats: [
+      { val: '4', label: 'Raw Editions' },
+      { val: '0', label: 'Preservatives' },
+    ],
   },
 ]
 
 export default function About() {
   const containerRef = useRef(null)
-  const headerRef = useRef(null)
-  const cardsRef = useRef([])
-  const imagesRef = useRef([])
-  const titleRefs = useRef([])
+  const pinWrapperRef = useRef(null)
+  const scrollTriggerRef = useRef(null)
+  const slideRefs = useRef([])
+  const imgRefs = useRef([])
 
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [progress, setProgress] = useState(0)
+
+  // 120fps GPU Hardware-Accelerated Staggered Text & Parallax GSAP Engine
   useGSAP(
     () => {
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches
       if (prefersReducedMotion) return
 
-      // Header entrance (Clip-path reveal)
-      gsap.fromTo(
-        headerRef.current,
-        { clipPath: 'inset(100% 0% 0% 0%)', opacity: 0, y: 50 },
-        {
-          clipPath: 'inset(0% 0% 0% 0%)',
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: 'power4.out',
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: 'top 85%',
+      const slides = slideRefs.current.filter(Boolean)
+      const totalSlides = slides.length
+      if (totalSlides === 0) return
+
+      const masterTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: () => `+=${window.innerHeight * (totalSlides - 1) * 1.3}`,
+          pin: pinWrapperRef.current,
+          scrub: 0.8,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            setProgress(self.progress)
+            const idx = Math.min(
+              totalSlides - 1,
+              Math.floor(self.progress * (totalSlides - 1) + 0.35)
+            )
+            setActiveIndex(idx)
           },
+        },
+      })
+
+      scrollTriggerRef.current = masterTl.scrollTrigger
+
+      // Cinematic entrance for Slide 0 on initial reveal
+      const slide0 = slides[0]
+      if (slide0) {
+        const s0Title = slide0.querySelector('.slide-title')
+        const s0Desc = slide0.querySelector('.slide-desc')
+        const s0Stats = slide0.querySelector('.slide-stats')
+        const s0Image = slide0.querySelector('.slide-image')
+        const s0Num = slide0.querySelector('.slide-watermark')
+
+        if (s0Title) gsap.from(s0Title, { y: 45, opacity: 0, duration: 1.1, ease: 'power3.out' })
+        if (s0Desc) gsap.from(s0Desc, { y: 30, opacity: 0, duration: 1.0, ease: 'power3.out', delay: 0.15 })
+        if (s0Stats) gsap.from(s0Stats, { y: 25, opacity: 0, duration: 0.9, ease: 'power3.out', delay: 0.25 })
+        if (s0Image) gsap.from(s0Image, { scale: 0.9, opacity: 0, duration: 1.2, ease: 'power3.out' })
+        if (s0Num) gsap.from(s0Num, { x: 40, opacity: 0, duration: 1.2, ease: 'power2.out' })
+      }
+
+      // Staggered transitions across slides: Exit previous content smoothly, sweep incoming slide up
+      slides.forEach((slide, index) => {
+        if (index === 0) return
+
+        const prevSlide = slides[index - 1]
+        const stepTime = (index - 1) * 1.5
+
+        // Previous slide exit: Title, desc, and image glide upward with subtle parallax fade
+        const prevContent = prevSlide.querySelector('.slide-content')
+        const prevImage = prevSlide.querySelector('.slide-image')
+        const prevNum = prevSlide.querySelector('.slide-watermark')
+
+        if (prevContent) {
+          masterTl.to(
+            prevContent,
+            { y: -50, opacity: 0, duration: 0.8, ease: 'power2.in' },
+            stepTime
+          )
         }
-      )
+        if (prevImage) {
+          masterTl.to(
+            prevImage,
+            { scale: 0.92, y: -30, opacity: 0.2, duration: 0.8, ease: 'power2.in' },
+            stepTime
+          )
+        }
+        if (prevNum) {
+          masterTl.to(
+            prevNum,
+            { x: -30, opacity: 0, duration: 0.8, ease: 'power2.in' },
+            stepTime
+          )
+        }
 
-      cardsRef.current.forEach((card, i) => {
-        if (!card) return
+        // Incoming slide sweeps up from bottom edge: start at yPercent: 102 with autoAlpha: 0 to guarantee 0px green sliver bleed
+        masterTl.fromTo(
+          slide,
+          {
+            yPercent: 102,
+            autoAlpha: 0,
+          },
+          {
+            yPercent: 0,
+            autoAlpha: 1,
+            ease: 'none',
+            duration: 1.4,
+          },
+          stepTime
+        )
 
-        const contentBlock = card.querySelector('.card-content')
-        const imgBlock = card.querySelector('.img-block-3d')
-        
-        // Single flattened 3D layer for performance
-        gsap.set(card, { force3D: true })
+        // Incoming slide kinetic text & image reveals
+        const nextTitle = slide.querySelector('.slide-title')
+        const nextDesc = slide.querySelector('.slide-desc')
+        const nextStats = slide.querySelector('.slide-stats')
+        const nextImage = slide.querySelector('.slide-image')
+        const nextNum = slide.querySelector('.slide-watermark')
 
-        const isEven = i % 2 === 0;
+        if (nextTitle) {
+          masterTl.fromTo(
+            nextTitle,
+            { y: 50, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out' },
+            stepTime + 0.3
+          )
+        }
+        if (nextDesc) {
+          masterTl.fromTo(
+            nextDesc,
+            { y: 35, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out' },
+            stepTime + 0.45
+          )
+        }
+        if (nextStats) {
+          masterTl.fromTo(
+            nextStats,
+            { y: 25, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
+            stepTime + 0.6
+          )
+        }
+        if (nextImage) {
+          masterTl.fromTo(
+            nextImage,
+            { scale: 0.88, rotation: -2.5, opacity: 0 },
+            { scale: 1, rotation: 0, opacity: 1, duration: 1.1, ease: 'power3.out' },
+            stepTime + 0.2
+          )
+        }
+        if (nextNum) {
+          masterTl.fromTo(
+            nextNum,
+            { x: 40, opacity: 0 },
+            { x: 0, opacity: 0.12, duration: 1.0, ease: 'power2.out' },
+            stepTime + 0.3
+          )
+        }
+      })
 
-        // Entrance: scrub into view until fully visible
-        gsap.fromTo(card, 
-          { rotationX: 18, rotationY: isEven ? -6 : 6, z: -150, opacity: 0 },
-          { 
-            rotationX: 0, rotationY: 0, z: 0, opacity: 1, ease: "none",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 95%",
-              end: "top 35%", // Finishes animating when top of card reaches upper third
-              scrub: 1,
-            }
-          }
-        );
-
-        // Exit: scrub out of view when scrolling past
-        gsap.fromTo(card, 
-          { rotationX: 0, rotationY: 0, z: 0, opacity: 1 },
-          { 
-            rotationX: -18, rotationY: isEven ? 6 : -6, z: -150, opacity: 0, ease: "none",
-            scrollTrigger: {
-              trigger: card,
-              start: "bottom 65%", // Starts animating when bottom of card leaves lower third
-              end: "bottom 5%",
-              scrub: 1,
-            }
-          }
-        );
+      // Continuous gentle floating animation on images
+      imgRefs.current.forEach((img, idx) => {
+        if (!img) return
+        gsap.to(img, {
+          y: idx % 2 === 0 ? -12 : 12,
+          duration: 3.8 + idx * 0.3,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+        })
       })
     },
     { scope: containerRef }
   )
 
+  // Smooth scroll navigation to milestone
+  const scrollToMilestone = (index) => {
+    const st = scrollTriggerRef.current
+    if (!st) return
+
+    const total = STORY_MILESTONES.length
+    const fraction = index / (total - 1)
+    const targetScroll = st.start + (st.end - st.start) * fraction
+
+    if (window.lenis) {
+      window.lenis.scrollTo(targetScroll, { duration: 1.2 })
+    } else {
+      window.scrollTo({ top: targetScroll, behavior: 'smooth' })
+    }
+  }
+
+  const handlePrev = () => {
+    if (activeIndex > 0) {
+      scrollToMilestone(activeIndex - 1)
+    }
+  }
+
+  const handleNext = () => {
+    if (activeIndex < STORY_MILESTONES.length - 1) {
+      scrollToMilestone(activeIndex + 1)
+    }
+  }
+
+  const currentTheme = STORY_MILESTONES[activeIndex]?.theme || STORY_MILESTONES[0].theme
+
   return (
     <section
       id="about"
       ref={containerRef}
-      className="relative w-full bg-neutral-950 text-white py-16 sm:py-32 overflow-hidden"
+      className="relative w-full bg-white text-black selection:bg-black selection:text-white"
+      aria-label="Clean Juice Heritage Story"
     >
-      <div className="max-w-7xl mx-auto px-3.5 sm:px-8 relative z-10">
-        {/* Section Header */}
-        <header ref={headerRef} className="text-center max-w-3xl mx-auto mb-14 sm:mb-28">
-          <div className="inline-flex items-center px-4 py-1.5 bg-white/5 border border-white/10 text-xs font-poppins font-semibold tracking-[0.2em] text-white uppercase mb-4 sm:mb-6 rounded-full">
-            <span>Our Journey</span>
+      {/* Pinned Full-Page Viewport Stage */}
+      <div
+        ref={pinWrapperRef}
+        className="w-full h-screen relative overflow-hidden bg-white flex flex-col justify-between"
+      >
+        {/* Minimalist Top Navigation Bar */}
+        <header className="w-full border-b border-black/10 px-6 sm:px-12 lg:px-16 py-3 sm:py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 bg-white relative z-30 transition-colors duration-500">
+          <div className="flex items-center gap-3">
+            <span
+              className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.25em] uppercase text-white px-3 py-1 transition-colors duration-300"
+              style={{ backgroundColor: currentTheme.primary }}
+            >
+              HERITAGE
+            </span>
+            <h2
+              className="font-vagnola text-2xl sm:text-3xl text-black tracking-wide font-normal"
+              style={{ fontFamily: "'Vagnola', 'Vagnola Demo', serif", fontWeight: 400 }}
+            >
+              Our Story
+            </h2>
           </div>
-          <h2 className="text-center font-display text-4xl sm:text-6xl lg:text-8xl font-black mb-10 sm:mb-20 text-white drop-shadow-sm">
-            Our Story
-          </h2>
+
+          {/* Year Navigation Chips */}
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+            {STORY_MILESTONES.map((slide, idx) => {
+              const isActive = activeIndex === idx
+              return (
+                <button
+                  key={slide.id}
+                  type="button"
+                  onClick={() => scrollToMilestone(idx)}
+                  className="text-xs sm:text-sm font-mono tracking-widest uppercase px-3.5 py-1.5 transition-all duration-300 cursor-pointer font-bold"
+                  style={{
+                    backgroundColor: isActive ? slide.theme.primary : 'transparent',
+                    color: isActive ? '#FFFFFF' : '#737373',
+                  }}
+                  aria-label={`Jump to milestone ${slide.year}`}
+                >
+                  {slide.year}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Step Count & Prev/Next Controls */}
+          <div className="hidden md:flex items-center gap-3">
+            <span className="text-xs font-mono font-bold tracking-widest uppercase text-neutral-500 tabular-nums">
+              0{activeIndex + 1} / 0{STORY_MILESTONES.length}
+            </span>
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={handlePrev}
+                disabled={activeIndex === 0}
+                className="w-8 h-8 border border-black/20 bg-white hover:bg-black hover:text-white text-black flex items-center justify-center transition-all cursor-pointer disabled:opacity-20 disabled:pointer-events-none text-xs font-bold"
+                aria-label="Previous chapter"
+              >
+                &larr;
+              </button>
+              <button
+                type="button"
+                onClick={handleNext}
+                disabled={activeIndex === STORY_MILESTONES.length - 1}
+                className="w-8 h-8 border border-black/20 bg-white hover:bg-black hover:text-white text-black flex items-center justify-center transition-all cursor-pointer disabled:opacity-20 disabled:pointer-events-none text-xs font-bold"
+                aria-label="Next chapter"
+              >
+                &rarr;
+              </button>
+            </div>
+          </div>
         </header>
 
-        {/* 3D Scrolling Cards Container */}
-        <div className="relative w-full flex flex-col gap-16 sm:gap-32 pb-24 sm:pb-32" style={{ perspective: '1200px' }}>
-          {STORY_MILESTONES.map((milestone, idx) => {
-            const isEven = idx % 2 === 0
+        {/* Live Dynamic Progress Scrubber Line */}
+        <div className="w-full h-[3px] bg-neutral-200 relative z-30 overflow-hidden">
+          <div
+            className="h-full transition-all duration-200 ease-out"
+            style={{
+              width: `${Math.round(progress * 100)}%`,
+              backgroundColor: currentTheme.primary,
+            }}
+          />
+        </div>
+
+        {/* Full-Page Stage: Completely Fills the Screen with Rich Vibrant Colors & Zero Bleed */}
+        <div className="relative w-full flex-1 overflow-hidden z-20">
+          {STORY_MILESTONES.map((slide, idx) => {
             return (
-              <div
-                key={milestone.year}
-                ref={(el) => (cardsRef.current[idx] = el)}
-                className="w-full origin-center will-change-transform"
+              <article
+                key={slide.id}
+                ref={(el) => (slideRefs.current[idx] = el)}
+                className="absolute inset-0 w-full h-full flex flex-col lg:flex-row overflow-hidden will-change-transform"
+                style={{
+                  zIndex: 10 + idx,
+                }}
               >
-                {/* The Card Body */}
-                <div 
-                  className="w-full min-h-[520px] sm:min-h-[65vh] md:h-[75vh] rounded-3xl sm:rounded-[3rem] p-6 sm:p-10 lg:p-16 flex flex-col md:flex-row items-center justify-center md:justify-between gap-8 sm:gap-10 md:gap-16 shadow-2xl relative overflow-hidden border border-white/5"
-                  style={{
-                    backgroundColor: '#000000',
-                    boxShadow: `0 20px 40px -15px rgba(0,0,0,0.8)`
-                  }}
+                {/* Left Column: Clean Editorial Storyboard with Reduced Font Weight */}
+                <div
+                  className="relative z-10 w-full lg:w-1/2 h-full flex flex-col justify-center px-6 sm:px-14 lg:px-20 xl:px-24 py-8 sm:py-12 border-b lg:border-b-0 lg:border-r border-black/10 overflow-hidden"
+                  style={{ backgroundColor: slide.theme.leftBg }}
                 >
+                  {/* Subtle Giant Background Number Watermark */}
+                  <span
+                    className="slide-watermark absolute right-6 top-1/2 -translate-y-1/2 font-vagnola text-[22vw] sm:text-[18vw] lg:text-[16vw] select-none pointer-events-none leading-none tracking-tighter opacity-12 will-change-transform"
+                    style={{
+                      color: slide.theme.primary,
+                      fontFamily: "'Vagnola', 'Vagnola Demo', serif",
+                      fontWeight: 400,
+                    }}
+                  >
+                    {slide.num}
+                  </span>
 
-                  {/* Image Block */}
-                  <div className={`img-block-3d w-full md:w-1/2 flex items-center justify-center relative z-10 ${!isEven ? 'md:order-2' : ''}`}>
-                    <div className="relative w-full flex items-center justify-center">
-                      <img 
-                        ref={(el) => (imagesRef.current[idx] = el)}
-                        src={milestone.image}
-                        alt={milestone.alt}
-                        className={`w-full max-w-[280px] sm:max-w-md lg:max-w-lg h-auto object-contain will-change-transform ${milestone.imgClass || 'scale-110'}`}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Content Block with Skew and Parallax classes applied via GSAP */}
-                  <div className={`card-content relative z-10 w-full md:w-1/2 flex flex-col justify-center items-center md:items-start text-center md:text-left will-change-transform ${!isEven ? 'md:order-1' : ''}`}>
-                    
-                    {/* Big Watermark Year */}
-                    <div 
-                      className="absolute -top-6 sm:-top-24 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:-left-10 font-asal text-[90px] sm:text-[140px] md:text-[180px] leading-none text-white/5 select-none pointer-events-none tracking-tight font-normal"
+                  {/* Animated Content Container */}
+                  <div className="slide-content relative z-10 will-change-transform">
+                    {/* Main Headline in Reduced-Weight Vagnola Custom Font */}
+                    <h3
+                      className="slide-title font-vagnola text-4xl sm:text-6xl lg:text-7xl xl:text-8xl text-black mb-4 sm:mb-6 leading-[1.06] tracking-tight font-normal will-change-transform"
+                      style={{
+                        fontFamily: "'Vagnola', 'Vagnola Demo', serif",
+                        fontWeight: 400,
+                      }}
                     >
-                      {milestone.year}
-                    </div>
+                      {slide.title}
+                    </h3>
 
-                    <div className="relative z-10 w-full flex flex-col items-center md:items-start">
-                      {/* Eyebrow / Tag */}
-                      <div className="flex items-center justify-center md:justify-start mb-4 sm:mb-6">
-                        <span className="px-4 sm:px-5 py-1.5 sm:py-2 bg-white text-black text-[10px] sm:text-[11px] font-poppins font-semibold uppercase tracking-[0.25em] rounded-none">
-                          {milestone.year} &mdash; {milestone.tag}
-                        </span>
-                      </div>
-                      
-                      <h3 
-                        ref={(el) => (titleRefs.current[idx] = el)}
-                        className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 sm:mb-6 text-white leading-[1.1]"
-                      >
-                        {milestone.title}
-                      </h3>
-                      
-                      <p className="font-poppins text-[13px] sm:text-base md:text-lg text-neutral-400 leading-relaxed font-light max-w-lg mx-auto md:mx-0">
-                        {milestone.desc}
-                      </p>
+                    {/* Clean Narrative Body - Reduced Light Weight */}
+                    <p
+                      className="slide-desc text-sm sm:text-base lg:text-lg text-neutral-600 font-light leading-relaxed max-w-lg mb-6 sm:mb-8 will-change-transform"
+                      style={{ fontWeight: 300 }}
+                    >
+                      {slide.desc}
+                    </p>
+
+                    {/* Stat Callouts with Refined Typography */}
+                    <div className="slide-stats grid grid-cols-2 gap-4 sm:gap-6 pt-4 sm:pt-6 border-t border-black/10 max-w-lg will-change-transform">
+                      {slide.stats.map((stat) => (
+                        <div
+                          key={stat.label}
+                          className="pl-3 sm:pl-4 py-1 border-l-3"
+                          style={{ borderColor: slide.theme.primary }}
+                        >
+                          <div
+                            className="font-vagnola text-3xl sm:text-4xl lg:text-5xl leading-none font-normal"
+                            style={{
+                              color: slide.theme.primary,
+                              fontFamily: "'Vagnola', 'Vagnola Demo', serif",
+                              fontWeight: 400,
+                            }}
+                          >
+                            {stat.val}
+                          </div>
+                          <div className="text-[11px] sm:text-xs font-mono font-light tracking-wider text-neutral-500 uppercase mt-1">
+                            {stat.label}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              </div>
+
+                {/* Right Column: Full-Height Vibrant Saturated Visual Showcase with No Clutter Badges */}
+                <div
+                  className={`relative z-10 w-full lg:w-1/2 h-full flex items-center justify-center p-6 sm:p-12 lg:p-16 overflow-hidden bg-linear-to-br ${slide.theme.rightGradient}`}
+                >
+                  {/* Subtle Ambient Radial Glow */}
+                  <div className="absolute inset-0 bg-radial from-white/20 via-transparent to-black/15 pointer-events-none" />
+
+                  {/* Staged Fruit / Product Image - Clean & Prominently Enlarged with Smooth GSAP Entry */}
+                  <div className="relative z-10 w-full h-full flex items-center justify-center">
+                    <img
+                      ref={(el) => (imgRefs.current[idx] = el)}
+                      src={slide.image}
+                      alt={slide.alt}
+                      className="slide-image w-full max-w-[520px] sm:max-w-[640px] lg:max-w-[760px] xl:max-w-[840px] max-h-[74vh] sm:max-h-[78vh] object-contain filter brightness-105 contrast-105 drop-shadow-[0_35px_50px_rgba(0,0,0,0.32)] will-change-transform"
+                    />
+                  </div>
+                </div>
+              </article>
             )
           })}
         </div>

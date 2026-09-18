@@ -12,12 +12,14 @@ const HERO_SLIDES = [
     wordmark: 'ORANGE',
     wordSize: 'text-[clamp(2.5rem,8.8vw,7.5rem)]',
     counter: '2',
-    bgColor: '#FAF5EA',
+    bgColor: '#FF5722',
     bottleImage: '/assets/orange-can-hero.png',
-    bottleAlt: 'Zesty 100% natural cold-pressed orange juice can with fresh orange slices and pure water splash',
+    bottleAlt: 'Zesty 100% natural cold-pressed orange juice can',
     manifestoTitle: 'Your healthy life starts here with us',
     manifestoHighlight: 'healthy life',
-    highlightColor: '#3A7D44',
+    highlightColor: '#FFFFFF',
+    textColor: 'text-white',
+    bodyTextColor: 'text-white/90',
     manifestoBody: 'A family owned company founded to give your family access to clean, organic cold-pressed products on the go.',
     ctaText: 'show all the juices',
     bottleContainerClass: 'max-w-[240px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[34vh] sm:h-[48vh] md:h-[60vh] max-h-[460px] translate-y-1 sm:translate-y-0',
@@ -30,12 +32,14 @@ const HERO_SLIDES = [
     wordmark: 'STRAWBERRY',
     wordSize: 'text-[clamp(2.1rem,7.5vw,6.5rem)]',
     counter: '1',
-    bgColor: '#FAF0EE',
+    bgColor: '#E53935',
     bottleImage: '/assets/straw-can-hero.png',
-    bottleAlt: 'Zesty 100% natural cold-pressed strawberry juice can with ruby splash and fresh strawberries',
+    bottleAlt: 'Zesty 100% natural cold-pressed strawberry juice can',
     manifestoTitle: 'Wild field strawberries picked at dawn',
     manifestoHighlight: 'picked at dawn',
-    highlightColor: '#D90429',
+    highlightColor: '#FFFFFF',
+    textColor: 'text-white',
+    bodyTextColor: 'text-white/90',
     manifestoBody: 'Slow cold-pressed ruby strawberries blended with organic coconut water and key lime essence for cellular restoration.',
     ctaText: 'explore strawberry',
     bottleContainerClass: 'max-w-[240px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[34vh] sm:h-[48vh] md:h-[60vh] max-h-[460px] translate-y-1 sm:translate-y-0',
@@ -48,12 +52,14 @@ const HERO_SLIDES = [
     wordmark: 'CHERRY',
     wordSize: 'text-[clamp(2.5rem,8.8vw,7.5rem)]',
     counter: '3',
-    bgColor: '#F8EDF1',
+    bgColor: '#9B111E',
     bottleImage: '/assets/cherry-can-hero.png',
-    bottleAlt: 'Zesty 100% natural cold-pressed cherry juice can with splash and fresh cherries',
+    bottleAlt: 'Zesty 100% natural cold-pressed cherry juice can',
     manifestoTitle: 'Dark orchard cherries picked at peak ripeness',
     manifestoHighlight: 'peak ripeness',
-    highlightColor: '#9B111E',
+    highlightColor: '#FFFFFF',
+    textColor: 'text-white',
+    bodyTextColor: 'text-white/90',
     manifestoBody: 'Slow cold-extracted Montmorency cherries packed with natural anthocyanins and melatonin for deep cellular recovery.',
     ctaText: 'discover black cherry',
     bottleContainerClass: 'max-w-[240px] sm:max-w-sm md:max-w-md lg:max-w-lg h-[34vh] sm:h-[48vh] md:h-[60vh] max-h-[460px] translate-y-1 sm:translate-y-0',
@@ -66,12 +72,14 @@ const HERO_SLIDES = [
     wordmark: 'LEMON',
     wordSize: 'text-[clamp(2.5rem,8.8vw,7.5rem)]',
     counter: '4',
-    bgColor: '#F4FAEA',
+    bgColor: '#CDDC39',
     bottleImage: '/assets/lemon-can-hero.png',
-    bottleAlt: 'Zesty 100% natural cold-pressed lemon juice can with fresh lemon slices and pure water splash',
+    bottleAlt: 'Zesty 100% natural cold-pressed lemon juice can',
     manifestoTitle: 'Brighten your day with citrus vitality',
     manifestoHighlight: 'citrus vitality',
-    highlightColor: '#65a30d',
+    highlightColor: '#1A1A1A',
+    textColor: 'text-neutral-900',
+    bodyTextColor: 'text-neutral-800',
     manifestoBody: 'Sun-ripened organic lemons cold-extracted to deliver an invigorating burst of natural vitamin C and pure hydration.',
     ctaText: 'explore lemon',
     bottleContainerClass: 'max-w-[240px] sm:max-w-sm md:max-w-lg lg:max-w-lg h-[34vh] sm:h-[48vh] md:h-[60vh] max-h-[460px] translate-y-1 sm:translate-y-0',
@@ -136,6 +144,12 @@ export default function Hero() {
     currentSlideRef.current = currentIndex
   }, [currentIndex])
 
+  // Dispatch event for Navbar color adaptation
+  useEffect(() => {
+    const isLight = HERO_SLIDES[currentIndex].id === 'lemon'
+    window.dispatchEvent(new CustomEvent('hero-slide-change', { detail: { isLight } }))
+  }, [currentIndex])
+
   // GSAP Transition between slides
   const goToSlide = useCallback((nextIndex) => {
     if (isAnimatingRef.current) return
@@ -188,11 +202,32 @@ export default function Hero() {
           }
         })
 
+        // Ultra-Modern Kinetic GSAP Typography & Element Entrance
         enterTl
-          .fromTo(bottleRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0)
-          .fromTo(giantTextRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.4')
-          .fromTo(counterRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3 }, '-=0.3')
-          .fromTo(manifestoRef.current, { opacity: 0 }, { opacity: 1, duration: 0.35 }, '-=0.3')
+          .fromTo(
+            bottleRef.current,
+            { y: 80, scale: 0.8, rotation: 5, opacity: 0 },
+            { y: 0, scale: 1, rotation: 0, opacity: 1, duration: 1.1, ease: 'elastic.out(1, 0.7)' },
+            0
+          )
+          .fromTo(
+            giantTextRef.current,
+            { y: 120, scale: 0.85, opacity: 0, rotationX: 45, transformPerspective: 800 },
+            { y: 0, scale: 1, opacity: 1, rotationX: 0, duration: 1.2, ease: 'power4.out' },
+            0.1
+          )
+          .fromTo(
+            counterRef.current,
+            { x: -40, opacity: 0, scale: 0.5 },
+            { x: 0, opacity: 1, scale: 1, duration: 0.7, ease: 'back.out(2.5)' },
+            0.2
+          )
+          .fromTo(
+            manifestoRef.current,
+            { y: 40, opacity: 0, scale: 0.95 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.9, ease: 'power3.out' },
+            0.25
+          )
       },
     })
 
@@ -208,11 +243,12 @@ export default function Hero() {
       exitTl.to(currentActiveBg, { opacity: 0, duration: 0.3 }, 0)
     }
 
+    // Dynamic Kinetic GSAP Exit
     exitTl
-      .to(bottleRef.current, { opacity: 0, duration: 0.25, ease: 'power2.in' }, 0)
-      .to(giantTextRef.current, { opacity: 0, duration: 0.2 }, 0)
-      .to(manifestoRef.current, { opacity: 0, duration: 0.2 }, 0)
-      .to(counterRef.current, { opacity: 0, duration: 0.2 }, 0)
+      .to(bottleRef.current, { y: -60, scale: 0.8, rotation: -5, opacity: 0, duration: 0.5, ease: 'power3.in' }, 0)
+      .to(giantTextRef.current, { y: -80, scale: 0.9, opacity: 0, rotationX: -45, transformPerspective: 800, duration: 0.45, ease: 'power3.in' }, 0)
+      .to(manifestoRef.current, { y: -20, opacity: 0, scale: 0.95, duration: 0.35, ease: 'power3.in' }, 0)
+      .to(counterRef.current, { x: 40, opacity: 0, scale: 0.5, duration: 0.35, ease: 'power3.in' }, 0)
   }, [])
 
   // Auto-advance every 4.5 seconds when user is at top of page
@@ -314,25 +350,55 @@ export default function Hero() {
         bottleRef.current, giantTextRef.current
       ], { willChange: 'transform' })
 
-      // Page Load Intro: Smooth clean fade in without jumping
-      const introTl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+      // Page Load Intro: Cinematic kinetic GSAP typography & physical bottle entrance
+      const introTl = gsap.timeline({ defaults: { ease: 'power4.out' } })
       introTl
-        .fromTo(bottleRef.current, { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8 })
-        .fromTo(giantTextRef.current, { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.8 }, '-=0.6')
+        .fromTo(
+          bottleRef.current,
+          { y: 100, scale: 0.7, rotation: 8, opacity: 0 },
+          { y: 0, scale: 1, rotation: 0, opacity: 1, duration: 1.5, ease: 'elastic.out(1, 0.7)' },
+          0.1
+        )
+        .fromTo(
+          giantTextRef.current,
+          { y: 150, scale: 0.8, opacity: 0, rotationX: 60, transformPerspective: 800 },
+          { y: 0, scale: 1, opacity: 1, rotationX: 0, duration: 1.4, ease: 'power4.out' },
+          0.2
+        )
         .fromTo(
           [piece1Ref.current, piece2Ref.current, piece3Ref.current, piece5Ref.current],
-          { opacity: 0 },
-          { opacity: 1, stagger: 0.06, duration: 0.6 },
-          '-=0.5'
+          { scale: 0.5, opacity: 0, y: 50, rotation: 45 },
+          { scale: 1, opacity: 1, y: 0, rotation: 0, stagger: 0.1, duration: 1.2, ease: 'back.out(2)' },
+          0.35
         )
         .fromTo(
-          [bottomLeftBtnRef.current, manifestoRef.current],
-          { opacity: 0 },
-          { opacity: 1, stagger: 0.06, duration: 0.5 },
-          '-=0.4'
+          manifestoRef.current,
+          { y: 50, opacity: 0, scale: 0.9 },
+          { y: 0, opacity: 1, scale: 1, duration: 1, ease: 'power3.out' },
+          0.45
+        )
+        .fromTo(
+          bottomLeftBtnRef.current,
+          { scale: 0.8, opacity: 0, x: -30 },
+          { scale: 1, opacity: 1, x: 0, duration: 0.8, ease: 'back.out(2.5)' },
+          0.5
         )
 
-      const mm = gsap.matchMedia(containerRef)
+      const mm = gsap.matchMedia()
+
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: 'top 50%',
+        end: 'bottom 50%',
+        onEnter: () => {
+          const isLight = HERO_SLIDES[currentSlideRef.current]?.id === 'lemon'
+          window.dispatchEvent(new CustomEvent('hero-slide-change', { detail: { isLight } }))
+        },
+        onEnterBack: () => {
+          const isLight = HERO_SLIDES[currentSlideRef.current]?.id === 'lemon'
+          window.dispatchEvent(new CustomEvent('hero-slide-change', { detail: { isLight } }))
+        }
+      })
 
       // Desktop (>= 768px): Luxury Pinned Scrub
       mm.add('(min-width: 768px)', () => {
@@ -349,39 +415,41 @@ export default function Hero() {
           },
         })
 
+        const startState = { xPercent: 0, yPercent: 0, rotation: 0, scale: 1 };
+
         // 1. Orange pieces drift outward (4 pristine corner pieces)
         scrollTl
-          .to(piece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -35, scale: 1.25, ease: 'power3.out', duration: 1, force3D: true }, 0)
-          .to(piece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 28, scale: 1.18, ease: 'power3.out', duration: 1, force3D: true }, 0)
-          .to(piece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 38, scale: 1.25, ease: 'power3.out', duration: 1, force3D: true }, 0)
-          .to(piece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -30, scale: 1.2, ease: 'power3.out', duration: 1, force3D: true }, 0)
+          .fromTo(piece1Ref.current, startState, { xPercent: -85, yPercent: -75, rotation: -35, scale: 1.25, ease: 'power3.out', duration: 1, force3D: true }, 0)
+          .fromTo(piece2Ref.current, startState, { xPercent: -95, yPercent: 70, rotation: 28, scale: 1.18, ease: 'power3.out', duration: 1, force3D: true }, 0)
+          .fromTo(piece3Ref.current, startState, { xPercent: 90, yPercent: -70, rotation: 38, scale: 1.25, ease: 'power3.out', duration: 1, force3D: true }, 0)
+          .fromTo(piece5Ref.current, startState, { xPercent: 85, yPercent: 80, rotation: -30, scale: 1.2, ease: 'power3.out', duration: 1, force3D: true }, 0)
 
         // 2. Strawberry pieces drift outward
         scrollTl
-          .to(strawPiece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(strawPiece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(strawPiece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(strawPiece4Ref.current, { xPercent: 100, yPercent: 20, rotation: -20, scale: 1.12, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(strawPiece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(strawPiece1Ref.current, startState, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(strawPiece2Ref.current, startState, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(strawPiece3Ref.current, startState, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(strawPiece4Ref.current, startState, { xPercent: 100, yPercent: 20, rotation: -20, scale: 1.12, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(strawPiece5Ref.current, startState, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
 
         // 3. Cherry pieces drift outward
         scrollTl
-          .to(cherryPiece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(cherryPiece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(cherryPiece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(cherryPiece4Ref.current, { xPercent: 100, yPercent: 20, rotation: -20, scale: 1.12, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(cherryPiece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(cherryPiece1Ref.current, startState, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(cherryPiece2Ref.current, startState, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(cherryPiece3Ref.current, startState, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(cherryPiece4Ref.current, startState, { xPercent: 100, yPercent: 20, rotation: -20, scale: 1.12, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(cherryPiece5Ref.current, startState, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
 
         // 4. Lemon pieces drift outward (4 pristine corner pieces)
         scrollTl
-          .to(lemonPiece1Ref.current, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(lemonPiece2Ref.current, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(lemonPiece3Ref.current, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(lemonPiece5Ref.current, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(lemonPiece1Ref.current, startState, { xPercent: -85, yPercent: -75, rotation: -30, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(lemonPiece2Ref.current, startState, { xPercent: -95, yPercent: 70, rotation: 25, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(lemonPiece3Ref.current, startState, { xPercent: 90, yPercent: -70, rotation: 35, scale: 1.25, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(lemonPiece5Ref.current, startState, { xPercent: 85, yPercent: 80, rotation: -28, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
 
-        scrollTl.to(bottleRef.current, { scale: 1.05, yPercent: 0, ease: 'power2.out', duration: 0.7 }, 0)
-        scrollTl.to(giantTextRef.current, { yPercent: 0, scale: 1.02, ease: 'power2.out', duration: 1, force3D: true }, 0)
-        scrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { yPercent: -25, ease: 'power2.in', duration: 0.5 }, 0)
+        scrollTl.fromTo(bottleRef.current, { scale: 1, yPercent: 0 }, { scale: 1.05, yPercent: 0, ease: 'power2.out', duration: 0.7 }, 0)
+        scrollTl.fromTo(giantTextRef.current, { scale: 1, yPercent: 0 }, { yPercent: 0, scale: 1.02, ease: 'power2.out', duration: 1, force3D: true }, 0)
+        scrollTl.fromTo([bottomLeftBtnRef.current, manifestoRef.current], { yPercent: 0 }, { yPercent: -25, ease: 'power2.in', duration: 0.5 }, 0)
         scrollTl.to(bottleRef.current, { scale: 1.0, yPercent: 0, ease: 'power2.in', duration: 0.3 }, 0.7)
       })
 
@@ -400,38 +468,40 @@ export default function Hero() {
           },
         })
 
+        const mStartState = { xPercent: 0, yPercent: 0, rotation: 0, scale: 1 };
+
         // 1. Orange pieces drift outward to corners
         mobileScrollTl
-          .to(piece1Ref.current, { xPercent: -65, yPercent: -55, rotation: -25, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(piece2Ref.current, { xPercent: -70, yPercent: 55, rotation: 20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(piece3Ref.current, { xPercent: 70, yPercent: -55, rotation: 25, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(piece5Ref.current, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(piece1Ref.current, mStartState, { xPercent: -65, yPercent: -55, rotation: -25, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(piece2Ref.current, mStartState, { xPercent: -70, yPercent: 55, rotation: 20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(piece3Ref.current, mStartState, { xPercent: 70, yPercent: -55, rotation: 25, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(piece5Ref.current, mStartState, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
 
         // 2. Strawberry pieces drift outward
         mobileScrollTl
-          .to(strawPiece1Ref.current, { xPercent: -65, yPercent: -55, rotation: -22, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(strawPiece2Ref.current, { xPercent: -70, yPercent: 55, rotation: 18, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(strawPiece3Ref.current, { xPercent: 70, yPercent: -55, rotation: 24, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(strawPiece5Ref.current, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(strawPiece1Ref.current, mStartState, { xPercent: -65, yPercent: -55, rotation: -22, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(strawPiece2Ref.current, mStartState, { xPercent: -70, yPercent: 55, rotation: 18, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(strawPiece3Ref.current, mStartState, { xPercent: 70, yPercent: -55, rotation: 24, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(strawPiece5Ref.current, mStartState, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
 
         // 3. Cherry pieces drift outward
         mobileScrollTl
-          .to(cherryPiece1Ref.current, { xPercent: -65, yPercent: -55, rotation: -22, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(cherryPiece2Ref.current, { xPercent: -70, yPercent: 55, rotation: 18, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(cherryPiece3Ref.current, { xPercent: 70, yPercent: -55, rotation: 24, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(cherryPiece5Ref.current, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(cherryPiece1Ref.current, mStartState, { xPercent: -65, yPercent: -55, rotation: -22, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(cherryPiece2Ref.current, mStartState, { xPercent: -70, yPercent: 55, rotation: 18, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(cherryPiece3Ref.current, mStartState, { xPercent: 70, yPercent: -55, rotation: 24, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(cherryPiece5Ref.current, mStartState, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
 
         // 4. Lemon pieces drift outward
         mobileScrollTl
-          .to(lemonPiece1Ref.current, { xPercent: -65, yPercent: -55, rotation: -22, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(lemonPiece2Ref.current, { xPercent: -70, yPercent: 55, rotation: 18, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(lemonPiece3Ref.current, { xPercent: 70, yPercent: -55, rotation: 24, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
-          .to(lemonPiece5Ref.current, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(lemonPiece1Ref.current, mStartState, { xPercent: -65, yPercent: -55, rotation: -22, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(lemonPiece2Ref.current, mStartState, { xPercent: -70, yPercent: 55, rotation: 18, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(lemonPiece3Ref.current, mStartState, { xPercent: 70, yPercent: -55, rotation: 24, scale: 1.2, ease: 'power2.out', duration: 1, force3D: true }, 0)
+          .fromTo(lemonPiece5Ref.current, mStartState, { xPercent: 65, yPercent: 60, rotation: -20, scale: 1.18, ease: 'power2.out', duration: 1, force3D: true }, 0)
 
         // Bottle stays centered and expands like web view
-        mobileScrollTl.to(bottleRef.current, { scale: 1.08, yPercent: 0, ease: 'power2.out', duration: 0.8, force3D: true }, 0)
-        mobileScrollTl.to(giantTextRef.current, { yPercent: 0, scale: 1.04, ease: 'power2.out', duration: 1, force3D: true }, 0)
-        mobileScrollTl.to([bottomLeftBtnRef.current, manifestoRef.current], { yPercent: -15, ease: 'power2.in', duration: 0.45 }, 0)
+        mobileScrollTl.fromTo(bottleRef.current, { scale: 1, yPercent: 0 }, { scale: 1.08, yPercent: 0, ease: 'power2.out', duration: 0.8, force3D: true }, 0)
+        mobileScrollTl.fromTo(giantTextRef.current, { scale: 1, yPercent: 0 }, { yPercent: 0, scale: 1.04, ease: 'power2.out', duration: 1, force3D: true }, 0)
+        mobileScrollTl.fromTo([bottomLeftBtnRef.current, manifestoRef.current], { yPercent: 0 }, { yPercent: -15, ease: 'power2.in', duration: 0.45 }, 0)
       })
     },
     { scope: containerRef }
@@ -448,81 +518,33 @@ export default function Hero() {
       {/* 1. ORANGE CITRUS WARM THEME BACKGROUND */}
       <div 
         ref={bgOrangeRef}
-        className="absolute inset-0 pointer-events-none transition-opacity duration-500 bg-[#FAF5EA]"
+        className="absolute inset-0 pointer-events-none transition-opacity duration-500 bg-[#FF5722]"
         style={{ zIndex: 0 }}
       >
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse 95% 65% at 50% -5%, rgba(250, 182, 47, 0.45) 0%, rgba(253, 235, 195, 0.55) 45%, rgba(250, 245, 234, 1) 100%)',
-          }}
-        />
-        <div
-          className="hidden md:block absolute top-12 left-1/2 -translate-x-1/2 w-[1100px] h-[600px] rounded-full blur-3xl opacity-40"
-          style={{
-            background: 'radial-gradient(circle, rgba(251, 191, 36, 0.5) 0%, rgba(245, 158, 11, 0.15) 55%, transparent 75%)',
-          }}
-        />
       </div>
 
       {/* 2. STRAWBERRY RED THEME BACKGROUND */}
       <div 
         ref={bgStrawRef}
-        className="absolute inset-0 pointer-events-none transition-opacity duration-500 bg-[#FAF0EE]"
+        className="absolute inset-0 pointer-events-none transition-opacity duration-500 bg-[#E53935]"
         style={{ zIndex: 0, opacity: 0 }}
       >
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse 95% 65% at 50% -5%, rgba(224, 62, 38, 0.52) 0%, rgba(254, 218, 218, 0.7) 45%, rgba(250, 240, 238, 1) 100%)',
-          }}
-        />
-        <div
-          className="hidden md:block absolute top-12 left-1/2 -translate-x-1/2 w-[1100px] h-[600px] rounded-full blur-3xl opacity-50"
-          style={{
-            background: 'radial-gradient(circle, rgba(224, 62, 38, 0.55) 0%, rgba(217, 4, 41, 0.22) 55%, transparent 75%)',
-          }}
-        />
       </div>
 
       {/* 3. BLACK CHERRY THEME BACKGROUND */}
       <div 
         ref={bgCherryRef}
-        className="absolute inset-0 pointer-events-none transition-opacity duration-500 bg-[#F8EDF1]"
+        className="absolute inset-0 pointer-events-none transition-opacity duration-500 bg-[#9B111E]"
         style={{ zIndex: 0, opacity: 0 }}
       >
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse 95% 65% at 50% -5%, rgba(155, 17, 30, 0.52) 0%, rgba(246, 205, 218, 0.7) 45%, rgba(248, 237, 241, 1) 100%)',
-          }}
-        />
-        <div
-          className="hidden md:block absolute top-12 left-1/2 -translate-x-1/2 w-[1100px] h-[600px] rounded-full blur-3xl opacity-50"
-          style={{
-            background: 'radial-gradient(circle, rgba(155, 17, 30, 0.55) 0%, rgba(110, 5, 20, 0.22) 55%, transparent 75%)',
-          }}
-        />
       </div>
 
       {/* 4. LEMON GREEN THEME BACKGROUND */}
       <div 
         ref={bgLemonRef}
-        className="absolute inset-0 pointer-events-none transition-opacity duration-500 bg-[#F4FAEA]"
+        className="absolute inset-0 pointer-events-none transition-opacity duration-500 bg-[#CDDC39]"
         style={{ zIndex: 0, opacity: 0 }}
       >
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse 95% 65% at 50% -5%, rgba(132, 204, 22, 0.45) 0%, rgba(217, 249, 157, 0.55) 45%, rgba(244, 250, 234, 1) 100%)',
-          }}
-        />
-        <div
-          className="hidden md:block absolute top-12 left-1/2 -translate-x-1/2 w-[1100px] h-[600px] rounded-full blur-3xl opacity-40"
-          style={{
-            background: 'radial-gradient(circle, rgba(163, 230, 53, 0.5) 0%, rgba(101, 163, 13, 0.15) 55%, transparent 75%)',
-          }}
-        />
       </div>
 
       <div
@@ -534,7 +556,7 @@ export default function Hero() {
           {/* Giant Background Wordmark */}
           <h1
             ref={giantTextRef}
-            className={`absolute inset-x-0 text-center font-display ${activeSlide.wordSize} font-black uppercase text-(--color-ink) leading-none tracking-tight whitespace-nowrap max-w-full px-2 pointer-events-none select-none drop-shadow-xs`}
+            className={`absolute inset-x-0 text-center font-display ${activeSlide.wordSize} font-black uppercase text-white/95 leading-none tracking-tight whitespace-nowrap max-w-full px-2 pointer-events-none select-none`}
             style={{ zIndex: 1 }}
           >
             {activeSlide.wordmark}
@@ -823,14 +845,14 @@ export default function Hero() {
             ref={manifestoRef}
             className="w-full sm:max-w-md md:max-w-lg text-center sm:text-right flex flex-col items-center sm:items-end mt-0.5 sm:mt-0 order-1 sm:order-2"
           >
-            <h2 className="font-display text-xs sm:text-base md:text-lg font-bold text-neutral-900 leading-tight mb-1">
+            <h2 className={`font-display text-xs sm:text-base md:text-lg font-bold ${activeSlide.textColor} leading-tight mb-1`}>
               {activeSlide.manifestoTitle.split(activeSlide.manifestoHighlight)[0]}
               <span style={{ color: activeSlide.highlightColor }}>
                 {activeSlide.manifestoHighlight}
               </span>
               {activeSlide.manifestoTitle.split(activeSlide.manifestoHighlight)[1]}
             </h2>
-            <p className="font-body text-[11px] sm:text-xs font-normal tracking-tight sm:tracking-normal text-neutral-600 leading-snug max-w-[310px] sm:max-w-md mx-auto sm:mx-0">
+            <p className={`font-body text-[11px] sm:text-xs font-normal tracking-tight sm:tracking-normal ${activeSlide.bodyTextColor} leading-snug max-w-[310px] sm:max-w-md mx-auto sm:mx-0`}>
               {activeSlide.manifestoBody}
             </p>
           </div>

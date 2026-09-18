@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useCart } from '../context/CartContext'
+import { usePageTransition } from '../context/PageTransitionContext'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import ScrollTrigger from 'gsap/ScrollTrigger'
@@ -10,6 +11,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { totalItems, setIsCartOpen, setIsSearchOpen, setIsAccountOpen } = useCart()
+  const { triggerTransition } = usePageTransition()
   
   const navRef = useRef(null)
   const linksRef = useRef([])
@@ -21,14 +23,63 @@ export default function Navbar() {
   const accountIconRef = useRef(null)
   const cartIconRef = useRef(null)
 
-  // Watch scroll for background blur/pill
+  // Watch scroll for background blur/pill and auto-hide while scrolling
+  const lastScrollY = useRef(0)
+  const isNavHidden = useRef(false)
+
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30)
+      const currentScrollY = window.scrollY
+      setIsScrolled(currentScrollY > 30)
+
+      // Always show navbar at the very top of the page
+      if (currentScrollY <= 40) {
+        if (isNavHidden.current && navRef.current) {
+          gsap.to(navRef.current, { yPercent: 0, duration: 0.3, ease: 'power2.out', overwrite: 'auto' })
+          isNavHidden.current = false
+        }
+        lastScrollY.current = currentScrollY
+        return
+      }
+
+      // Do not hide if mobile menu is open
+      if (isMobileMenuOpen) return
+
+      // If user is inside #about section, keep navbar hidden to avoid header collision
+      const aboutEl = document.getElementById('about')
+      if (aboutEl) {
+        const rect = aboutEl.getBoundingClientRect()
+        if (rect.top <= 50 && rect.bottom >= 100) {
+          if (!isNavHidden.current && navRef.current) {
+            gsap.to(navRef.current, { yPercent: -130, duration: 0.3, overwrite: 'auto' })
+            isNavHidden.current = true
+          }
+          lastScrollY.current = currentScrollY
+          return
+        }
+      }
+
+      // Scrolling DOWN -> hide navbar
+      if (currentScrollY > lastScrollY.current + 8 && !isNavHidden.current) {
+        if (navRef.current) {
+          gsap.to(navRef.current, { yPercent: -130, duration: 0.35, ease: 'power2.inOut', overwrite: 'auto' })
+          isNavHidden.current = true
+        }
+      }
+      // Scrolling UP -> reveal navbar
+      else if (currentScrollY < lastScrollY.current - 8 && isNavHidden.current) {
+        if (navRef.current) {
+          gsap.to(navRef.current, { yPercent: 0, duration: 0.35, ease: 'power2.out', overwrite: 'auto' })
+          isNavHidden.current = false
+        }
+      }
+
+      lastScrollY.current = currentScrollY
     }
+
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [isMobileMenuOpen])
 
   // Lock body scroll if mobile menu is open
   useEffect(() => {
@@ -45,10 +96,12 @@ export default function Navbar() {
   const scrollToSection = (e, id) => {
     if (e) e.preventDefault()
     closeMobileMenu()
-    const target = document.querySelector(id)
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' })
-    }
+    triggerTransition(() => {
+      const target = document.querySelector(id)
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' })
+      }
+    })
   }
 
   // --- GSAP Animations ---
@@ -211,16 +264,12 @@ export default function Navbar() {
       >
       {/* Floating Pill Container */}
       <div 
-        className={`mx-auto w-full max-w-7xl flex items-center justify-between transition-all duration-500 ${
-          isScrolled 
-            ? 'bg-[#FAF5EA]/85 backdrop-blur-xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-full px-3.5 sm:px-7 py-1.5 sm:py-2.5' 
-            : 'bg-transparent border-transparent shadow-none px-0 py-0'
-        }`}
+        className="mx-auto w-full max-w-7xl flex items-center justify-between transition-all duration-500 px-3.5 sm:px-7 py-1.5 sm:py-2.5"
       >
         {/* Left Links */}
         <nav
           aria-label="Primary Navigation"
-          className="hidden md:flex items-center gap-7 text-[11px] font-normal tracking-[0.22em] uppercase text-neutral-800 w-1/3"
+          className="hidden md:flex items-center gap-7 text-[11px] font-normal tracking-[0.22em] uppercase w-1/3 text-black transition-colors duration-500"
         >
           {['#flavors', '#about'].map((link, i) => (
             <a
@@ -230,10 +279,10 @@ export default function Navbar() {
               onClick={(e) => scrollToSection(e, link)}
               onMouseEnter={() => onLinkEnter(i)}
               onMouseLeave={() => onLinkLeave(i)}
-              className="relative py-1 hover:text-(--color-coral) transition-colors duration-300 inline-block cursor-pointer"
+              className="relative py-1 text-black hover:opacity-75 transition-all duration-300 inline-block cursor-pointer"
             >
               <span>{link === '#flavors' ? 'Our Menu' : 'Our Story'}</span>
-              <span className="nav-line absolute bottom-0 left-0 w-0 h-[2px] bg-(--color-coral) rounded-full pointer-events-none" />
+              <span className="nav-line absolute bottom-0 left-0 w-0 h-[2px] bg-black rounded-full pointer-events-none" />
             </a>
           ))}
         </nav>
@@ -248,10 +297,10 @@ export default function Navbar() {
             aria-label="Zesty Clean Juice Homepage"
           >
             <div className="flex items-center gap-1 sm:gap-1.5">
-              <span className="font-asal text-2xl sm:text-3xl lg:text-4xl text-neutral-900 tracking-wide font-normal">
+              <span className="font-asal text-2xl sm:text-3xl lg:text-4xl tracking-wide font-normal text-black transition-colors duration-500">
                 zesty
               </span>
-              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-emerald-800 -rotate-12 fill-current shrink-0" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5 -rotate-12 fill-current shrink-0 text-emerald-800 transition-colors duration-500" viewBox="0 0 24 24">
                 <path d="M17 3c-5.523 0-10 4.477-10 10 0 1.25.23 2.45.65 3.55C4.24 18.25 2 21 2 21s6.25-1.25 10.45-3.65c1.1.42 2.3.65 3.55.65 5.523 0 10-4.477 10-10 0-5.523-4.477-10-10-10z" />
               </svg>
             </div>
@@ -259,7 +308,7 @@ export default function Navbar() {
         </div>
 
         {/* Right Actions: Minimalist Luxury Editorial Icons with 44px Touch Targets */}
-        <div ref={rightIconsRef} className="flex items-center justify-end gap-0.5 sm:gap-2 shrink-0 md:w-1/3 text-(--color-ink)">
+        <div ref={rightIconsRef} className="flex items-center justify-end gap-1 sm:gap-2 shrink-0 md:w-1/3 text-black transition-colors duration-500">
           {/* 1. Quick Search */}
           <button
             ref={searchIconRef}
@@ -268,7 +317,7 @@ export default function Navbar() {
             onMouseEnter={onSearchEnter}
             onMouseLeave={onSearchLeave}
             aria-label="Search Flavors & Story"
-            className="touch-target-44 w-11 h-11 rounded-full flex items-center justify-center hover:bg-black/5 hover:text-(--color-coral) transition-colors cursor-pointer"
+            className="touch-target-44 w-11 h-11 rounded-full flex items-center justify-center text-black hover:bg-black/10 transition-colors cursor-pointer"
           >
             <svg className="w-4 h-4 sm:w-[18px] sm:h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -283,7 +332,7 @@ export default function Navbar() {
             onMouseEnter={onAccountEnter}
             onMouseLeave={onAccountLeave}
             aria-label="Clean Club VIP Account"
-            className="touch-target-44 w-11 h-11 rounded-full flex items-center justify-center hover:bg-black/5 hover:text-(--color-coral) transition-colors cursor-pointer"
+            className="touch-target-44 w-11 h-11 rounded-full flex items-center justify-center text-black hover:bg-black/10 transition-colors cursor-pointer"
           >
             <svg className="w-4 h-4 sm:w-[18px] sm:h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7 0 3.75 3.75 0 017 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
@@ -298,13 +347,13 @@ export default function Navbar() {
             onMouseEnter={onBagEnter}
             onMouseLeave={onBagLeave}
             aria-label={`View Bag (${totalItems} items)`}
-            className="touch-target-44 relative w-11 h-11 rounded-full flex items-center justify-center hover:bg-black/5 hover:text-(--color-coral) transition-colors cursor-pointer"
+            className="touch-target-44 relative w-11 h-11 rounded-full flex items-center justify-center text-black hover:bg-black/10 transition-colors cursor-pointer"
           >
             <svg className="w-4 h-4 sm:w-[18px] sm:h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
             {totalItems > 0 && (
-              <span className="absolute top-1.5 right-1.5 min-w-[16px] h-4 px-1 bg-(--color-coral) text-white text-[9px] font-semibold rounded-full flex items-center justify-center shadow-xs">
+              <span className="absolute top-1.5 right-1.5 min-w-[16px] h-4 px-1 bg-black text-white text-[9px] font-semibold rounded-full flex items-center justify-center shadow-xs border border-white/20">
                 {totalItems}
               </span>
             )}
@@ -315,7 +364,7 @@ export default function Navbar() {
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? 'Close Menu' : 'Open Menu'}
-            className="touch-target-44 flex md:hidden! relative w-11 h-11 flex-col items-center justify-center gap-[4.5px] p-2 text-(--color-ink) z-50 cursor-pointer rounded-full hover:bg-black/5 transition-colors"
+            className="touch-target-44 flex md:hidden! relative w-11 h-11 flex-col items-center justify-center gap-[4.5px] p-2 z-50 cursor-pointer rounded-full hover:bg-black/5 transition-colors text-black"
           >
             <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'translate-y-[6.5px] rotate-45' : ''}`} />
             <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'}`} />
@@ -343,17 +392,17 @@ export default function Navbar() {
                 <a
                   href={item.href}
                   onClick={(e) => scrollToSection(e, item.href)}
-                  className="group flex items-center justify-between py-4 sm:py-5 text-neutral-800 hover:text-(--color-coral) transition-all duration-300 cursor-pointer"
+                  className="group flex items-center justify-between py-4 sm:py-5 text-black hover:opacity-70 transition-all duration-300 cursor-pointer"
                 >
                   <div className="flex items-center gap-4">
-                    <span className="text-[11px] font-mono font-light text-neutral-400 group-hover:text-(--color-coral) transition-colors">
+                    <span className="text-[11px] font-mono font-light text-neutral-500 transition-colors">
                       {item.num}
                     </span>
                     <span className="text-base sm:text-lg font-light uppercase tracking-[0.2em] group-hover:tracking-[0.24em] transition-all duration-300">
                       {item.label}
                     </span>
                   </div>
-                  <span className="text-sm font-light text-neutral-400 group-hover:text-(--color-coral) group-hover:translate-x-1 transition-all duration-300">
+                  <span className="text-sm font-light text-neutral-500 group-hover:translate-x-1 transition-all duration-300">
                     →
                   </span>
                 </a>

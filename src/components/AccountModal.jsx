@@ -1,28 +1,27 @@
-import { useState, useEffect, useRef } from 'react'
+﻿import { useState, useEffect, useRef } from 'react'
 import { useCart } from '../context/CartContext'
+import gsap from 'gsap'
 
 export default function AccountModal() {
   const { isAccountOpen, setIsAccountOpen, userProfile, updateUserProfile, orders } = useCart()
-  const modalRef = useRef(null)
+  const panelRef = useRef(null)
+  const backdropRef = useRef(null)
 
   const [isEditing, setIsEditing] = useState(false)
   const [editForm, setEditForm] = useState({
     fullName: '',
     phone: '',
-    email: '',
     address: '',
     city: '',
     pincode: '',
   })
   const [savedFeedback, setSavedFeedback] = useState(false)
 
-  // Sync edit form with real-time userProfile
   useEffect(() => {
     if (userProfile) {
       setEditForm({
         fullName: userProfile.fullName || '',
         phone: userProfile.phone || '',
-        email: userProfile.email || '',
         address: userProfile.address || '',
         city: userProfile.city || '',
         pincode: userProfile.pincode || '',
@@ -30,14 +29,10 @@ export default function AccountModal() {
     }
   }, [userProfile, isAccountOpen])
 
-  // Escape key listener & body scroll lock
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isAccountOpen) {
-        setIsAccountOpen(false)
-      }
+      if (e.key === 'Escape' && isAccountOpen) setIsAccountOpen(false)
     }
-
     if (isAccountOpen) {
       document.body.style.overflow = 'hidden'
       window.addEventListener('keydown', handleKeyDown)
@@ -45,12 +40,23 @@ export default function AccountModal() {
       document.body.style.overflow = ''
       setIsEditing(false)
     }
-
     return () => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [isAccountOpen, setIsAccountOpen])
+
+  useEffect(() => {
+    if (isAccountOpen && panelRef.current) {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (!prefersReducedMotion) {
+        gsap.fromTo(panelRef.current, { x: '100%' }, { x: '0%', duration: 0.38, ease: 'power3.out' })
+      }
+      if (backdropRef.current) {
+        gsap.fromTo(backdropRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3 })
+      }
+    }
+  }, [isAccountOpen])
 
   if (!isAccountOpen) return null
 
@@ -62,15 +68,13 @@ export default function AccountModal() {
     setTimeout(() => setSavedFeedback(false), 2500)
   }
 
-  // Calculate initials dynamically
   const getInitials = (name) => {
-    if (!name || !name.trim()) return 'VIP'
+    if (!name || !name.trim()) return 'ZY'
     const parts = name.trim().split(' ')
     if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase()
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
   }
 
-  // Real-time points based on live orders
   const totalSpent = orders.reduce((sum, o) => sum + (o.customerDetails?.finalTotal || o.subtotal || 0), 0)
   const realTimePoints = Math.round(totalSpent * 0.5) + 200
   const creditValue = Math.round(realTimePoints * 0.5)
@@ -80,288 +84,264 @@ export default function AccountModal() {
   const scrollToFlavors = () => {
     setIsAccountOpen(false)
     const target = document.querySelector('#flavors')
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' })
-    }
+    if (target) target.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
     <div
-      className="fixed inset-0 z-70 flex items-center justify-center p-3.5 sm:p-6 bg-black/40 backdrop-blur-md transition-all duration-300 animate-fade-in"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) setIsAccountOpen(false)
-      }}
+      ref={backdropRef}
+      className="fixed inset-0 z-70 flex justify-end bg-black/60"
+      onClick={(e) => { if (e.target === e.currentTarget) setIsAccountOpen(false) }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="account-modal-title"
     >
       <div
-        ref={modalRef}
-        className="relative w-full max-w-lg bg-[#FAF5EA] border border-black/10 shadow-2xl p-5 sm:p-7 text-neutral-900 max-h-[88vh] overflow-y-auto overflow-x-hidden pb-[calc(var(--sab)+1.5rem)] sm:pb-7 rounded-3xl"
+        ref={panelRef}
+        className="relative w-full max-w-[480px] h-full bg-[#1A1816] flex flex-col overflow-hidden shadow-2xl"
+        style={{ transform: 'translateX(100%)' }}
       >
-        {/* Top Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-black/5">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <span className="inline-flex items-center px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase bg-neutral-950 text-white rounded-md">
-              Clean Club VIP
+        {/* HEADER */}
+        <div className="flex items-center justify-between px-6 pt-[calc(var(--sat,0px)+1.25rem)] pb-5 border-b border-white/8 shrink-0">
+          <div className="flex items-center gap-3">
+            <span className="font-dacomment text-[10px] tracking-[0.25em] uppercase text-[#F5A623]">
+              Clean Club
             </span>
-            <span className="text-[11px] text-neutral-500 font-mono tracking-wider">
+            <span className="w-px h-3.5 bg-white/15" />
+            <span className="font-mono text-[10px] text-white/30 tracking-widest">
               {userProfile.membershipId || '#CJ-8429'}
             </span>
           </div>
-
           <button
             id="account-modal-close-btn"
             type="button"
             onClick={() => setIsAccountOpen(false)}
-            aria-label="Close Account Modal"
-            className="w-8 h-8 rounded-lg flex items-center justify-center bg-white hover:bg-neutral-100 border border-black/10 text-neutral-600 hover:text-neutral-950 transition-colors cursor-pointer shadow-2xs"
+            aria-label="Close account panel"
+            className="w-8 h-8 flex items-center justify-center text-white/40 hover:text-white transition-colors cursor-pointer"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        {savedFeedback && (
-          <div className="mt-3 p-2.5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs font-poppins font-medium flex items-center gap-2 animate-in fade-in duration-200">
-            <svg className="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-            Profile details updated and synchronized in real time!
-          </div>
-        )}
+        {/* SCROLLABLE BODY */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-6 py-6 space-y-8 [&::-webkit-scrollbar]:w-0">
 
-        {/* Member Profile Card */}
-        <div className="pt-5 pb-5 flex items-center justify-between gap-4 border-b border-black/5">
-          <div className="flex items-center gap-3.5">
-            <div className="w-13 h-13 sm:w-14 sm:h-14 shrink-0 rounded-2xl bg-neutral-950 flex items-center justify-center text-white font-asul text-xl font-normal shadow-sm">
-              {getInitials(userProfile.fullName)}
-            </div>
-            <div>
-              <h2 id="account-modal-title" className="font-asul text-2xl font-normal tracking-tight text-neutral-900">
-                {userProfile.fullName || 'Artisan Guest'}
-              </h2>
-              <p className="text-xs text-neutral-500 font-poppins font-normal">
-                {userProfile.phone || 'No phone added'} • {userProfile.city || 'India'}
-              </p>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setIsEditing(!isEditing)}
-            className="px-3.5 py-1.5 rounded-lg bg-white border border-black/10 hover:border-black/30 text-xs font-poppins font-medium text-neutral-800 hover:text-neutral-950 transition-all cursor-pointer shadow-2xs shrink-0"
-          >
-            {isEditing ? 'Cancel' : 'Edit Profile'}
-          </button>
-        </div>
-
-        {/* Inline Real-Time Edit Profile Form */}
-        {isEditing && (
-          <form onSubmit={handleSaveProfile} className="my-4 p-4 bg-white rounded-2xl border border-black/10 shadow-xs space-y-3 animate-in fade-in duration-200">
-            <div className="flex items-center justify-between pb-2 border-b border-black/5">
-              <span className="font-poppins text-xs font-semibold text-neutral-900">Live Profile Editor</span>
-              <span className="text-[10px] text-neutral-400">Updates live across cart & checkout</span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-poppins">
+          {/* IDENTITY */}
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 shrink-0 bg-[#E03E26] flex items-center justify-center">
+                <span className="font-dacomment text-xl text-white leading-none">
+                  {getInitials(userProfile.fullName)}
+                </span>
+              </div>
               <div>
-                <label className="block text-[11px] text-neutral-500 font-medium mb-1">Full Name</label>
-                <input
-                  type="text"
-                  required
-                  value={editForm.fullName}
-                  onChange={(e) => setEditForm({ ...editForm, fullName: e.target.value })}
-                  className="w-full px-3 py-2 bg-neutral-50 border border-neutral-300 rounded-lg text-neutral-900 outline-none focus:ring-1 focus:ring-neutral-900"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] text-neutral-500 font-medium mb-1">Phone Number</label>
-                <input
-                  type="tel"
-                  required
-                  value={editForm.phone}
-                  onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
-                  className="w-full px-3 py-2 bg-neutral-50 border border-neutral-300 rounded-lg text-neutral-900 outline-none focus:ring-1 focus:ring-neutral-900"
-                />
-              </div>
-
-              <div className="sm:col-span-2">
-                <label className="block text-[11px] text-neutral-500 font-medium mb-1">Street Address</label>
-                <input
-                  type="text"
-                  required
-                  value={editForm.address}
-                  onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
-                  className="w-full px-3 py-2 bg-neutral-50 border border-neutral-300 rounded-lg text-neutral-900 outline-none focus:ring-1 focus:ring-neutral-900"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] text-neutral-500 font-medium mb-1">City</label>
-                <input
-                  type="text"
-                  required
-                  value={editForm.city}
-                  onChange={(e) => setEditForm({ ...editForm, city: e.target.value })}
-                  className="w-full px-3 py-2 bg-neutral-50 border border-neutral-300 rounded-lg text-neutral-900 outline-none focus:ring-1 focus:ring-neutral-900"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] text-neutral-500 font-medium mb-1">PIN Code</label>
-                <input
-                  type="text"
-                  required
-                  value={editForm.pincode}
-                  onChange={(e) => setEditForm({ ...editForm, pincode: e.target.value })}
-                  className="w-full px-3 py-2 bg-neutral-50 border border-neutral-300 rounded-lg text-neutral-900 outline-none focus:ring-1 focus:ring-neutral-900"
-                />
+                <h2
+                  id="account-modal-title"
+                  className="font-dacomment text-2xl sm:text-3xl text-white leading-none tracking-tight"
+                >
+                  {userProfile.fullName || 'Guest'}
+                </h2>
+                <p className="font-poppins text-[11px] text-white/40 mt-1 tracking-wider">
+                  {userProfile.phone ? `+91 ${userProfile.phone}` : 'No phone'} · {userProfile.city || 'India'}
+                </p>
               </div>
             </div>
-
-            <div className="pt-2 flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={() => setIsEditing(false)}
-                className="px-4 py-2 rounded-lg text-xs font-poppins font-medium text-neutral-600 hover:bg-neutral-100"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-5 py-2 rounded-lg bg-neutral-950 text-white text-xs font-poppins font-semibold shadow-xs hover:bg-black transition-all cursor-pointer"
-              >
-                Save Changes
-              </button>
-            </div>
-          </form>
-        )}
-
-        {/* Real-Time Live Rewards & Points Bento */}
-        <div className="mt-4 p-5 rounded-2xl bg-white border border-black/10 shadow-xs mb-5 text-neutral-900 relative overflow-hidden">
-          <div className="flex items-center justify-between mb-3">
-            <div>
-              <span className="text-[10px] font-poppins font-bold tracking-widest uppercase text-neutral-500 block">Real-Time Points</span>
-              <div className="flex items-baseline gap-1.5 mt-0.5">
-                <span className="text-3xl font-asul font-normal text-neutral-950">{realTimePoints}</span>
-                <span className="text-xs text-neutral-500 font-poppins font-semibold uppercase">Points</span>
-              </div>
-            </div>
-            <div className="text-right">
-              <span className="text-[11px] font-poppins font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-lg inline-block">
-                ₹{creditValue} Wallet Credit
-              </span>
-            </div>
+            <button
+              type="button"
+              onClick={() => setIsEditing(!isEditing)}
+              className="font-poppins text-[10px] uppercase tracking-widest text-white/35 hover:text-white transition-colors cursor-pointer pt-1 shrink-0"
+            >
+              {isEditing ? 'Cancel' : 'Edit'}
+            </button>
           </div>
 
-          {/* Tier Progress */}
-          <div className="w-full bg-neutral-100 h-2 rounded-full overflow-hidden mb-2">
-            <div 
-              className="bg-neutral-950 h-full rounded-full transition-all duration-700 ease-out" 
-              style={{ width: `${tierProgress}%` }} 
-            />
-          </div>
-          <div className="flex justify-between text-[11px] text-neutral-500 font-poppins font-medium">
-            <span>{Math.max(0, nextTierGoal - realTimePoints)} pts to Platinum Cold-Chain Tier</span>
-            <span>{tierProgress}%</span>
-          </div>
-        </div>
-
-        {/* Real-Time Live Order History */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-3 border-b border-black/5 pb-2">
-            <h3 className="text-xs font-poppins font-semibold uppercase tracking-wider text-neutral-900">
-              Live Cold-Chain Orders ({orders.length})
-            </h3>
-            <span className="text-[11px] font-poppins text-neutral-500 font-medium">Real-time sync</span>
-          </div>
-
-          {orders.length === 0 ? (
-            <div className="text-center py-8 bg-white/60 rounded-2xl border border-black/5 p-6">
-              <p className="font-asul text-lg text-neutral-800 mb-1">No orders yet</p>
-              <p className="font-poppins text-xs text-neutral-500 mb-4">
-                Your cold-pressed bottles will be tracked here in real time once ordered.
-              </p>
-              <button
-                type="button"
-                onClick={scrollToFlavors}
-                className="px-5 py-2.5 rounded-full bg-neutral-950 text-white font-poppins text-xs font-medium hover:bg-black transition-all cursor-pointer"
-              >
-                Order Harvest Edition
-              </button>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {orders.map((order, idx) => (
-                <div key={order.orderId || idx} className="p-4 bg-white rounded-2xl border border-black/10 shadow-2xs font-poppins text-xs space-y-2.5">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-neutral-950 text-sm font-mono">{order.orderId}</span>
-                      <span className="text-[10px] text-neutral-400 font-normal">
-                        {order.date} {order.time ? `• ${order.time}` : ''}
-                      </span>
-                    </div>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider ${
-                      order.status === 'Delivered'
-                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                        : 'bg-amber-50 text-amber-800 border border-amber-200 animate-pulse'
-                    }`}>
-                      {order.status || 'Cold-Chain In Transit'}
-                    </span>
-                  </div>
-
-                  {/* Items list */}
-                  <div className="space-y-1.5 pt-1 border-t border-black/5">
-                    {order.items && order.items.map((item, i) => (
-                      <div key={i} className="flex items-center justify-between text-neutral-700 text-[11px]">
-                        <div className="flex items-center gap-2">
-                          {item.image && (
-                            <img src={item.image} alt={item.title || item.name} className="w-5 h-7 object-contain" />
-                          )}
-                          <span>
-                            <span className="font-semibold text-neutral-900">{item.qty || item.quantity || 1}x</span> {item.title || item.name} ({item.packName || item.pack || '1 Can'})
-                          </span>
-                        </div>
-                        <span className="font-dacomment font-semibold text-neutral-900 text-xs">
-                          ₹{item.totalPrice || item.price || 0}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Destination & Window */}
-                  <div className="pt-2 border-t border-black/5 flex items-center justify-between text-[11px] text-neutral-500">
-                    <span className="truncate max-w-[240px]">
-                      📍 {order.customerDetails?.address || userProfile.address}, {order.customerDetails?.city || userProfile.city}
-                    </span>
-                    <span className="font-dacomment text-sm font-bold text-neutral-950">
-                      ₹{order.customerDetails?.finalTotal || order.subtotal}
-                    </span>
-                  </div>
-                </div>
-              ))}
+          {savedFeedback && (
+            <div className="flex items-center gap-2 py-2.5 px-4 bg-[#E03E26]/10 border border-[#E03E26]/20 text-[#E03E26] text-xs font-poppins">
+              <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              Profile saved and synced.
             </div>
           )}
+
+          {/* EDIT FORM */}
+          {isEditing && (
+            <form onSubmit={handleSaveProfile} className="space-y-4 border-t border-white/8 pt-6">
+              <p className="font-dacomment text-[10px] tracking-[0.2em] uppercase text-white/30 mb-2">Edit Profile</p>
+              {[
+                { label: 'Full Name', key: 'fullName', type: 'text' },
+                { label: 'Phone', key: 'phone', type: 'tel' },
+                { label: 'Address', key: 'address', type: 'text' },
+                { label: 'City', key: 'city', type: 'text' },
+                { label: 'PIN Code', key: 'pincode', type: 'text' },
+              ].map(({ label, key, type }) => (
+                <div key={key}>
+                  <label className="block font-poppins text-[10px] uppercase tracking-widest text-white/30 mb-1.5">
+                    {label}
+                  </label>
+                  <input
+                    type={type}
+                    value={editForm[key]}
+                    onChange={(e) => setEditForm({ ...editForm, [key]: e.target.value })}
+                    className="w-full bg-transparent border-b border-white/12 focus:border-white/40 py-2 font-poppins text-sm text-white outline-none transition-colors"
+                    placeholder={label}
+                  />
+                </div>
+              ))}
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 py-3 bg-white text-[#1A1816] font-poppins text-xs font-semibold uppercase tracking-widest hover:bg-neutral-100 transition-colors cursor-pointer"
+                >
+                  Save Changes
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsEditing(false)}
+                  className="py-3 px-5 border border-white/12 text-white/40 font-poppins text-xs uppercase tracking-widest hover:text-white hover:border-white/25 transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          )}
+
+          {/* REWARDS */}
+          <div className="border-t border-white/8 pt-6">
+            <p className="font-dacomment text-[10px] tracking-[0.2em] uppercase text-white/30 mb-5">Rewards</p>
+            <div className="flex items-end justify-between mb-5">
+              <div>
+                <span className="font-dacomment text-5xl sm:text-6xl text-white leading-none tabular-nums">
+                  {realTimePoints.toLocaleString()}
+                </span>
+                <span className="font-poppins text-[10px] tracking-widest uppercase text-white/30 ml-2">pts</span>
+              </div>
+              <div className="text-right">
+                <span className="font-dacomment text-2xl text-[#F5A623] leading-none">
+                  &#8377;{creditValue}
+                </span>
+                <p className="font-poppins text-[9px] text-white/25 uppercase tracking-widest mt-0.5">Wallet Credit</p>
+              </div>
+            </div>
+            <div className="w-full h-px bg-white/8 relative overflow-visible mb-3">
+              <div
+                className="absolute top-0 left-0 h-px bg-[#E03E26] transition-all duration-700 ease-out"
+                style={{ width: `${tierProgress}%` }}
+              />
+              <div
+                className="absolute -top-[3px] w-1.5 h-1.5 bg-[#E03E26] transition-all duration-700 ease-out"
+                style={{ left: `calc(${tierProgress}% - 3px)` }}
+              />
+            </div>
+            <div className="flex justify-between font-poppins text-[9px] text-white/20 tracking-widest uppercase">
+              <span>{Math.max(0, nextTierGoal - realTimePoints)} pts to Platinum</span>
+              <span>{tierProgress}%</span>
+            </div>
+          </div>
+
+          {/* ORDER HISTORY */}
+          <div className="border-t border-white/8 pt-6">
+            <div className="flex items-center justify-between mb-5">
+              <p className="font-dacomment text-[10px] tracking-[0.2em] uppercase text-white/30">Orders</p>
+              <span className="font-mono text-[9px] text-white/15 tracking-widest">{orders.length} total</span>
+            </div>
+
+            {orders.length === 0 ? (
+              <div className="py-12 text-center">
+                <p className="font-dacomment text-5xl text-white/8 mb-4 tracking-widest">EMPTY</p>
+                <p className="font-poppins text-xs text-white/20 leading-relaxed mb-6 max-w-[220px] mx-auto">
+                  Your cold-pressed orders will appear here after checkout.
+                </p>
+                <button
+                  type="button"
+                  onClick={scrollToFlavors}
+                  className="font-poppins text-[10px] uppercase tracking-widest text-[#E03E26] hover:text-white transition-colors cursor-pointer"
+                >
+                  Browse Flavors &#8594;
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-px">
+                {orders.map((order, idx) => (
+                  <div
+                    key={order.orderId || idx}
+                    className="bg-white/4 hover:bg-white/6 transition-colors p-4 space-y-3"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-xs text-white font-bold tracking-wider">
+                          {order.orderId}
+                        </span>
+                        {order.date && (
+                          <span className="font-poppins text-[9px] text-white/20">
+                            {order.date}{order.time ? ` · ${order.time}` : ''}
+                          </span>
+                        )}
+                      </div>
+                      <span
+                        className={`font-poppins text-[9px] font-bold px-2 py-0.5 uppercase tracking-widest ${
+                          order.status === 'Delivered'
+                            ? 'text-emerald-400 bg-emerald-400/8'
+                            : 'text-[#F5A623] bg-[#F5A623]/8'
+                        }`}
+                      >
+                        {order.status || 'In Transit'}
+                      </span>
+                    </div>
+
+                    {order.items && (
+                      <div className="space-y-1.5 border-t border-white/6 pt-2.5">
+                        {order.items.map((item, i) => (
+                          <div key={i} className="flex items-center justify-between">
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              {item.image && (
+                                <img src={item.image} alt={item.title} className="w-4 h-6 object-contain shrink-0" />
+                              )}
+                              <span className="font-poppins text-[11px] text-white/50 truncate">
+                                <span className="text-white/80">{item.qty || 1}&times;</span>{' '}
+                                {item.title || item.name}
+                              </span>
+                            </div>
+                            <span className="font-dacomment text-sm text-white/60 shrink-0 ml-3">
+                              &#8377;{item.totalPrice || item.price || 0}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between border-t border-white/6 pt-2.5">
+                      <span className="font-poppins text-[9px] text-white/20 uppercase tracking-widest truncate max-w-[55%]">
+                        {order.customerDetails?.city || userProfile.city || '&#8212;'}
+                      </span>
+                      <span className="font-dacomment text-lg text-white">
+                        &#8377;{order.customerDetails?.finalTotal || order.subtotal}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
+        {/* STICKY FOOTER */}
+        <div className="shrink-0 px-6 py-5 border-t border-white/8 bg-[#1A1816] flex gap-3 pb-[calc(var(--sab,0px)+1.25rem)]">
           <button
             id="account-order-flavors-btn"
             type="button"
             onClick={scrollToFlavors}
-            className="flex-1 py-3 px-4 min-h-[44px] rounded-full bg-[#F25C22] hover:bg-[#E04D15] text-white text-xs font-poppins font-semibold uppercase tracking-wider transition-all duration-200 flex items-center justify-center cursor-pointer shadow-xs active:scale-98"
+            className="flex-1 py-3.5 bg-[#E03E26] hover:bg-[#C83318] text-white font-poppins text-[10px] font-semibold uppercase tracking-widest transition-colors cursor-pointer"
           >
-            Order New Flavors
+            Order Now
           </button>
           <button
             id="account-done-btn"
             type="button"
             onClick={() => setIsAccountOpen(false)}
-            className="py-3 px-6 min-h-[44px] rounded-full border border-black/10 hover:bg-black/5 text-xs font-poppins font-medium text-neutral-700 transition-colors flex items-center justify-center cursor-pointer"
+            className="py-3.5 px-6 border border-white/10 hover:border-white/25 text-white/35 hover:text-white font-poppins text-[10px] uppercase tracking-widest transition-colors cursor-pointer"
           >
             Done
           </button>
