@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import { useCart } from "../context/CartContext";
 import { usePageTransition } from "../context/PageTransitionContext";
 import gsap from "gsap";
@@ -2026,167 +2026,94 @@ export default function CartDrawer() {
         </div>
       )}
 
-      {/* Order Confirmed Screen - Clean Editorial Style Matching Reference (No dots, No AI icons) */}
+      {/* Order Confirmed Screen - Compact Bottom-Sheet (mobile) / Centered Card (desktop) */}
       {orderConfirmed && (
         <div
           id="order-confirmed-root"
-          className="fixed inset-0 z-70 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-xs overflow-y-auto"
+          className="fixed inset-0 z-70 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-black/60 backdrop-blur-xs"
           data-lenis-prevent="true"
           onWheel={(e) => e.stopPropagation()}
         >
-          <div className="relative w-full max-w-[480px] bg-[#F9F9F8] border border-neutral-300/80 rounded-t-[24px] sm:rounded-[28px] z-10 text-neutral-900 shadow-2xl p-5 sm:p-8 my-auto flex flex-col text-left overflow-hidden">
-            {/* Top Close Button */}
-            <button
-              type="button"
-              onClick={() => {
-                setOrderConfirmed(null);
-                setIsCartOpen(false);
-                setIsCheckingOut(false);
-              }}
-              aria-label="Close"
-              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-neutral-200/80 hover:bg-neutral-300 text-neutral-600 hover:text-black flex items-center justify-center transition-colors cursor-pointer z-20 active:scale-95 text-xs font-bold"
-            >
-              &#10005;
-            </button>
+          <div className="relative w-full max-w-[440px] bg-[#F9F9F8] border border-neutral-200 rounded-t-[20px] sm:rounded-2xl z-10 text-neutral-900 shadow-2xl flex flex-col text-left overflow-hidden">
 
-            {/* Hand-Drawn / Isometric Green Checkmark Icon */}
-            <div className="w-12 h-12 sm:w-16 sm:h-16 mb-2">
-              <svg viewBox="0 0 100 100" className="w-full h-full" fill="none">
-                {/* 3D Isometric Extrusion Shadow */}
-                <path
-                  d="M18 52 L38 72 L82 24 L86 28 L38 80 L14 56 Z"
-                  fill="#1B4332"
-                  opacity="0.9"
-                />
-                {/* Checkmark Base Face */}
-                <path
-                  d="M16 50 L38 72 L82 24 L74 16 L38 58 L24 44 Z"
-                  fill="#74C69D"
-                  stroke="#111111"
-                  strokeWidth="3.5"
-                  strokeLinejoin="round"
-                />
-                {/* Front Highlight Face */}
-                <path
-                  d="M14 48 L36 70 L80 22 L72 14 L36 56 L22 42 Z"
-                  fill="#95D5B2"
-                  stroke="#111111"
-                  strokeWidth="3.5"
-                  strokeLinejoin="round"
-                />
-                {/* Sketch Hatching Detail lines */}
-                <line x1="26" y1="52" x2="30" y2="56" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" />
-                <line x1="32" y1="58" x2="36" y2="62" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" />
-                <line x1="44" y1="48" x2="48" y2="44" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" />
-                <line x1="52" y1="40" x2="56" y2="36" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" />
-                <line x1="60" y1="32" x2="64" y2="28" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" />
-              </svg>
+            {/* Header bar: checkmark + title + close */}
+            <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-neutral-100">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-full bg-[#D8F3DC] border border-[#B7E4C7] flex items-center justify-center shrink-0">
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#2D6A4F]" fill="none" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-poppins text-[10px] text-neutral-500 font-medium leading-none mb-0.5">Order #{orderConfirmed.orderId}</p>
+                  <h2 className="font-poppins text-sm font-bold text-neutral-900 leading-tight">
+                    Order <span className="text-[#2D6A4F]">placed</span> — congrats!
+                  </h2>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => { setOrderConfirmed(null); setIsCartOpen(false); setIsCheckingOut(false); }}
+                aria-label="Close"
+                className="w-7 h-7 rounded-full bg-neutral-200/80 hover:bg-neutral-300 text-neutral-500 hover:text-black flex items-center justify-center transition-colors cursor-pointer shrink-0 active:scale-95 text-[10px] font-bold"
+              >
+                &#10005;
+              </button>
             </div>
 
-            {/* Headline */}
-            <h2 className="font-poppins text-xl sm:text-3xl font-bold text-neutral-900 tracking-tight leading-[1.18] mb-2">
-              Your order's been{" "}
-              <span className="text-[#2D6A4F] relative inline-block">
-                placed,
-                <svg className="absolute -bottom-1 left-0 w-full h-1 text-[#52B788]" viewBox="0 0 100 10" preserveAspectRatio="none">
-                  <path d="M0 5 Q 50 10 100 3" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
-                </svg>
-              </span>
-              <br />
-              congrats!
-            </h2>
-
-            {/* Subtitle */}
-            <p className="font-poppins text-[11px] sm:text-[13px] text-neutral-600 leading-relaxed mb-4 sm:mb-6 font-normal">
-              Order <span className="font-mono font-bold text-neutral-950">#{orderConfirmed.orderId}</span> details, including chilled dispatch tracking and receipt, are confirmed.
-            </p>
-
-            {/* While You're Waiting Card */}
-            <div className="bg-white border border-neutral-200/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-5 mb-4 sm:mb-6 flex items-start gap-3 sm:gap-4 shadow-xs">
-              {/* Left Badge Icon */}
-              <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-[#D8F3DC] border border-[#B7E4C7] flex items-center justify-center shrink-0">
-                <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6 text-[#2D6A4F]" fill="none" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-
-              {/* Right Content */}
-              <div className="flex-1 min-w-0">
-                <h4 className="font-poppins font-bold text-xs sm:text-sm text-neutral-900 mb-1.5 sm:mb-2">
-                  While you're waiting
-                </h4>
-                <div className="space-y-1 sm:space-y-1.5 text-[11px] sm:text-xs text-neutral-600 font-poppins">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#2D6A4F] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span>Cold-pressed organic extraction</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#2D6A4F] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span>Chilled nitrogen packaging</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#2D6A4F] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span>Express delivery in 25–35 mins</span>
-                  </div>
+            {/* Body */}
+            <div className="px-4 py-3 space-y-3">
+              {/* While waiting card */}
+              <div className="bg-white border border-neutral-200 rounded-xl p-3">
+                <p className="font-poppins text-[10px] font-bold text-neutral-500 uppercase tracking-wider mb-2">While you're waiting</p>
+                <div className="space-y-1.5">
+                  {["Cold-pressed organic extraction", "Chilled nitrogen packaging", "Express delivery in 25–35 mins"].map((txt) => (
+                    <div key={txt} className="flex items-center gap-2">
+                      <svg className="w-3 h-3 text-[#2D6A4F] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="font-poppins text-[11px] text-neutral-700">{txt}</span>
+                    </div>
+                  ))}
                 </div>
-
-                {/* Pill Action Button */}
                 <button
                   type="button"
-                  onClick={() => {
-                    setOrderConfirmed(null);
-                    setIsCartOpen(false);
-                    setIsCheckingOut(false);
-                    setIsAccountOpen(true);
-                  }}
-                  className="mt-3.5 px-4 py-1.5 bg-[#D8F3DC] hover:bg-[#B7E4C7] text-[#1B4332] text-[11px] font-poppins font-semibold rounded-full transition-colors cursor-pointer inline-block"
+                  onClick={() => { setOrderConfirmed(null); setIsCartOpen(false); setIsCheckingOut(false); setIsAccountOpen(true); }}
+                  className="mt-2.5 px-3 py-1 bg-[#D8F3DC] hover:bg-[#B7E4C7] text-[#1B4332] text-[10px] font-poppins font-semibold rounded-full transition-colors cursor-pointer inline-block"
                 >
                   View in Account
                 </button>
               </div>
-            </div>
 
-            {/* Questions Section */}
-            <div className="pt-1">
-              <h4 className="font-poppins text-sm sm:text-base font-bold text-neutral-900 mb-2.5 sm:mb-3">
-                Questions about your order?
-              </h4>
-              <div className="flex flex-wrap gap-2.5">
-                <a
-                  href="#footer"
-                  onClick={() => {
-                    setOrderConfirmed(null);
-                    setIsCartOpen(false);
-                    setIsCheckingOut(false);
-                  }}
-                  className="px-5 py-2.5 bg-[#E9ECEF] hover:bg-[#DEE2E6] text-[#212529] font-poppins font-medium text-xs rounded-full transition-colors cursor-pointer inline-flex items-center gap-1.5"
-                >
-                  Contact Zesty Support
-                </a>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOrderConfirmed(null);
-                    setIsCartOpen(false);
-                    setIsCheckingOut(false);
-                  }}
-                  className="px-5 py-2.5 bg-black hover:bg-neutral-800 text-white font-poppins font-semibold text-xs rounded-full transition-colors cursor-pointer"
-                >
-                  Continue Shopping
-                </button>
+              {/* CTA row */}
+              <div>
+                <p className="font-poppins text-xs font-bold text-neutral-900 mb-2">Questions about your order?</p>
+                <div className="flex gap-2">
+                  <a
+                    href="#footer"
+                    onClick={() => { setOrderConfirmed(null); setIsCartOpen(false); setIsCheckingOut(false); }}
+                    className="flex-1 text-center px-3 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-poppins font-medium text-[11px] rounded-full transition-colors cursor-pointer"
+                  >
+                    Contact Support
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => { setOrderConfirmed(null); setIsCartOpen(false); setIsCheckingOut(false); }}
+                    className="flex-1 px-3 py-2 bg-black hover:bg-neutral-800 text-white font-poppins font-semibold text-[11px] rounded-full transition-colors cursor-pointer"
+                  >
+                    Continue Shopping
+                  </button>
+                </div>
               </div>
             </div>
+
+            {/* Safe area bottom spacer for iPhone home bar */}
+            <div className="h-[calc(var(--sab,0px)+0.5rem)] sm:hidden" />
           </div>
         </div>
       )}
-      
-      {/* Coupon Celebration Popup - Clean Typography without duplicate text or base line */}
+
+
       {showPromoPopup && (
         <div
           className="fixed inset-0 z-80 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-black/60 backdrop-blur-xs"
