@@ -206,8 +206,9 @@ export default function Hero() {
         enterTl
           .fromTo(
             bottleRef.current,
-            { y: 80, scale: 0.8, rotation: 5, opacity: 0 },
-            { y: 0, scale: 1, rotation: 0, opacity: 1, duration: 1.1, ease: 'elastic.out(1, 0.7)' },
+            { y: 80, scale: 0.82, rotation: 4, opacity: 0 },
+            // power4.out: no y overshoot (elastic caused cherry can to flick up on desktop)
+            { y: 0, scale: 1, rotation: 0, opacity: 1, duration: 0.95, ease: 'power4.out' },
             0
           )
           .fromTo(

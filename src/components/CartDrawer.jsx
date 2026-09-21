@@ -423,7 +423,7 @@ export default function CartDrawer() {
         tl.fromTo(
           backdropRef.current,
           { opacity: 0 },
-          { opacity: 1, duration: 0.3 },
+          { opacity: 1, duration: 0.28 },
           0,
         );
       }
@@ -433,25 +433,14 @@ export default function CartDrawer() {
         { x: "100%" },
         {
           x: "0%",
-          duration: 0.36,
+          duration: 0.32,
           ease: "power3.out",
           force3D: true,
         },
         0,
       );
-
-      tl.fromTo(
-        ".cart-stagger-item",
-        { opacity: 0, y: 12 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.32,
-          stagger: 0.035,
-          ease: "power2.out",
-        },
-        0.08,
-      );
+      // NOTE: stagger on .cart-stagger-item removed — it triggered DOM query +
+      // multi-element paint on every open causing visible lag on mobile & desktop.
     }
   }, [isCartOpen]);
 
@@ -2037,15 +2026,15 @@ export default function CartDrawer() {
         </div>
       )}
 
-      {/* Order Confirmed Screen - Ultra-Modern Real-Time Live Tracking */}
+      {/* Order Confirmed Screen - Clean Editorial Style Matching Reference (No dots, No AI icons) */}
       {orderConfirmed && (
         <div
           id="order-confirmed-root"
-          className="fixed inset-0 z-70 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-md"
+          className="fixed inset-0 z-70 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-xs overflow-y-auto"
           data-lenis-prevent="true"
           onWheel={(e) => e.stopPropagation()}
         >
-          <div className="relative w-full max-w-[440px] bg-[#141414] border border-white/10 rounded-t-[28px] sm:rounded-[24px] z-10 text-white shadow-2xl overflow-hidden flex flex-col p-6 sm:p-7 my-auto">
+          <div className="relative w-full max-w-[480px] bg-[#F9F9F8] border border-neutral-300/80 rounded-t-[24px] sm:rounded-[28px] z-10 text-neutral-900 shadow-2xl p-5 sm:p-8 my-auto flex flex-col text-left overflow-hidden">
             {/* Top Close Button */}
             <button
               type="button"
@@ -2055,104 +2044,143 @@ export default function CartDrawer() {
                 setIsCheckingOut(false);
               }}
               aria-label="Close"
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-neutral-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer z-20 active:scale-95 text-xs font-bold"
+              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-neutral-200/80 hover:bg-neutral-300 text-neutral-600 hover:text-black flex items-center justify-center transition-colors cursor-pointer z-20 active:scale-95 text-xs font-bold"
             >
               &#10005;
             </button>
 
-            {/* Live Indicator */}
-            <div className="flex items-center gap-2 mb-2.5">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              <span className="font-poppins text-[11px] font-bold uppercase tracking-widest text-emerald-400">
-                Cold-Chain Active &bull; Preparing
-              </span>
+            {/* Hand-Drawn / Isometric Green Checkmark Icon */}
+            <div className="w-12 h-12 sm:w-16 sm:h-16 mb-2">
+              <svg viewBox="0 0 100 100" className="w-full h-full" fill="none">
+                {/* 3D Isometric Extrusion Shadow */}
+                <path
+                  d="M18 52 L38 72 L82 24 L86 28 L38 80 L14 56 Z"
+                  fill="#1B4332"
+                  opacity="0.9"
+                />
+                {/* Checkmark Base Face */}
+                <path
+                  d="M16 50 L38 72 L82 24 L74 16 L38 58 L24 44 Z"
+                  fill="#74C69D"
+                  stroke="#111111"
+                  strokeWidth="3.5"
+                  strokeLinejoin="round"
+                />
+                {/* Front Highlight Face */}
+                <path
+                  d="M14 48 L36 70 L80 22 L72 14 L36 56 L22 42 Z"
+                  fill="#95D5B2"
+                  stroke="#111111"
+                  strokeWidth="3.5"
+                  strokeLinejoin="round"
+                />
+                {/* Sketch Hatching Detail lines */}
+                <line x1="26" y1="52" x2="30" y2="56" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" />
+                <line x1="32" y1="58" x2="36" y2="62" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" />
+                <line x1="44" y1="48" x2="48" y2="44" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" />
+                <line x1="52" y1="40" x2="56" y2="36" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" />
+                <line x1="60" y1="32" x2="64" y2="28" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" />
+              </svg>
             </div>
 
             {/* Headline */}
-            <h3 className="font-vagnola text-2xl sm:text-3xl font-bold text-white tracking-wide">
-              Order Confirmed
-            </h3>
-            <p className="font-poppins text-xs text-neutral-400 mt-0.5 mb-4">
-              ID: <span className="font-mono font-bold text-white">{orderConfirmed.orderId}</span>
+            <h2 className="font-poppins text-xl sm:text-3xl font-bold text-neutral-900 tracking-tight leading-[1.18] mb-2">
+              Your order's been{" "}
+              <span className="text-[#2D6A4F] relative inline-block">
+                placed,
+                <svg className="absolute -bottom-1 left-0 w-full h-1 text-[#52B788]" viewBox="0 0 100 10" preserveAspectRatio="none">
+                  <path d="M0 5 Q 50 10 100 3" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
+                </svg>
+              </span>
+              <br />
+              congrats!
+            </h2>
+
+            {/* Subtitle */}
+            <p className="font-poppins text-[11px] sm:text-[13px] text-neutral-600 leading-relaxed mb-4 sm:mb-6 font-normal">
+              Order <span className="font-mono font-bold text-neutral-950">#{orderConfirmed.orderId}</span> details, including chilled dispatch tracking and receipt, are confirmed.
             </p>
 
-            {/* Real-time Tracking Box */}
-            <div className="w-full bg-neutral-900/90 border border-white/10 rounded-2xl p-4.5 mb-5 space-y-4 text-left">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                <div>
-                  <span className="font-poppins text-[10px] uppercase tracking-wider text-neutral-400 font-semibold block">
-                    Estimated Delivery
-                  </span>
-                  <span className="font-bricolage text-base font-extrabold text-white tracking-tight">
-                    25 &ndash; 35 Minutes
-                  </span>
-                </div>
-                <div className="text-right">
-                  <span className="font-poppins text-[10px] uppercase tracking-wider text-neutral-400 font-semibold block">
-                    Total Paid
-                  </span>
-                  <span className="font-bricolage text-base font-extrabold text-emerald-400 tabular-nums">
-                    ₹{orderConfirmed.finalTotal || finalTotal}
-                  </span>
-                </div>
+            {/* While You're Waiting Card */}
+            <div className="bg-white border border-neutral-200/90 rounded-xl sm:rounded-2xl p-3.5 sm:p-5 mb-4 sm:mb-6 flex items-start gap-3 sm:gap-4 shadow-xs">
+              {/* Left Badge Icon */}
+              <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-[#D8F3DC] border border-[#B7E4C7] flex items-center justify-center shrink-0">
+                <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6 text-[#2D6A4F]" fill="none" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
               </div>
 
-              {/* Connected Step Progress Bar */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-poppins font-semibold uppercase tracking-wider">
-                  <span className="text-emerald-400 flex items-center gap-1">
-                    <svg className="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              {/* Right Content */}
+              <div className="flex-1 min-w-0">
+                <h4 className="font-poppins font-bold text-xs sm:text-sm text-neutral-900 mb-1.5 sm:mb-2">
+                  While you're waiting
+                </h4>
+                <div className="space-y-1 sm:space-y-1.5 text-[11px] sm:text-xs text-neutral-600 font-poppins">
+                  <div className="flex items-center gap-2">
+                    <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#2D6A4F] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
-                    Placed
-                  </span>
-                  <span className="text-white font-bold">Juicing</span>
-                  <span className="text-neutral-500">Dispatch</span>
+                    <span>Cold-pressed organic extraction</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#2D6A4F] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Chilled nitrogen packaging</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#2D6A4F] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Express delivery in 25–35 mins</span>
+                  </div>
                 </div>
 
-                {/* Progress Track */}
-                <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-emerald-500 rounded-full w-1/2 transition-all duration-700"></div>
-                </div>
-              </div>
-
-              {/* Delivery Details */}
-              <div className="flex items-center justify-between pt-1 text-xs text-neutral-400 font-poppins">
-                <span>Payment: <strong className="text-white font-medium">{orderConfirmed.paymentLabel || "UPI Direct"}</strong></span>
-                <span className="text-emerald-400 font-mono text-[10px] font-bold">EXPRESS</span>
+                {/* Pill Action Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOrderConfirmed(null);
+                    setIsCartOpen(false);
+                    setIsCheckingOut(false);
+                    setIsAccountOpen(true);
+                  }}
+                  className="mt-3.5 px-4 py-1.5 bg-[#D8F3DC] hover:bg-[#B7E4C7] text-[#1B4332] text-[11px] font-poppins font-semibold rounded-full transition-colors cursor-pointer inline-block"
+                >
+                  View in Account
+                </button>
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="space-y-2.5 w-full">
-              <button
-                type="button"
-                onClick={() => {
-                  setOrderConfirmed(null);
-                  setIsCartOpen(false);
-                  setIsCheckingOut(false);
-                  setIsAccountOpen(true);
-                }}
-                className="w-full py-3.5 bg-white hover:bg-neutral-200 text-black font-poppins font-bold text-xs uppercase tracking-[0.14em] rounded-xl transition-all cursor-pointer shadow-lg active:scale-98 flex items-center justify-center gap-2"
-              >
-                <span>View Order in Account</span>
-                <span>&rarr;</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setOrderConfirmed(null);
-                  setIsCartOpen(false);
-                  setIsCheckingOut(false);
-                }}
-                className="w-full py-3 bg-transparent hover:bg-white/5 border border-white/15 text-neutral-300 hover:text-white font-poppins font-semibold text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer text-center"
-              >
-                Continue Shopping
-              </button>
+            {/* Questions Section */}
+            <div className="pt-1">
+              <h4 className="font-poppins text-sm sm:text-base font-bold text-neutral-900 mb-2.5 sm:mb-3">
+                Questions about your order?
+              </h4>
+              <div className="flex flex-wrap gap-2.5">
+                <a
+                  href="#footer"
+                  onClick={() => {
+                    setOrderConfirmed(null);
+                    setIsCartOpen(false);
+                    setIsCheckingOut(false);
+                  }}
+                  className="px-5 py-2.5 bg-[#E9ECEF] hover:bg-[#DEE2E6] text-[#212529] font-poppins font-medium text-xs rounded-full transition-colors cursor-pointer inline-flex items-center gap-1.5"
+                >
+                  Contact Zesty Support
+                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOrderConfirmed(null);
+                    setIsCartOpen(false);
+                    setIsCheckingOut(false);
+                  }}
+                  className="px-5 py-2.5 bg-black hover:bg-neutral-800 text-white font-poppins font-semibold text-xs rounded-full transition-colors cursor-pointer"
+                >
+                  Continue Shopping
+                </button>
+              </div>
             </div>
           </div>
         </div>
