@@ -13,48 +13,47 @@ const DEFAULT_PROFILE = {
   address: '',
   city: '',
   pincode: '',
-  membershipId: '#CJ-8429',
-  memberSince: 'Sept 2024',
+  avatarUrl: '/profile-user.png',
 }
 
 const DEFAULT_ORDERS = []
 
-const INITIAL_ITEMS = [
-  {
-    id: 'orange',
-    title: 'Valencia Orange',
-    edition: 'Edition 01',
-    pack: '4-pack',
-    packName: '4-Pack Discovery Bundle',
-    pricePerUnit: 300, // ₹1200 / 4
-    totalPrice: 1200,
-    qty: 1,
-    image: '/assets/orange-can-hero.png',
-    tagColor: '#E03E26',
-    volume: '4 x 500ML',
-  },
-]
+const INITIAL_ITEMS = []
 
 export function CartProvider({ children }) {
   const [items, setItems] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY)
-      return saved ? JSON.parse(saved) : INITIAL_ITEMS
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        // Clean out any stale fake orange item from previous hardcoded defaults
+        if (
+          Array.isArray(parsed) &&
+          parsed.length === 1 &&
+          parsed[0].id === 'orange' &&
+          parsed[0].pack === '4-pack' &&
+          !localStorage.getItem('user_has_manually_added')
+        ) {
+          return []
+        }
+        return Array.isArray(parsed) ? parsed : []
+      }
+      return []
     } catch {
-      return INITIAL_ITEMS
+      return []
     }
   })
 
   const [userProfile, setUserProfile] = useState(() => {
     try {
+      if (!localStorage.getItem('zesty_real_data_strict_v4')) {
+        localStorage.removeItem(PROFILE_KEY)
+        localStorage.setItem('zesty_real_data_strict_v4', 'true')
+        return DEFAULT_PROFILE
+      }
       const saved = localStorage.getItem(PROFILE_KEY)
       if (saved) {
-        const parsed = JSON.parse(saved)
-        // If it still holds the previous hardcoded dummy profile, start clean
-        if (parsed.fullName === 'Jeeva Kumar' && parsed.address === 'Flat 402, Lotus Greens, Indiranagar' && !localStorage.getItem('zesty_profile_verified')) {
-          return DEFAULT_PROFILE
-        }
-        return parsed
+        return JSON.parse(saved)
       }
       return DEFAULT_PROFILE
     } catch {
@@ -62,13 +61,21 @@ export function CartProvider({ children }) {
     }
   })
 
+  // One-time purge of stale mock orders from previous versions
   const [orders, setOrders] = useState(() => {
     try {
+      if (!localStorage.getItem('zesty_orders_purged_v2')) {
+        localStorage.removeItem(ORDERS_KEY)
+        localStorage.setItem('zesty_orders_purged_v2', 'true')
+        return []
+      }
       const saved = localStorage.getItem(ORDERS_KEY)
       if (saved) {
         const parsed = JSON.parse(saved)
-        // Filter out old dummy order
-        return parsed.filter(o => o.orderId !== 'CJ-8921')
+        // Filter out any mock/dummy orders with prefix CJ-622186, CJ-522931, etc or CJ-8921
+        if (Array.isArray(parsed)) {
+          return parsed.filter(o => o.orderId !== 'CJ-8921')
+        }
       }
       return DEFAULT_ORDERS
     } catch {
@@ -103,7 +110,7 @@ export function CartProvider({ children }) {
   // Calculate totals
   const totalItems = items.reduce((acc, item) => acc + item.qty, 0)
   const subtotal = items.reduce((acc, item) => acc + item.totalPrice * item.qty, 0)
-  const freeShippingThreshold = 1000
+  const freeShippingThreshold = 499
   const freeShippingLeft = Math.max(0, freeShippingThreshold - subtotal)
   const isFreeShipping = subtotal >= freeShippingThreshold
 
@@ -113,19 +120,19 @@ export function CartProvider({ children }) {
 
   const addToCart = (product, pack = 'single', quantity = 1) => {
     let packName = 'Single 500ml Can'
-    let unitPrice = 350
-    let packPrice = 350
+    let unitPrice = 99
+    let packPrice = 99
     let volumeStr = '500ML'
 
     if (pack === '4-pack') {
       packName = '4-Pack Discovery Bundle'
-      unitPrice = 300
-      packPrice = 1200
+      unitPrice = 87
+      packPrice = 349
       volumeStr = '4 x 500ML'
     } else if (pack === '12-pack') {
       packName = '12-Pack Orchard Case'
-      unitPrice = 283
-      packPrice = 3400
+      unitPrice = 75
+      packPrice = 899
       volumeStr = '12 x 500ML'
     }
 
@@ -202,8 +209,8 @@ export function CartProvider({ children }) {
         year: 'numeric',
       }),
       time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
-      deliverySlot: customerDetails.slot || 'Dawn Express (Juiced at 4 AM • Delivered 6 AM - 9 AM)',
-      status: 'Cold-Chain In Transit',
+      deliverySlot: customerDetails.slot || 'Dawn Express (Juiced at 4 AM / Delivered 6 AM - 9 AM)',
+      status: 'In Transit',
     }
 
     setOrders((prev) => {
@@ -239,6 +246,15 @@ export function CartProvider({ children }) {
     setOrderConfirmed(orderData)
     setIsCheckingOut(false)
     clearCart()
+  }
+
+  const clearOrders = () => {
+    setOrders([])
+    try {
+      localStorage.removeItem(ORDERS_KEY)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const updateUserProfile = (newProfile) => {
@@ -283,6 +299,7 @@ export function CartProvider({ children }) {
         userProfile,
         updateUserProfile,
         orders,
+        clearOrders,
       }}
     >
       {children}

@@ -106,12 +106,13 @@ const STORY_MILESTONES = [
 export default function About() {
   const containerRef = useRef(null)
   const pinWrapperRef = useRef(null)
+  const progressBarRef = useRef(null)
   const scrollTriggerRef = useRef(null)
   const slideRefs = useRef([])
   const imgRefs = useRef([])
 
   const [activeIndex, setActiveIndex] = useState(0)
-  const [progress, setProgress] = useState(0)
+  const lastIndexRef = useRef(0)
 
   // 120fps GPU Hardware-Accelerated Staggered Text & Parallax GSAP Engine
   useGSAP(
@@ -125,22 +126,32 @@ export default function About() {
       const totalSlides = slides.length
       if (totalSlides === 0) return
 
+      const isMobile = window.innerWidth < 768
+      const scrollMultiplier = isMobile ? 1.5 : 1.1
+      const scrubSpeed = isMobile ? 0.2 : 0.4
+
       const masterTl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
-          end: () => `+=${window.innerHeight * (totalSlides - 1) * 1.3}`,
+          end: () => `+=${window.innerHeight * (totalSlides - 1) * scrollMultiplier}`,
           pin: pinWrapperRef.current,
-          scrub: 0.8,
+          scrub: scrubSpeed,
           anticipatePin: 1,
+          fastScrollEnd: true,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            setProgress(self.progress)
+            if (progressBarRef.current) {
+              progressBarRef.current.style.width = `${Math.round(self.progress * 100)}%`
+            }
             const idx = Math.min(
               totalSlides - 1,
               Math.floor(self.progress * (totalSlides - 1) + 0.35)
             )
-            setActiveIndex(idx)
+            if (idx !== lastIndexRef.current) {
+              lastIndexRef.current = idx
+              setActiveIndex(idx)
+            }
           },
         },
       })
@@ -262,48 +273,22 @@ export default function About() {
         }
       })
 
-      // Continuous gentle floating animation on images
-      imgRefs.current.forEach((img, idx) => {
-        if (!img) return
-        gsap.to(img, {
-          y: idx % 2 === 0 ? -12 : 12,
-          duration: 3.8 + idx * 0.3,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
+      // Gentle floating animation on images (desktop only to keep mobile 60-120fps smooth)
+      if (!isMobile) {
+        imgRefs.current.forEach((img, idx) => {
+          if (!img) return
+          gsap.to(img, {
+            y: idx % 2 === 0 ? -10 : 10,
+            duration: 4.2 + idx * 0.3,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+          })
         })
-      })
+      }
     },
     { scope: containerRef }
   )
-
-  // Smooth scroll navigation to milestone
-  const scrollToMilestone = (index) => {
-    const st = scrollTriggerRef.current
-    if (!st) return
-
-    const total = STORY_MILESTONES.length
-    const fraction = index / (total - 1)
-    const targetScroll = st.start + (st.end - st.start) * fraction
-
-    if (window.lenis) {
-      window.lenis.scrollTo(targetScroll, { duration: 1.2 })
-    } else {
-      window.scrollTo({ top: targetScroll, behavior: 'smooth' })
-    }
-  }
-
-  const handlePrev = () => {
-    if (activeIndex > 0) {
-      scrollToMilestone(activeIndex - 1)
-    }
-  }
-
-  const handleNext = () => {
-    if (activeIndex < STORY_MILESTONES.length - 1) {
-      scrollToMilestone(activeIndex + 1)
-    }
-  }
 
   const currentTheme = STORY_MILESTONES[activeIndex]?.theme || STORY_MILESTONES[0].theme
 
@@ -320,14 +305,8 @@ export default function About() {
         className="w-full h-screen relative overflow-hidden bg-white flex flex-col justify-between"
       >
         {/* Minimalist Top Navigation Bar */}
-        <header className="w-full border-b border-black/10 px-6 sm:px-12 lg:px-16 py-3 sm:py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 bg-white relative z-30 transition-colors duration-500">
+        <header className="w-full border-b border-black/10 px-6 sm:px-12 lg:px-16 py-3.5 sm:py-4 flex items-center justify-between bg-white relative z-30 transition-colors duration-500">
           <div className="flex items-center gap-3">
-            <span
-              className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.25em] uppercase text-white px-3 py-1 transition-colors duration-300"
-              style={{ backgroundColor: currentTheme.primary }}
-            >
-              HERITAGE
-            </span>
             <h2
               className="font-vagnola text-2xl sm:text-3xl text-black tracking-wide font-normal"
               style={{ fontFamily: "'Vagnola', 'Vagnola Demo', serif", fontWeight: 400 }}
@@ -335,63 +314,15 @@ export default function About() {
               Our Story
             </h2>
           </div>
-
-          {/* Year Navigation Chips */}
-          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-            {STORY_MILESTONES.map((slide, idx) => {
-              const isActive = activeIndex === idx
-              return (
-                <button
-                  key={slide.id}
-                  type="button"
-                  onClick={() => scrollToMilestone(idx)}
-                  className="text-xs sm:text-sm font-mono tracking-widest uppercase px-3.5 py-1.5 transition-all duration-300 cursor-pointer font-bold"
-                  style={{
-                    backgroundColor: isActive ? slide.theme.primary : 'transparent',
-                    color: isActive ? '#FFFFFF' : '#737373',
-                  }}
-                  aria-label={`Jump to milestone ${slide.year}`}
-                >
-                  {slide.year}
-                </button>
-              )
-            })}
-          </div>
-
-          {/* Step Count & Prev/Next Controls */}
-          <div className="hidden md:flex items-center gap-3">
-            <span className="text-xs font-mono font-bold tracking-widest uppercase text-neutral-500 tabular-nums">
-              0{activeIndex + 1} / 0{STORY_MILESTONES.length}
-            </span>
-            <div className="flex items-center gap-1">
-              <button
-                type="button"
-                onClick={handlePrev}
-                disabled={activeIndex === 0}
-                className="w-8 h-8 border border-black/20 bg-white hover:bg-black hover:text-white text-black flex items-center justify-center transition-all cursor-pointer disabled:opacity-20 disabled:pointer-events-none text-xs font-bold"
-                aria-label="Previous chapter"
-              >
-                &larr;
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                disabled={activeIndex === STORY_MILESTONES.length - 1}
-                className="w-8 h-8 border border-black/20 bg-white hover:bg-black hover:text-white text-black flex items-center justify-center transition-all cursor-pointer disabled:opacity-20 disabled:pointer-events-none text-xs font-bold"
-                aria-label="Next chapter"
-              >
-                &rarr;
-              </button>
-            </div>
-          </div>
         </header>
 
         {/* Live Dynamic Progress Scrubber Line */}
         <div className="w-full h-[3px] bg-neutral-200 relative z-30 overflow-hidden">
           <div
-            className="h-full transition-all duration-200 ease-out"
+            ref={progressBarRef}
+            className="h-full transition-colors duration-300"
             style={{
-              width: `${Math.round(progress * 100)}%`,
+              width: '0%',
               backgroundColor: currentTheme.primary,
             }}
           />
@@ -487,7 +418,7 @@ export default function About() {
                       ref={(el) => (imgRefs.current[idx] = el)}
                       src={slide.image}
                       alt={slide.alt}
-                      className="slide-image w-full max-w-[520px] sm:max-w-[640px] lg:max-w-[760px] xl:max-w-[840px] max-h-[74vh] sm:max-h-[78vh] object-contain filter brightness-105 contrast-105 drop-shadow-[0_35px_50px_rgba(0,0,0,0.32)] will-change-transform"
+                      className="slide-image w-full max-w-[520px] sm:max-w-[640px] lg:max-w-[760px] xl:max-w-[840px] max-h-[74vh] sm:max-h-[78vh] object-contain drop-shadow-[0_24px_40px_rgba(0,0,0,0.28)] will-change-transform transform-gpu"
                     />
                   </div>
                 </div>

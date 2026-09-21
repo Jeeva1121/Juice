@@ -14,7 +14,7 @@ const DEFAULT_TEXT = "WATCH THE PIXELS\nCOME ALIVE"
 const DEFAULT_FONT_SIZE = 76
 
 const DEFAULT_FONT = {
-  fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif",
+  fontFamily: "'Poppins', sans-serif",
   fontSize: DEFAULT_FONT_SIZE,
   fontWeight: 800,
   letterSpacing: "-0.03em",
@@ -311,6 +311,7 @@ export default function PixelTrail({
         overflow: "hidden",
         background,
         isolation: "isolate",
+        touchAction: "pan-y",
         ...style,
       }}
     >

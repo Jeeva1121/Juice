@@ -113,8 +113,8 @@ export default function Footer({ onScrollTop }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
         {/* Top Header Row with Back to Top */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 sm:pb-8 mb-8 sm:mb-12 border-b border-neutral-800">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-neutral-900 border border-neutral-800 text-[11px] sm:text-xs font-body font-normal tracking-wider text-(--color-coral) uppercase">
-            <span>CLEAN JUICE • PRIVATE HARVEST DISPATCH</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-neutral-900 border border-neutral-800 text-[11px] sm:text-xs font-poppins font-normal tracking-wider text-(--color-coral) uppercase">
+            <span>ZESTY PRIVATE HARVEST DISPATCH</span>
           </div>
           <button
             type="button"
@@ -140,7 +140,7 @@ export default function Footer({ onScrollTop }) {
             className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start justify-between"
           >
             <p className="lg:col-span-6 text-sm sm:text-lg text-(--color-ink-muted) leading-relaxed font-normal max-w-lg">
-              Clean Juice is cold-pressed from single-origin organic orchards and delivered direct to your doorstep in temperature-controlled, recyclable chilled cartons.
+              Zesty is cold-pressed from single-origin organic orchards and delivered direct to your doorstep in temperature-controlled, recyclable chilled cartons.
             </p>
 
             {/* Newsletter Dispatch Signup with Square Button */}
@@ -148,7 +148,7 @@ export default function Footer({ onScrollTop }) {
               <form
                 onSubmit={(e) => {
                   e.preventDefault()
-                  alert('Thank you for subscribing to Clean Juice Private Harvest Releases.')
+                  alert('Thank you for subscribing to Zesty Private Harvest Releases.')
                 }}
                 className="flex flex-col sm:flex-row gap-3"
               >
@@ -160,11 +160,11 @@ export default function Footer({ onScrollTop }) {
                   type="email"
                   required
                   placeholder="ENTER YOUR EMAIL FOR PRIVATE DROPS"
-                  className="flex-1 px-4 py-3.5 bg-neutral-900 border border-neutral-800 text-xs font-body text-neutral-100 outline-none focus:ring-1 focus:ring-neutral-400 min-h-[44px]"
+                  className="flex-1 px-4 py-3.5 bg-neutral-900 border border-neutral-800 text-xs font-poppins text-neutral-100 outline-none focus:ring-1 focus:ring-neutral-400 min-h-[44px]"
                 />
                 <button
                   type="submit"
-                  className="touch-target-44 px-8 py-3.5 bg-(--color-coral) hover:bg-(--color-coral-dark) text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer rounded-none shadow-sm"
+                  className="touch-target-44 px-8 py-3.5 bg-(--color-coral) hover:bg-(--color-coral-dark) text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer rounded-none shadow-sm font-poppins"
                 >
                   Join Roster
                 </button>
@@ -180,7 +180,7 @@ export default function Footer({ onScrollTop }) {
         >
           {/* Subtle Ambient Radial Glow */}
           <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[120%] rounded-full blur-3xl pointer-events-none opacity-20 -z-10"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[120%] rounded-none blur-3xl pointer-events-none opacity-20 -z-10"
             style={{
               background: 'radial-gradient(ellipse, rgba(245, 166, 35, 0.45) 0%, rgba(224, 62, 38, 0.25) 50%, transparent 80%)',
             }}
@@ -190,7 +190,7 @@ export default function Footer({ onScrollTop }) {
             <img
               ref={fruitImgRef}
               src="/assets/footer-fruit-parade.png"
-              alt="Clean Juice full panoramic showcase of fresh tropical fruit splashes, cold-pressed cans, and vibrant botanical slices"
+              alt="Zesty full panoramic showcase of fresh tropical fruit splashes, cold-pressed cans, and vibrant botanical slices"
               className="w-full max-w-6xl h-auto object-contain object-center drop-shadow-[0_25px_40px_rgba(0,0,0,0.6)] will-change-transform transition-transform duration-500 hover:scale-[1.02]"
               loading="lazy"
             />
@@ -198,8 +198,8 @@ export default function Footer({ onScrollTop }) {
         </div>
 
         {/* Legal & Copyright */}
-        <div className="pt-8 border-t border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-body text-(--color-ink-subtle) text-center sm:text-left">
-          <p>&copy; {new Date().getFullYear()} CLEAN JUICE CO. 100% ORGANIC RAW COLD-PRESSED. ALL RIGHTS RESERVED.</p>
+        <div className="pt-8 border-t border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-poppins text-(--color-ink-subtle) text-center sm:text-left">
+          <p>&copy; {new Date().getFullYear()} ZESTY 100% ORGANIC RAW COLD-PRESSED. ALL RIGHTS RESERVED.</p>
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
             <a href="#" className="touch-target-44 py-1.5 hover:text-(--color-surface) transition-colors">
               Privacy Protocol

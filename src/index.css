@@ -1,20 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Plus Jakarta Sans', 'Poppins', sans-serif;
+  --font-sans: 'Poppins', sans-serif;
   --font-mono: 'Poppins', sans-serif;
-  --font-body: 'Plus Jakarta Sans', 'Poppins', sans-serif;
+  --font-body: 'Poppins', sans-serif;
   --font-hand: 'Caveat', cursive;
   --font-caveat: 'Caveat', cursive;
   --font-outfit: 'Outfit', sans-serif;
-  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+  --font-jakarta: 'Poppins', sans-serif;
   --font-display: 'Outfit', 'Poppins', sans-serif;
   --font-poppins: 'Poppins', sans-serif;
   --font-dacomment: 'Dacomment', sans-serif;
   --font-asul: 'Asul', 'Asal Usul', serif;
   --font-vagnola: 'Vagnola', 'Vagnola Demo', serif;
   --font-ntsomic: 'NTSomic', sans-serif;
-  --font-bricolage: 'Bricolage', sans-serif;
+  --font-bricolage: 'Bricolage Grotesque', 'Bricolage', sans-serif;
+  --font-bricage: 'Bricolage Grotesque', 'Bricolage', sans-serif;
 }
 
 @layer base {
@@ -117,7 +119,7 @@
   html {
     background-color: var(--color-surface);
     color: var(--color-ink);
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-family: 'Poppins', sans-serif !important;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -127,10 +129,14 @@
   body {
     background-color: var(--color-surface);
     color: var(--color-ink);
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-family: 'Poppins', sans-serif !important;
     overflow-x: hidden;
     width: 100%;
     min-height: 100vh;
+  }
+
+  button, input, optgroup, select, textarea, a {
+    font-family: 'Poppins', sans-serif;
   }
 
   /* Lenis smooth scrolling rules */
@@ -156,7 +162,71 @@
 }
 
 @font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/poppins-v24-latin-300.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/poppins-v24-latin-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/poppins-v24-latin-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/poppins-v24-latin-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/poppins-v24-latin-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/poppins-v24-latin-800.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fonts/poppins-v24-latin-900.woff2') format('woff2');
+}
+
+@font-face {
   font-family: 'Asal Usul';
+  src: url('/fonts/Asal-Usul.otf') format('opentype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Asul';
   src: url('/fonts/Asal-Usul.otf') format('opentype');
   font-weight: 100 900;
   font-style: normal;
@@ -197,20 +267,31 @@
 }
 
 /* Typography styles */
+.font-poppins,
+.font-sans,
+.font-body,
+.font-jakarta {
+  font-family: 'Poppins', sans-serif !important;
+}
+
 .font-dacomment {
-  font-family: 'Dacomment', sans-serif !important;
+  font-family: 'Dacomment', 'Poppins', sans-serif !important;
 }
 .font-display {
-  font-family: 'Asal Usul', 'Outfit', sans-serif;
+  font-family: 'Outfit', 'Poppins', sans-serif !important;
   letter-spacing: 0.01em;
 }
 
+.font-outfit {
+  font-family: 'Outfit', 'Poppins', sans-serif !important;
+}
+
 .font-asul {
-  font-family: 'Asul', serif !important;
+  font-family: 'Asal Usul', 'Asul', serif !important;
 }
 
 .font-asal {
-  font-family: 'Asal Usul', sans-serif !important;
+  font-family: 'Asal Usul', 'Asul', serif !important;
 }
 
 .font-caveat,
@@ -219,29 +300,31 @@
 }
 
 .font-blackbold {
-  font-family: 'Blackbold', sans-serif;
+  font-family: 'Blackbold', 'Poppins', sans-serif;
   letter-spacing: 0.02em;
 }
 
-.font-body {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif !important;
-}
-
 .font-mono, code, kbd, samp, pre {
-  font-family: 'Poppins', sans-serif !important;
+  font-family: 'Poppins', monospace !important;
 }
 
 .font-ntsomic {
-  font-family: 'NTSomic', sans-serif !important;
+  font-family: 'NTSomic', 'Poppins', sans-serif !important;
 }
 
-.font-bricolage {
-  font-family: 'Bricolage', sans-serif !important;
+.font-bricolage,
+.font-bricage {
+  font-family: 'Bricolage Grotesque', 'Bricolage', 'Poppins', sans-serif !important;
 }
 
 .font-serif-editorial {
   font-family: 'Instrument Serif', Georgia, serif;
 }
+
+.font-vagnola {
+  font-family: 'Vagnola', 'Vagnola Demo', 'Asul', serif !important;
+}
+
 
 /* Mobile performance optimization */
 @media (max-width: 768px) {
@@ -487,9 +570,9 @@
 }
 
 .font-asul, .font-asul * {
-  font-family: 'Asul', 'Asal Usul', serif;
+  font-family: 'Asal Usul', 'Asul', serif;
 }
 .font-asul-force {
-  font-family: 'Asul', 'Asal Usul', serif !important;
+  font-family: 'Asal Usul', 'Asul', serif !important;
 }
 

@@ -156,7 +156,7 @@ export default function Showcase() {
           className="relative z-10 w-full max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4 will-change-transform pt-12 sm:pt-0"
         >
           <div>
-            <span className="inline-block text-[10px] sm:text-xs font-body font-bold tracking-widest text-(--color-coral) uppercase mb-1 sm:mb-2">
+            <span className="inline-block text-[10px] sm:text-xs font-poppins font-bold tracking-widest text-(--color-coral) uppercase mb-1 sm:mb-2">
               [ANALYSIS // SPECIFICATION]
             </span>
             <h2 className="font-display text-2xl sm:text-5xl font-black uppercase tracking-tight text-(--color-ink)">
@@ -164,7 +164,7 @@ export default function Showcase() {
             </h2>
           </div>
           <div className="text-left sm:text-right">
-            <span className="text-[10px] sm:text-xs font-body text-(--color-ink-muted) uppercase tracking-wider block">
+            <span className="text-[10px] sm:text-xs font-poppins text-(--color-ink-muted) uppercase tracking-wider block">
               Formulation 03
             </span>
             <span className="text-xs sm:text-sm font-bold text-(--color-ink) uppercase">
@@ -181,7 +181,7 @@ export default function Showcase() {
             className="p-3 sm:p-5 bg-(--color-surface)/95 backdrop-blur-xs border border-(--color-border) shadow-md pointer-events-auto will-change-transform"
           >
             <div className="flex items-center gap-2 mb-1 sm:mb-2">
-              <span className="font-body text-xs font-bold text-(--color-coral)">
+              <span className="font-poppins text-xs font-bold text-(--color-coral)">
                 01
               </span>
               <span className="text-xs font-bold uppercase tracking-wider text-(--color-ink)">
@@ -199,7 +199,7 @@ export default function Showcase() {
             className="p-3 sm:p-5 bg-(--color-surface)/95 backdrop-blur-xs border border-(--color-border) shadow-md pointer-events-auto will-change-transform md:translate-y-8"
           >
             <div className="flex items-center gap-2 mb-1 sm:mb-2">
-              <span className="font-body text-xs font-bold text-(--color-coral)">
+              <span className="font-poppins text-xs font-bold text-(--color-coral)">
                 02
               </span>
               <span className="text-xs font-bold uppercase tracking-wider text-(--color-ink)">
@@ -217,7 +217,7 @@ export default function Showcase() {
             className="p-3 sm:p-5 bg-(--color-surface)/95 backdrop-blur-xs border border-(--color-border) shadow-md pointer-events-auto will-change-transform"
           >
             <div className="flex items-center gap-2 mb-1 sm:mb-2">
-              <span className="font-body text-xs font-bold text-(--color-coral)">
+              <span className="font-poppins text-xs font-bold text-(--color-coral)">
                 03
               </span>
               <span className="text-xs font-bold uppercase tracking-wider text-(--color-ink)">
@@ -231,7 +231,7 @@ export default function Showcase() {
         </div>
 
         {/* Bottom Pinned Footer Info */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between text-[11px] sm:text-xs font-body text-(--color-ink-muted) uppercase pt-1">
+        <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between text-[11px] sm:text-xs font-poppins text-(--color-ink-muted) uppercase pt-1">
           <span>Certified USDA Organic</span>
           <span>15 Calories Total</span>
         </div>

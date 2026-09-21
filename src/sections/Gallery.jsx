@@ -32,9 +32,9 @@ const FLAVORS = [
     extraction: 'Micro-pressure extraction, never heated or boiled',
     electrolytes: '220mg Potassium, 50mg Sodium, 15mg Magnesium',
     packs: {
-      single: { name: 'Single 500ml Can', price: 350, display: '₹350' },
-      '4-pack': { name: '4-Pack Discovery Bundle', price: 1200, display: '₹1,200', badge: 'Save ₹200' },
-      '12-pack': { name: '12-Pack Orchard Case', price: 3400, display: '₹3,400', badge: 'Save ₹800' },
+      single: { name: 'Single 500ml Can', price: 99, display: '₹99' },
+      '4-pack': { name: '4-Pack Discovery Bundle', price: 349, display: '₹349', badge: 'Save ₹47' },
+      '12-pack': { name: '12-Pack Orchard Case', price: 899, display: '₹899', badge: 'Save ₹289' },
     },
     imgScale: 'scale-95 sm:scale-105 md:scale-110',
     splashDivider: '/assets/splash-border.png',
@@ -64,9 +64,9 @@ const FLAVORS = [
     extraction: 'Low-shear centrifugation, zero heat degradation',
     electrolytes: '240mg Potassium, 45mg Sodium, 18mg Magnesium',
     packs: {
-      single: { name: 'Single 500ml Can', price: 350, display: '₹350' },
-      '4-pack': { name: '4-Pack Discovery Bundle', price: 1200, display: '₹1,200', badge: 'Save ₹200' },
-      '12-pack': { name: '12-Pack Orchard Case', price: 3400, display: '₹3,400', badge: 'Save ₹800' },
+      single: { name: 'Single 500ml Can', price: 99, display: '₹99' },
+      '4-pack': { name: '4-Pack Discovery Bundle', price: 349, display: '₹349', badge: 'Save ₹47' },
+      '12-pack': { name: '12-Pack Orchard Case', price: 899, display: '₹899', badge: 'Save ₹289' },
     },
     imgScale: 'scale-90 sm:scale-100 md:scale-105',
     splashDivider: '/assets/splash-strawberry.png',
@@ -96,9 +96,9 @@ const FLAVORS = [
     extraction: 'Cold-press maceration, preserves live polyphenols',
     electrolytes: '260mg Potassium, 40mg Sodium, 22mg Magnesium',
     packs: {
-      single: { name: 'Single 500ml Can', price: 350, display: '₹350' },
-      '4-pack': { name: '4-Pack Discovery Bundle', price: 1200, display: '₹1,200', badge: 'Save ₹200' },
-      '12-pack': { name: '12-Pack Orchard Case', price: 3400, display: '₹3,400', badge: 'Save ₹800' },
+      single: { name: 'Single 500ml Can', price: 99, display: '₹99' },
+      '4-pack': { name: '4-Pack Discovery Bundle', price: 349, display: '₹349', badge: 'Save ₹47' },
+      '12-pack': { name: '12-Pack Orchard Case', price: 899, display: '₹899', badge: 'Save ₹289' },
     },
     imgScale: 'scale-90 sm:scale-100 md:scale-105',
     splashDivider: '/assets/splash-cherry.png',
@@ -128,9 +128,9 @@ const FLAVORS = [
     extraction: 'Rind-infused cold-press, bioavailable Vitamin C',
     electrolytes: '240mg Potassium, 55mg Sodium, 22mg Magnesium',
     packs: {
-      single: { name: 'Single 500ml Can', price: 350, display: '₹350' },
-      '4-pack': { name: '4-Pack Discovery Bundle', price: 1200, display: '₹1,200', badge: 'Save ₹200' },
-      '12-pack': { name: '12-Pack Orchard Case', price: 3400, display: '₹3,400', badge: 'Save ₹800' },
+      single: { name: 'Single 500ml Can', price: 99, display: '₹99' },
+      '4-pack': { name: '4-Pack Discovery Bundle', price: 349, display: '₹349', badge: 'Save ₹47' },
+      '12-pack': { name: '12-Pack Orchard Case', price: 899, display: '₹899', badge: 'Save ₹289' },
     },
     imgScale: 'scale-90 sm:scale-100 md:scale-105',
     splashDivider: '/assets/splash-lemon.png',
@@ -446,13 +446,13 @@ export default function Gallery() {
           {/* Section Header */}
           <header ref={headerRef}>
             <div className="inline-flex items-center px-2 sm:px-3 py-1 bg-white border border-neutral-800 text-[9px] sm:text-xs font-bold tracking-wider text-black uppercase mb-4 shadow-2xs overflow-hidden">
-              <span className="font-normal tracking-wide whitespace-nowrap">The Botanical Lineup • 4 Single-Origin Editions</span>
+              <span className="font-normal tracking-wide whitespace-nowrap">The Botanical Lineup / 4 Single-Origin Editions</span>
             </div>
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-neutral-800 pb-8">
               <div>
                 <h2
                   ref={titleRef}
-                  className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight"
+                  className="font-asul text-4xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight"
                 >
                   Our Flavors
                 </h2>
@@ -490,7 +490,7 @@ export default function Gallery() {
                   {/* Giant Ghost Numeral for Parallax Depth */}
                   <div
                     ref={(el) => (ghostNumRefs.current[index] = el)}
-                    className="ghost-number absolute select-none pointer-events-none font-display font-black text-[24vw] sm:text-[22vw] lg:text-[20vw] text-black/10 leading-none tracking-tighter will-change-transform z-0"
+                    className="ghost-number absolute select-none pointer-events-none font-asul font-bold text-[24vw] sm:text-[22vw] lg:text-[20vw] text-black/10 leading-none tracking-tighter will-change-transform z-0"
                     style={{ [isEven ? 'left' : 'right']: '2%', top: '5%' }}
                     aria-hidden="true"
                   >
@@ -558,7 +558,7 @@ export default function Gallery() {
 
                       {/* Description */}
                       <div className="flavor-desc-text will-change-transform">
-                        <p className="mt-3 sm:mt-4 text-xs sm:text-base text-white/90 leading-relaxed font-normal font-sans">
+                        <p className="mt-3 sm:mt-4 text-xs sm:text-base text-white/90 leading-relaxed font-normal font-poppins">
                           {flavor.desc}
                         </p>
                       </div>
@@ -576,15 +576,15 @@ export default function Gallery() {
                       {/* Nutritional Counters */}
                       <div className="mt-6 sm:mt-8 grid grid-cols-3 gap-2 sm:gap-4 p-3 sm:p-5 bg-white border border-black/20 shadow-xs">
                         <div>
-                          <span className="stat-counter-val font-display text-lg sm:text-3xl md:text-4xl font-black text-black block" data-val={flavor.stat1Numeric} data-suffix={flavor.stat1Suffix}>0{flavor.stat1Suffix}</span>
+                          <span className="stat-counter-val font-asul text-lg sm:text-3xl md:text-4xl font-bold text-black block" data-val={flavor.stat1Numeric} data-suffix={flavor.stat1Suffix}>0{flavor.stat1Suffix}</span>
                           <span className="text-[9px] sm:text-[11px] font-bold text-neutral-600 uppercase tracking-wider block mt-0.5 sm:mt-1">{flavor.stat1Label}</span>
                         </div>
                         <div className="border-l border-black/20 pl-2 sm:pl-4">
-                          <span className="stat-counter-val font-display text-lg sm:text-3xl md:text-4xl font-black block" style={{ color: flavor.bgColor }} data-val={flavor.stat2Numeric} data-suffix={flavor.stat2Suffix}>0{flavor.stat2Suffix}</span>
+                          <span className="stat-counter-val font-asul text-lg sm:text-3xl md:text-4xl font-bold block" style={{ color: flavor.bgColor }} data-val={flavor.stat2Numeric} data-suffix={flavor.stat2Suffix}>0{flavor.stat2Suffix}</span>
                           <span className="text-[9px] sm:text-[11px] font-bold text-neutral-600 uppercase tracking-wider block mt-0.5 sm:mt-1">{flavor.stat2Label}</span>
                         </div>
                         <div className="border-l border-black/20 pl-2 sm:pl-4">
-                          <span className="stat-counter-val font-display text-lg sm:text-3xl md:text-4xl font-black text-black block" data-val={flavor.stat3Numeric} data-suffix={flavor.stat3Suffix}>0{flavor.stat3Suffix}</span>
+                          <span className="stat-counter-val font-asul text-lg sm:text-3xl md:text-4xl font-bold text-black block" data-val={flavor.stat3Numeric} data-suffix={flavor.stat3Suffix}>0{flavor.stat3Suffix}</span>
                           <span className="text-[9px] sm:text-[11px] font-bold text-neutral-600 uppercase tracking-wider block mt-0.5 sm:mt-1">{flavor.stat3Label}</span>
                         </div>
                       </div>
@@ -617,7 +617,7 @@ export default function Gallery() {
                       <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                         <div>
                           <span className="text-[10px] sm:text-[11px] text-white/70 font-medium uppercase tracking-wider block">Total Price ({currentPack.name})</span>
-                          <span id={`price-${flavor.id}`} className="font-display text-2xl sm:text-4xl font-black text-white drop-shadow-sm">{currentPack.display}</span>
+                          <span id={`price-${flavor.id}`} className="font-asul text-2xl sm:text-4xl font-bold text-white drop-shadow-sm">{currentPack.display}</span>
                         </div>
                         <div className="flex items-center w-full sm:w-auto">
                           <button

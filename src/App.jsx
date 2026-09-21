@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -11,6 +11,7 @@ import CartDrawer from './components/CartDrawer'
 import SearchModal from './components/SearchModal'
 import AccountModal from './components/AccountModal'
 import ScrollProgress from './components/ScrollProgress'
+import TinyTrails404 from './components/TinyTrails404'
 import Hero from './sections/Hero'
 import Gallery from './sections/Gallery'
 import BrandManifesto from './sections/BrandManifesto'
@@ -21,6 +22,9 @@ gsap.registerPlugin(ScrollTrigger)
 
 export default function App() {
   const lenisRef = useRef(null)
+  const [currentPath, setCurrentPath] = useState(
+    typeof window !== 'undefined' ? window.location.pathname : '/'
+  )
 
   useEffect(() => {
     // Check if user prefers reduced motion
@@ -100,18 +104,39 @@ export default function App() {
     }
   }, [])
 
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname)
+    }
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
   const handleScrollTop = () => {
     if (lenisRef.current) {
-      lenisRef.current.scrollTo(0, { duration: 1.5 })
+      lenisRef.current.scrollTo(0, { duration: 1.2 })
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 
+  const isNotFound = currentPath !== '/' && currentPath !== '' && !currentPath.startsWith('/#')
+
+  if (isNotFound) {
+    return (
+      <TinyTrails404
+        onBackHome={() => {
+          window.history.pushState({}, '', '/')
+          setCurrentPath('/')
+        }}
+      />
+    )
+  }
+
   return (
     <PageTransitionProvider>
       <CartProvider>
-        <div className="relative min-h-screen bg-(--color-surface) text-(--color-ink) selection:bg-(--color-coral) selection:text-white font-body">
+        <div className="relative min-h-screen bg-(--color-surface) text-(--color-ink) selection:bg-(--color-coral) selection:text-white font-poppins">
           {/* GSAP Modern Square Blocks Page Transition Overlay */}
           <SquareBlockTransition />
 
@@ -127,7 +152,7 @@ export default function App() {
           {/* Global Ultra-Modern Spotlight Search Modal */}
           <SearchModal />
 
-          {/* Global Clean Club VIP Account Modal */}
+          {/* Global Account Modal */}
           <AccountModal />
 
           {/* Main Full-Page Scroll Sequence */}

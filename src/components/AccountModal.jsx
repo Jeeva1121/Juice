@@ -1,27 +1,47 @@
-﻿import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useCart } from '../context/CartContext'
 import gsap from 'gsap'
 
 export default function AccountModal() {
-  const { isAccountOpen, setIsAccountOpen, userProfile, updateUserProfile, orders } = useCart()
+  const {
+    isAccountOpen,
+    setIsAccountOpen,
+    userProfile,
+    updateUserProfile,
+    orders,
+    clearOrders,
+    items,
+    subtotal,
+    addToCart,
+    setIsCartOpen,
+  } = useCart()
+
   const panelRef = useRef(null)
   const backdropRef = useRef(null)
+  const tabContentRef = useRef(null)
 
-  const [isEditing, setIsEditing] = useState(false)
-  const [editForm, setEditForm] = useState({
+  // Tabs: 'profile' | 'orders' | 'bag'
+  const [activeTab, setActiveTab] = useState('profile')
+
+  // Real-time editable form state directly reflecting userProfile
+  const [form, setForm] = useState({
     fullName: '',
     phone: '',
+    email: '',
     address: '',
     city: '',
     pincode: '',
   })
-  const [savedFeedback, setSavedFeedback] = useState(false)
 
+  const [savedNotice, setSavedNotice] = useState(false)
+
+  // Sync state from CartContext
   useEffect(() => {
     if (userProfile) {
-      setEditForm({
+      setForm({
         fullName: userProfile.fullName || '',
         phone: userProfile.phone || '',
+        email: userProfile.email || '',
         address: userProfile.address || '',
         city: userProfile.city || '',
         pincode: userProfile.pincode || '',
@@ -29,6 +49,18 @@ export default function AccountModal() {
     }
   }, [userProfile, isAccountOpen])
 
+  // Real-time live auto-saver: updates parent context & localStorage immediately as user types
+  const handleFieldChange = (key, value) => {
+    const updated = { ...form, [key]: value }
+    setForm(updated)
+    updateUserProfile(updated)
+
+    setSavedNotice(true)
+    const timer = setTimeout(() => setSavedNotice(false), 1200)
+    return () => clearTimeout(timer)
+  }
+
+  // Escape key & scroll lock
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isAccountOpen) setIsAccountOpen(false)
@@ -38,7 +70,6 @@ export default function AccountModal() {
       window.addEventListener('keydown', handleKeyDown)
     } else {
       document.body.style.overflow = ''
-      setIsEditing(false)
     }
     return () => {
       document.body.style.overflow = ''
@@ -46,306 +77,469 @@ export default function AccountModal() {
     }
   }, [isAccountOpen, setIsAccountOpen])
 
+  // GSAP Smooth Slide-in & Stagger Entrance
   useEffect(() => {
     if (isAccountOpen && panelRef.current) {
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       if (!prefersReducedMotion) {
-        gsap.fromTo(panelRef.current, { x: '100%' }, { x: '0%', duration: 0.38, ease: 'power3.out' })
-      }
-      if (backdropRef.current) {
-        gsap.fromTo(backdropRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3 })
+        gsap.fromTo(
+          panelRef.current,
+          { x: '100%' },
+          { x: '0%', duration: 0.35, ease: 'power3.out' }
+        )
+        if (backdropRef.current) {
+          gsap.fromTo(backdropRef.current, { opacity: 0 }, { opacity: 1, duration: 0.25 })
+        }
+        gsap.fromTo(
+          '.account-fade-item',
+          { y: 14, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.35, stagger: 0.05, ease: 'power2.out', delay: 0.15 }
+        )
+      } else {
+        gsap.set(panelRef.current, { x: '0%' })
+        if (backdropRef.current) gsap.set(backdropRef.current, { opacity: 1 })
       }
     }
   }, [isAccountOpen])
 
+  // GSAP Tab Switching Animation
+  useEffect(() => {
+    if (tabContentRef.current) {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (!prefersReducedMotion) {
+        gsap.fromTo(
+          tabContentRef.current,
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' }
+        )
+      }
+    }
+  }, [activeTab])
+
   if (!isAccountOpen) return null
 
-  const handleSaveProfile = (e) => {
-    e.preventDefault()
-    updateUserProfile(editForm)
-    setIsEditing(false)
-    setSavedFeedback(true)
-    setTimeout(() => setSavedFeedback(false), 2500)
-  }
-
   const getInitials = (name) => {
-    if (!name || !name.trim()) return 'ZY'
+    if (!name || !name.trim()) return 'CJ'
     const parts = name.trim().split(' ')
     if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase()
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
   }
 
-  const totalSpent = orders.reduce((sum, o) => sum + (o.customerDetails?.finalTotal || o.subtotal || 0), 0)
-  const realTimePoints = Math.round(totalSpent * 0.5) + 200
-  const creditValue = Math.round(realTimePoints * 0.5)
-  const nextTierGoal = 1000
-  const tierProgress = Math.min(100, Math.round((realTimePoints / nextTierGoal) * 100))
+  const handleReorder = (order) => {
+    if (order.items && order.items.length > 0) {
+      order.items.forEach((item) => {
+        addToCart(
+          {
+            id: item.id || 'orange',
+            title: item.title || item.name || 'Cold-Pressed Juice',
+            image: item.image || '/assets/orange-can-hero.png',
+            tagColor: '#E03E26',
+          },
+          item.pack || 'single',
+          item.qty || 1
+        )
+      })
+      setIsAccountOpen(false)
+      setIsCartOpen(true)
+    }
+  }
 
-  const scrollToFlavors = () => {
+  const scrollToShop = () => {
     setIsAccountOpen(false)
-    const target = document.querySelector('#flavors')
+    const target = document.querySelector('#gallery') || document.querySelector('#flavors')
     if (target) target.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const handleOpenCart = () => {
+    setIsAccountOpen(false)
+    setIsCartOpen(true)
   }
 
   return (
     <div
       ref={backdropRef}
-      className="fixed inset-0 z-70 flex justify-end bg-black/60"
-      onClick={(e) => { if (e.target === e.currentTarget) setIsAccountOpen(false) }}
+      className="fixed inset-0 z-70 flex justify-end bg-black/70 rounded-none backdrop-blur-xs"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) setIsAccountOpen(false)
+      }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="account-modal-title"
     >
       <div
         ref={panelRef}
-        className="relative w-full max-w-[480px] h-full bg-[#1A1816] flex flex-col overflow-hidden shadow-2xl"
+        className="relative w-full max-w-[480px] h-full bg-black border-l border-white/10 flex flex-col overflow-hidden text-white rounded-none shadow-2xl"
         style={{ transform: 'translateX(100%)' }}
       >
-        {/* HEADER */}
-        <div className="flex items-center justify-between px-6 pt-[calc(var(--sat,0px)+1.25rem)] pb-5 border-b border-white/8 shrink-0">
-          <div className="flex items-center gap-3">
-            <span className="font-dacomment text-[10px] tracking-[0.25em] uppercase text-[#F5A623]">
-              Clean Club
-            </span>
-            <span className="w-px h-3.5 bg-white/15" />
-            <span className="font-mono text-[10px] text-white/30 tracking-widest">
-              {userProfile.membershipId || '#CJ-8429'}
-            </span>
+        {/* TOP HEADER - FULLY BLACK WITH EDITORIAL VAGNOLA TYPOGRAPHY */}
+        <header className="px-6 pt-[calc(var(--sat,0px)+1.25rem)] pb-4 border-b border-white/10 bg-black shrink-0 rounded-none account-fade-item">
+          <div className="flex items-center justify-between">
+            <h2
+              id="account-modal-title"
+              className="font-vagnola text-3xl sm:text-4xl font-bold uppercase text-white tracking-wide leading-none"
+            >
+              Account
+            </h2>
+
+            <button
+              id="account-modal-close-btn"
+              type="button"
+              onClick={() => setIsAccountOpen(false)}
+              aria-label="Close"
+              className="w-10 h-10 border border-white/20 bg-white/5 hover:bg-white hover:text-black flex items-center justify-center text-white transition-colors cursor-pointer rounded-none text-xs font-mono font-bold"
+            >
+              &#10005;
+            </button>
           </div>
-          <button
-            id="account-modal-close-btn"
-            type="button"
-            onClick={() => setIsAccountOpen(false)}
-            aria-label="Close account panel"
-            className="w-8 h-8 flex items-center justify-center text-white/40 hover:text-white transition-colors cursor-pointer"
-          >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+        </header>
+
+        {/* SEGMENTED TABS */}
+        <div className="px-6 py-3 border-b border-white/10 bg-black shrink-0 account-fade-item">
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { id: 'profile', label: 'DETAILS' },
+              { id: 'orders', label: 'ORDERS' },
+              { id: 'bag', label: 'BAG' },
+            ].map((tab) => {
+              const isActive = activeTab === tab.id
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`py-2.5 px-2 text-xs font-poppins font-bold tracking-[0.14em] uppercase text-center transition-all cursor-pointer rounded-none border ${
+                    isActive
+                      ? 'bg-white text-black border-white'
+                      : 'bg-transparent text-neutral-400 border-white/15 hover:border-white/40 hover:text-white'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              )
+            })}
+          </div>
         </div>
 
         {/* SCROLLABLE BODY */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden px-6 py-6 space-y-8 [&::-webkit-scrollbar]:w-0">
+        <div
+          ref={tabContentRef}
+          className="flex-1 overflow-y-auto px-6 py-6 space-y-6 [&::-webkit-scrollbar]:w-0"
+        >
+          {/* TAB 1: DETAILS (REAL-TIME EDITABLE PROFILE) */}
+          {activeTab === 'profile' && (
+            <div className="space-y-6">
+              {/* Real-Time Live User Summary Card */}
+              <div className="p-4 border border-white/15 bg-neutral-950 rounded-none flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3.5 min-w-0">
+                  <div className="relative w-14 h-14 border border-white/20 shrink-0 rounded-none bg-neutral-900 shadow-md flex items-center justify-center text-white">
+                    {form.fullName.trim() ? (
+                      <span className="font-asul text-xl font-bold uppercase tracking-wider text-white">
+                        {form.fullName.trim().charAt(0)}
+                      </span>
+                    ) : (
+                      <svg className="w-6 h-6 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                      </svg>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-vagnola text-lg font-bold uppercase tracking-wide text-white truncate">
+                      {form.fullName.trim() || 'Guest Customer'}
+                    </h3>
+                    <p className="font-poppins text-xs text-neutral-400 truncate mt-1">
+                      {form.email || form.phone ? (
+                        <>
+                          {form.email}
+                          {form.email && form.phone ? ' / ' : ''}
+                          {form.phone ? `+91 ${form.phone}` : ''}
+                        </>
+                      ) : (
+                        'No contact details entered'
+                      )}
+                    </p>
+                  </div>
+                </div>
 
-          {/* IDENTITY */}
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 shrink-0 bg-[#E03E26] flex items-center justify-center">
-                <span className="font-dacomment text-xl text-white leading-none">
-                  {getInitials(userProfile.fullName)}
-                </span>
+                <div className="text-right shrink-0">
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-neutral-300 border border-white/20 bg-white/5 px-2.5 py-1 rounded-none block">
+                    {savedNotice ? 'SYNCED' : 'REALTIME'}
+                  </span>
+                </div>
               </div>
-              <div>
-                <h2
-                  id="account-modal-title"
-                  className="font-dacomment text-2xl sm:text-3xl text-white leading-none tracking-tight"
-                >
-                  {userProfile.fullName || 'Guest'}
-                </h2>
-                <p className="font-poppins text-[11px] text-white/40 mt-1 tracking-wider">
-                  {userProfile.phone ? `+91 ${userProfile.phone}` : 'No phone'} · {userProfile.city || 'India'}
-                </p>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => setIsEditing(!isEditing)}
-              className="font-poppins text-[10px] uppercase tracking-widest text-white/35 hover:text-white transition-colors cursor-pointer pt-1 shrink-0"
-            >
-              {isEditing ? 'Cancel' : 'Edit'}
-            </button>
-          </div>
 
-          {savedFeedback && (
-            <div className="flex items-center gap-2 py-2.5 px-4 bg-[#E03E26]/10 border border-[#E03E26]/20 text-[#E03E26] text-xs font-poppins">
-              <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-              Profile saved and synced.
-            </div>
-          )}
+              {/* Real-Time Form Fields */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                  <h4 className="font-vagnola text-sm font-bold uppercase tracking-wider text-white">
+                    Personal Information
+                  </h4>
+                  <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider">
+                    {savedNotice ? 'SAVED TO LOCAL' : 'LIVE AUTO-SAVING'}
+                  </span>
+                </div>
 
-          {/* EDIT FORM */}
-          {isEditing && (
-            <form onSubmit={handleSaveProfile} className="space-y-4 border-t border-white/8 pt-6">
-              <p className="font-dacomment text-[10px] tracking-[0.2em] uppercase text-white/30 mb-2">Edit Profile</p>
-              {[
-                { label: 'Full Name', key: 'fullName', type: 'text' },
-                { label: 'Phone', key: 'phone', type: 'tel' },
-                { label: 'Address', key: 'address', type: 'text' },
-                { label: 'City', key: 'city', type: 'text' },
-                { label: 'PIN Code', key: 'pincode', type: 'text' },
-              ].map(({ label, key, type }) => (
-                <div key={key}>
-                  <label className="block font-poppins text-[10px] uppercase tracking-widest text-white/30 mb-1.5">
-                    {label}
+                {/* Full Name */}
+                <div className="space-y-1.5">
+                  <label className="block font-poppins text-[11px] font-semibold uppercase tracking-wider text-neutral-300">
+                    Full Name
                   </label>
                   <input
-                    type={type}
-                    value={editForm[key]}
-                    onChange={(e) => setEditForm({ ...editForm, [key]: e.target.value })}
-                    className="w-full bg-transparent border-b border-white/12 focus:border-white/40 py-2 font-poppins text-sm text-white outline-none transition-colors"
-                    placeholder={label}
+                    type="text"
+                    value={form.fullName}
+                    onChange={(e) => handleFieldChange('fullName', e.target.value)}
+                    placeholder="Enter full name"
+                    className="w-full bg-neutral-950 border border-white/20 focus:border-white py-3 px-3.5 font-poppins text-xs sm:text-sm text-white placeholder:text-neutral-600 outline-none rounded-none transition-colors"
                   />
                 </div>
-              ))}
-              <div className="flex gap-3 pt-2">
-                <button
-                  type="submit"
-                  className="flex-1 py-3 bg-white text-[#1A1816] font-poppins text-xs font-semibold uppercase tracking-widest hover:bg-neutral-100 transition-colors cursor-pointer"
-                >
-                  Save Changes
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIsEditing(false)}
-                  className="py-3 px-5 border border-white/12 text-white/40 font-poppins text-xs uppercase tracking-widest hover:text-white hover:border-white/25 transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
+
+                {/* Email Address */}
+                <div className="space-y-1.5">
+                  <label className="block font-poppins text-[11px] font-semibold uppercase tracking-wider text-neutral-300">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => handleFieldChange('email', e.target.value)}
+                    placeholder="name@example.com"
+                    className="w-full bg-neutral-950 border border-white/20 focus:border-white py-3 px-3.5 font-poppins text-xs sm:text-sm text-white placeholder:text-neutral-600 outline-none rounded-none transition-colors"
+                  />
+                </div>
+
+                {/* Phone Number */}
+                <div className="space-y-1.5">
+                  <label className="block font-poppins text-[11px] font-semibold uppercase tracking-wider text-neutral-300">
+                    Phone Number
+                  </label>
+                  <div className="flex border border-white/20 focus-within:border-white bg-neutral-950 rounded-none transition-colors">
+                    <span className="px-3.5 py-3 font-mono text-xs text-neutral-400 border-r border-white/15 shrink-0 flex items-center">
+                      +91
+                    </span>
+                    <input
+                      type="tel"
+                      value={form.phone}
+                      onChange={(e) => handleFieldChange('phone', e.target.value)}
+                      placeholder="10-digit mobile number"
+                      className="w-full bg-transparent py-3 px-3.5 font-poppins text-xs sm:text-sm text-white placeholder:text-neutral-600 outline-none rounded-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Delivery Street Address */}
+                <div className="space-y-1.5">
+                  <label className="block font-poppins text-[11px] font-semibold uppercase tracking-wider text-neutral-300">
+                    Delivery Address
+                  </label>
+                  <input
+                    type="text"
+                    value={form.address}
+                    onChange={(e) => handleFieldChange('address', e.target.value)}
+                    placeholder="Flat / House / Street name"
+                    className="w-full bg-neutral-950 border border-white/20 focus:border-white py-3 px-3.5 font-poppins text-xs sm:text-sm text-white placeholder:text-neutral-600 outline-none rounded-none transition-colors"
+                  />
+                </div>
+
+                {/* City & PIN Code */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <label className="block font-poppins text-[11px] font-semibold uppercase tracking-wider text-neutral-300">
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      value={form.city}
+                      onChange={(e) => handleFieldChange('city', e.target.value)}
+                      placeholder="City"
+                      className="w-full bg-neutral-950 border border-white/20 focus:border-white py-3 px-3.5 font-poppins text-xs sm:text-sm text-white placeholder:text-neutral-600 outline-none rounded-none transition-colors"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="block font-poppins text-[11px] font-semibold uppercase tracking-wider text-neutral-300">
+                      PIN Code
+                    </label>
+                    <input
+                      type="text"
+                      value={form.pincode}
+                      onChange={(e) => handleFieldChange('pincode', e.target.value)}
+                      placeholder="PIN Code"
+                      className="w-full bg-neutral-950 border border-white/20 focus:border-white py-3 px-3.5 font-poppins text-xs sm:text-sm text-white placeholder:text-neutral-600 outline-none rounded-none transition-colors"
+                    />
+                  </div>
+                </div>
               </div>
-            </form>
+            </div>
           )}
 
-          {/* REWARDS */}
-          <div className="border-t border-white/8 pt-6">
-            <p className="font-dacomment text-[10px] tracking-[0.2em] uppercase text-white/30 mb-5">Rewards</p>
-            <div className="flex items-end justify-between mb-5">
-              <div>
-                <span className="font-dacomment text-5xl sm:text-6xl text-white leading-none tabular-nums">
-                  {realTimePoints.toLocaleString()}
+          {/* TAB 2: ORDERS (REAL-TIME LIVE DATA ONLY) */}
+          {activeTab === 'orders' && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="font-vagnola text-xs font-bold uppercase tracking-wider text-neutral-400">
+                  Verified Order History
                 </span>
-                <span className="font-poppins text-[10px] tracking-widest uppercase text-white/30 ml-2">pts</span>
-              </div>
-              <div className="text-right">
-                <span className="font-dacomment text-2xl text-[#F5A623] leading-none">
-                  &#8377;{creditValue}
-                </span>
-                <p className="font-poppins text-[9px] text-white/25 uppercase tracking-widest mt-0.5">Wallet Credit</p>
-              </div>
-            </div>
-            <div className="w-full h-px bg-white/8 relative overflow-visible mb-3">
-              <div
-                className="absolute top-0 left-0 h-px bg-[#E03E26] transition-all duration-700 ease-out"
-                style={{ width: `${tierProgress}%` }}
-              />
-              <div
-                className="absolute -top-[3px] w-1.5 h-1.5 bg-[#E03E26] transition-all duration-700 ease-out"
-                style={{ left: `calc(${tierProgress}% - 3px)` }}
-              />
-            </div>
-            <div className="flex justify-between font-poppins text-[9px] text-white/20 tracking-widest uppercase">
-              <span>{Math.max(0, nextTierGoal - realTimePoints)} pts to Platinum</span>
-              <span>{tierProgress}%</span>
-            </div>
-          </div>
-
-          {/* ORDER HISTORY */}
-          <div className="border-t border-white/8 pt-6">
-            <div className="flex items-center justify-between mb-5">
-              <p className="font-dacomment text-[10px] tracking-[0.2em] uppercase text-white/30">Orders</p>
-              <span className="font-mono text-[9px] text-white/15 tracking-widest">{orders.length} total</span>
-            </div>
-
-            {orders.length === 0 ? (
-              <div className="py-12 text-center">
-                <p className="font-dacomment text-5xl text-white/8 mb-4 tracking-widest">EMPTY</p>
-                <p className="font-poppins text-xs text-white/20 leading-relaxed mb-6 max-w-[220px] mx-auto">
-                  Your cold-pressed orders will appear here after checkout.
-                </p>
-                <button
-                  type="button"
-                  onClick={scrollToFlavors}
-                  className="font-poppins text-[10px] uppercase tracking-widest text-[#E03E26] hover:text-white transition-colors cursor-pointer"
-                >
-                  Browse Flavors &#8594;
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-px">
-                {orders.map((order, idx) => (
-                  <div
-                    key={order.orderId || idx}
-                    className="bg-white/4 hover:bg-white/6 transition-colors p-4 space-y-3"
+                {orders.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={clearOrders}
+                    className="font-mono text-[10px] text-neutral-500 hover:text-red-400 uppercase tracking-wider transition-colors cursor-pointer"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <span className="font-mono text-xs text-white font-bold tracking-wider">
-                          {order.orderId}
-                        </span>
-                        {order.date && (
-                          <span className="font-poppins text-[9px] text-white/20">
-                            {order.date}{order.time ? ` · ${order.time}` : ''}
-                          </span>
-                        )}
-                      </div>
-                      <span
-                        className={`font-poppins text-[9px] font-bold px-2 py-0.5 uppercase tracking-widest ${
-                          order.status === 'Delivered'
-                            ? 'text-emerald-400 bg-emerald-400/8'
-                            : 'text-[#F5A623] bg-[#F5A623]/8'
-                        }`}
-                      >
-                        {order.status || 'In Transit'}
-                      </span>
-                    </div>
+                    Clear History
+                  </button>
+                )}
+              </div>
 
-                    {order.items && (
-                      <div className="space-y-1.5 border-t border-white/6 pt-2.5">
-                        {order.items.map((item, i) => (
-                          <div key={i} className="flex items-center justify-between">
-                            <div className="flex items-center gap-2.5 min-w-0">
-                              {item.image && (
-                                <img src={item.image} alt={item.title} className="w-4 h-6 object-contain shrink-0" />
-                              )}
-                              <span className="font-poppins text-[11px] text-white/50 truncate">
-                                <span className="text-white/80">{item.qty || 1}&times;</span>{' '}
-                                {item.title || item.name}
+              {orders.length === 0 ? (
+                <div className="py-14 text-center border border-white/10 bg-neutral-950 p-6 rounded-none space-y-3">
+                  <p className="font-vagnola text-2xl font-bold uppercase text-white tracking-wide">
+                    No Orders Recorded
+                  </p>
+                  <p className="font-poppins text-xs text-neutral-400 max-w-xs mx-auto leading-relaxed">
+                    You have not placed any orders yet. When you complete an order at checkout, your verified receipt will appear here in real time.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={scrollToShop}
+                    className="mt-2 py-3 px-6 bg-white hover:bg-neutral-200 text-black font-poppins text-xs font-bold uppercase tracking-[0.16em] transition-colors cursor-pointer rounded-none inline-block"
+                  >
+                    Explore Flavors &rarr;
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {orders.map((order, idx) => (
+                    <div
+                      key={order.orderId || idx}
+                      className="p-4 border border-white/15 bg-neutral-950 space-y-3 rounded-none"
+                    >
+                      <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                        <div>
+                          <span className="font-mono text-xs font-bold text-white tracking-wider block">
+                            {order.orderId}
+                          </span>
+                          <span className="font-mono text-[10px] text-neutral-400">
+                            {order.date} {order.time ? `/ ${order.time}` : ''}
+                          </span>
+                        </div>
+                        <span className="font-mono text-[10px] font-bold uppercase px-2 py-0.5 border border-white/20 bg-white/5 text-white rounded-none">
+                          {order.status || 'CONFIRMED'}
+                        </span>
+                      </div>
+
+                      {order.items && (
+                        <div className="space-y-1.5 pt-1">
+                          {order.items.map((item, i) => (
+                            <div key={i} className="flex items-center justify-between font-mono text-xs">
+                              <div className="flex items-center gap-2 truncate">
+                                <span className="text-neutral-400 font-bold font-bricolage tabular-nums">{item.qty || 1}x</span>
+                                <span className="text-white uppercase truncate">{item.title || item.name}</span>
+                              </div>
+                              <span className="text-neutral-300 ml-2 shrink-0 font-bricolage font-bold tabular-nums">
+                                &#8377;{item.totalPrice || item.price || 0}
                               </span>
                             </div>
-                            <span className="font-dacomment text-sm text-white/60 shrink-0 ml-3">
-                              &#8377;{item.totalPrice || item.price || 0}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                          ))}
+                        </div>
+                      )}
 
-                    <div className="flex items-center justify-between border-t border-white/6 pt-2.5">
-                      <span className="font-poppins text-[9px] text-white/20 uppercase tracking-widest truncate max-w-[55%]">
-                        {order.customerDetails?.city || userProfile.city || '&#8212;'}
-                      </span>
-                      <span className="font-dacomment text-lg text-white">
-                        &#8377;{order.customerDetails?.finalTotal || order.subtotal}
-                      </span>
+                      <div className="flex items-center justify-between border-t border-white/10 pt-3">
+                        <span className="font-poppins text-xs text-neutral-400">
+                          Total: <strong className="text-white font-bricolage text-base font-bold ml-1 tabular-nums">&#8377;{order.customerDetails?.finalTotal || order.subtotal}</strong>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleReorder(order)}
+                          className="font-poppins text-xs uppercase tracking-wider py-1.5 px-4 border border-white/20 hover:bg-white hover:text-black text-white transition-colors cursor-pointer rounded-none font-semibold"
+                        >
+                          Reorder
+                        </button>
+                      </div>
                     </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* TAB 3: CURRENT BAG (REAL DATA ONLY) */}
+          {activeTab === 'bag' && (
+            <div className="space-y-4">
+              <div className="border border-white/15 bg-neutral-950 p-4 rounded-none space-y-3">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                  <span className="font-vagnola text-sm font-bold uppercase tracking-[0.14em] text-white">
+                    Current Bag
+                  </span>
+                  <span className="font-bricolage text-xs text-neutral-400 tabular-nums">
+                    {items.length} {items.length === 1 ? 'flavor' : 'flavors'}
+                  </span>
+                </div>
+
+                {items.length === 0 ? (
+                  <div className="py-8 text-center space-y-2">
+                    <p className="font-poppins text-xs text-neutral-400">Your bag is currently empty.</p>
+                    <button
+                      type="button"
+                      onClick={scrollToShop}
+                      className="py-2.5 px-5 bg-white text-black font-poppins text-xs uppercase tracking-[0.16em] font-bold rounded-none hover:bg-neutral-200 transition-colors cursor-pointer mt-2"
+                    >
+                      Browse Flavors &rarr;
+                    </button>
                   </div>
-                ))}
+                ) : (
+                  <>
+                    <div className="space-y-2 pt-1">
+                      {items.map((item, idx) => (
+                        <div key={idx} className="flex items-center justify-between font-mono text-xs py-1.5 border-b border-white/5">
+                          <div className="truncate">
+                            <span className="text-neutral-400 font-bold font-bricolage tabular-nums">{item.qty}x</span>{' '}
+                            <span className="text-white uppercase font-bold">{item.title}</span>{' '}
+                            <span className="text-neutral-500 text-[10px]">({item.pack || 'single'})</span>
+                          </div>
+                          <span className="text-white font-bricolage text-sm font-bold ml-2 shrink-0 tabular-nums">
+                            &#8377;{item.totalPrice * item.qty}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between border-t border-white/10 pt-3">
+                      <span className="font-poppins text-xs uppercase tracking-wider text-neutral-400">Subtotal:</span>
+                      <span className="font-bricolage text-2xl font-bold text-white tabular-nums">&#8377;{subtotal}</span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleOpenCart}
+                      className="w-full py-3.5 bg-white hover:bg-neutral-200 text-black font-poppins text-xs uppercase tracking-[0.18em] font-bold rounded-none transition-colors cursor-pointer text-center block mt-3"
+                    >
+                      Open Cart & Checkout &rarr;
+                    </button>
+                  </>
+                )}
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
-        {/* STICKY FOOTER */}
-        <div className="shrink-0 px-6 py-5 border-t border-white/8 bg-[#1A1816] flex gap-3 pb-[calc(var(--sab,0px)+1.25rem)]">
+        {/* STICKY BOTTOM ACTIONS */}
+        <footer className="shrink-0 px-6 py-4 border-t border-white/10 bg-black flex items-center justify-between gap-3 pb-[calc(var(--sab,0px)+1.25rem)] rounded-none account-fade-item">
           <button
-            id="account-order-flavors-btn"
             type="button"
-            onClick={scrollToFlavors}
-            className="flex-1 py-3.5 bg-[#E03E26] hover:bg-[#C83318] text-white font-poppins text-[10px] font-semibold uppercase tracking-widest transition-colors cursor-pointer"
+            onClick={scrollToShop}
+            className="py-3 px-5 border border-white/20 hover:border-white hover:bg-white/10 text-white font-poppins text-xs uppercase tracking-[0.14em] font-semibold transition-colors cursor-pointer rounded-none"
           >
-            Order Now
+            Explore Flavors
           </button>
+
           <button
             id="account-done-btn"
             type="button"
             onClick={() => setIsAccountOpen(false)}
-            className="py-3.5 px-6 border border-white/10 hover:border-white/25 text-white/35 hover:text-white font-poppins text-[10px] uppercase tracking-widest transition-colors cursor-pointer"
+            className="py-3 px-7 bg-white hover:bg-neutral-200 text-black font-poppins text-xs font-bold uppercase tracking-[0.16em] transition-colors cursor-pointer rounded-none"
           >
             Done
           </button>
-        </div>
+        </footer>
       </div>
     </div>
   )

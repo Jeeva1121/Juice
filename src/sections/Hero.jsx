@@ -259,7 +259,7 @@ export default function Hero() {
         const nextIdx = (currentSlideRef.current + 1) % HERO_SLIDES.length
         goToSlide(nextIdx)
       }
-    }, 4500)
+    }, 5500)
   }, [goToSlide])
 
   useEffect(() => {
@@ -453,15 +453,15 @@ export default function Hero() {
         scrollTl.to(bottleRef.current, { scale: 1.0, yPercent: 0, ease: 'power2.in', duration: 0.3 }, 0.7)
       })
 
-      // Mobile (< 768px): Luxury Pinned Scrub matching Web View
+      // Mobile (< 768px): Luxury Pinned Scrub matching Web View (relaxed pace)
       mm.add('(max-width: 767px)', () => {
         const mobileScrollTl = gsap.timeline({
           scrollTrigger: {
             trigger: containerRef.current,
             start: 'top top',
-            end: '+=60%',
+            end: '+=85%',
             pin: pinWrapperRef.current,
-            scrub: 0.3,
+            scrub: 0.25,
             anticipatePin: 1,
             fastScrollEnd: true,
             invalidateOnRefresh: true,
@@ -556,7 +556,7 @@ export default function Hero() {
           {/* Giant Background Wordmark */}
           <h1
             ref={giantTextRef}
-            className={`absolute inset-x-0 text-center font-display ${activeSlide.wordSize} font-black uppercase text-white/95 leading-none tracking-tight whitespace-nowrap max-w-full px-2 pointer-events-none select-none`}
+            className={`absolute inset-x-0 text-center font-asul ${activeSlide.wordSize} font-bold uppercase text-white/95 leading-none tracking-tight whitespace-nowrap max-w-full px-2 pointer-events-none select-none`}
             style={{ zIndex: 1 }}
           >
             {activeSlide.wordmark}
@@ -708,10 +708,10 @@ export default function Hero() {
             className="absolute inset-0 w-full h-full pointer-events-none"
             style={{ zIndex: 5, opacity: 0, display: 'none' }}
           >
-            {/* Cherry Piece 1: Top Left */}
+            {/* Cherry Piece 1: Top Left (shifted up on web alone) */}
             <div
               ref={cherryPiece1Ref}
-              className="absolute top-[13%] sm:top-[0%] md:top-[-6%] lg:top-[-8%] left-[4%] sm:left-[2%] md:left-[2%] lg:left-[2%] w-22 sm:w-48 md:w-36 lg:w-40 pointer-events-none"
+              className="absolute top-[16%] sm:top-[14%] md:top-[12%] lg:top-[13%] left-[4%] sm:left-[2%] md:left-[3%] lg:left-[4%] w-22 sm:w-48 md:w-36 lg:w-40 pointer-events-none"
             >
               <div className="">
                 <img
@@ -845,14 +845,14 @@ export default function Hero() {
             ref={manifestoRef}
             className="w-full sm:max-w-md md:max-w-lg text-center sm:text-right flex flex-col items-center sm:items-end mt-0.5 sm:mt-0 order-1 sm:order-2"
           >
-            <h2 className={`font-display text-xs sm:text-base md:text-lg font-bold ${activeSlide.textColor} leading-tight mb-1`}>
+            <h2 className={`font-asul text-xs sm:text-base md:text-lg font-bold ${activeSlide.textColor} leading-tight mb-1`}>
               {activeSlide.manifestoTitle.split(activeSlide.manifestoHighlight)[0]}
               <span style={{ color: activeSlide.highlightColor }}>
                 {activeSlide.manifestoHighlight}
               </span>
               {activeSlide.manifestoTitle.split(activeSlide.manifestoHighlight)[1]}
             </h2>
-            <p className={`font-body text-[11px] sm:text-xs font-normal tracking-tight sm:tracking-normal ${activeSlide.bodyTextColor} leading-snug max-w-[310px] sm:max-w-md mx-auto sm:mx-0`}>
+            <p className={`font-poppins text-[11px] sm:text-xs font-normal tracking-tight sm:tracking-normal ${activeSlide.bodyTextColor} leading-snug max-w-[310px] sm:max-w-md mx-auto sm:mx-0`} style={{ fontFamily: "'Poppins', sans-serif" }}>
               {activeSlide.manifestoBody}
             </p>
           </div>
@@ -861,7 +861,8 @@ export default function Hero() {
           <div ref={bottomLeftBtnRef} className="flex justify-center sm:justify-start mt-1 sm:mt-0 order-2 sm:order-1 mb-1 sm:mb-0">
             <a
               href="#flavors"
-              className="touch-target-44 inline-flex items-center justify-center bg-(--color-ink) text-white font-body font-medium uppercase tracking-[0.16em] text-[11px] sm:text-xs px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-none transition-colors hover:bg-(--color-coral) shadow-md cursor-pointer whitespace-nowrap"
+              className="touch-target-44 inline-flex items-center justify-center bg-(--color-ink) text-white font-poppins font-semibold uppercase tracking-[0.16em] text-[11px] sm:text-xs px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-none transition-colors hover:bg-(--color-coral) shadow-md cursor-pointer whitespace-nowrap"
+              style={{ fontFamily: "'Poppins', sans-serif" }}
             >
               {activeSlide.ctaText}
             </a>

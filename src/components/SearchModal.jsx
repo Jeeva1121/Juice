@@ -9,12 +9,11 @@ const PRODUCTS = [
     word: 'ORANGE',
     title: 'Valencia Orange',
     flavorTag: 'Citrus Hydration',
-    subtitle: 'Sun-ripened organic Valencia citrus cold-pressed with 220mg ionic plant electrolytes.',
-    price: '₹350',
-    numericPrice: 350,
+    subtitle: 'Cold-pressed organic Valencia citrus with electrolytes.',
+    price: '₹99',
+    numericPrice: 99,
     image: '/assets/orange-can-hero.png',
     accentColor: '#EA580C',
-    specs: '330 ml • 220mg Electrolytes • 0g Added Sugar',
     tags: ['orange', 'valencia', 'citrus', 'electrolytes', 'vitamin c', 'sun'],
   },
   {
@@ -23,12 +22,11 @@ const PRODUCTS = [
     word: 'BERRY',
     title: 'Wild Strawberry',
     flavorTag: 'Antioxidant Glow',
-    subtitle: 'Cold-centrifuged mountain strawberries infused with pure young coconut nectar.',
-    price: '₹350',
-    numericPrice: 350,
+    subtitle: 'Mountain strawberries with young coconut nectar.',
+    price: '₹99',
+    numericPrice: 99,
     image: '/assets/straw-can-hero.png',
     accentColor: '#E11D48',
-    specs: '330 ml • 100% Raw • 0g Added Sugar',
     tags: ['strawberry', 'wild strawberry', 'berry', 'antioxidants', 'coconut', 'sweet', 'ruby'],
   },
   {
@@ -37,12 +35,11 @@ const PRODUCTS = [
     word: 'CHERRY',
     title: 'Black Cherry',
     flavorTag: 'Deep Recovery',
-    subtitle: 'Pure Montmorency tart cherries rich in bioavailable melatonin & restful antioxidants.',
-    price: '₹350',
-    numericPrice: 350,
+    subtitle: 'Montmorency tart cherries rich in restful antioxidants.',
+    price: '₹99',
+    numericPrice: 99,
     image: '/assets/cherry-can-hero.png',
     accentColor: '#881337',
-    specs: '330 ml • Natural Melatonin • 0g Added Sugar',
     tags: ['cherry', 'black cherry', 'tart cherry', 'recovery', 'sleep', 'rest', 'deep'],
   },
   {
@@ -51,12 +48,11 @@ const PRODUCTS = [
     word: 'LEMON',
     title: 'Zesty Lemon',
     flavorTag: 'Alkaline Immunity',
-    subtitle: 'Cold-pressed Sorrento lemon pulp with aromatic peel essence and vitamin C vitality.',
-    price: '₹350',
-    numericPrice: 350,
+    subtitle: 'Cold-pressed Sorrento lemon pulp with vitamin C vitality.',
+    price: '₹99',
+    numericPrice: 99,
     image: '/assets/lemon-can-hero.png',
     accentColor: '#CA8A04',
-    specs: '330 ml • 160% Vitamin C • 0g Added Sugar',
     tags: ['lemon', 'zesty lemon', 'citrus', 'amalfi', 'immune', 'alkaline', 'zesty'],
   },
 ]
@@ -386,16 +382,26 @@ export default function SearchModal() {
           className="flex flex-col items-center mx-auto text-center cursor-pointer group"
         >
           <div className="flex items-center gap-1.5">
-            <span className="font-asal text-2xl sm:text-4xl text-neutral-900 tracking-wide font-normal">
+            <span className="font-asul text-xl sm:text-3xl text-neutral-900 tracking-wide font-bold">
               zesty
             </span>
-            <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-emerald-800 -rotate-12 fill-current" viewBox="0 0 24 24">
-              <path d="M17 3c-5.523 0-10 4.477-10 10 0 1.25.23 2.45.65 3.55C4.24 18.25 2 21 2 21s6.25-1.25 10.45-3.65c1.1.42 2.3.65 3.55.65 5.523 0 10-4.477 10-10 0-5.523-4.477-10-10-10z" />
+            <svg
+              viewBox="0 0 24 24"
+              className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 text-emerald-700 shrink-0 self-center -translate-y-0.5"
+              fill="none"
+            >
+              <path
+                d="M19.8 4.2C15.4 3.8 10.2 5.8 7.1 8.9C4.3 11.7 3.5 16.6 4.4 19.6C7.4 20.5 12.3 19.7 15.1 16.9C18.2 13.8 20.2 8.6 19.8 4.2Z"
+                fill="currentColor"
+              />
+              <path
+                d="M6.5 17.5C9.5 14.5 13.2 12.3 17.5 11.5"
+                stroke="#FFFFFF"
+                strokeWidth="1.3"
+                strokeLinecap="round"
+              />
             </svg>
           </div>
-          <span className="text-[8.5px] sm:text-[10px] font-poppins font-semibold tracking-[0.35em] text-neutral-700 uppercase mt-0.5">
-            CLEAN JUICE
-          </span>
         </div>
 
         {/* Right: Minimalist Close Button (44px Touch Target) */}
@@ -424,7 +430,7 @@ export default function SearchModal() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M20 20l-3.5-3.5" />
           </svg>
 
-          {/* Clean Input with Reduced Font Weight */}
+          {/* Clean Input with Poppins Font */}
           <input
             ref={inputRef}
             type="text"
@@ -438,10 +444,7 @@ export default function SearchModal() {
               }
             }}
             placeholder="Search flavor or fruit..."
-            className="w-full h-full pl-1 sm:pl-2 pr-2 py-1.5 sm:py-2 bg-transparent text-xs sm:text-base text-neutral-800 focus:outline-none placeholder:font-poppins placeholder:font-normal tracking-wide"
-            style={{
-              fontFamily: "'Poppins', sans-serif"
-            }}
+            className="w-full h-full pl-1 sm:pl-2 pr-2 py-1.5 sm:py-2 bg-transparent text-xs sm:text-sm text-neutral-800 focus:outline-none placeholder:font-poppins placeholder:text-neutral-400 font-poppins tracking-normal font-normal"
           />
 
           {/* Clear Button */}
@@ -479,7 +482,6 @@ export default function SearchModal() {
 
       {/* ========================================================= */}
       {/* 4. CAROUSEL STAGE: BIG CENTER CAN, HALF-SIZE FLANKS */}
-      {/* Reduced typography weight, square ordering button */}
       {/* ========================================================= */}
       <div
         onMouseEnter={() => (isHoveredRef.current = true)}
@@ -489,11 +491,11 @@ export default function SearchModal() {
         {/* 3-Can Stage: Left Half-Can, Center BIG Can, Right Half-Can */}
         <div className="relative z-10 w-full flex items-center justify-center gap-4 sm:gap-14 lg:gap-20 mb-1 sm:mb-6">
           
-          {/* Giant Cutout Typography inside the stage so it centers perfectly behind cans */}
+          {/* Giant Cutout Typography inside the stage */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
             <span
               ref={bgTextRef}
-              className="font-asal text-[24vw] sm:text-[18vw] text-white/80 drop-shadow-[0_2px_20px_rgba(0,0,0,0.04)] leading-none uppercase select-none tracking-tight will-change-transform font-normal"
+              className="font-asul text-[18vw] sm:text-[14vw] text-white/80 drop-shadow-[0_2px_20px_rgba(0,0,0,0.04)] leading-none uppercase select-none tracking-tight will-change-transform font-bold"
             >
               {activeProduct.word}
             </span>
@@ -514,15 +516,8 @@ export default function SearchModal() {
             </div>
           </div>
 
-          {/* Center BIG Can (Dominant, large spotlight!) */}
+          {/* Center BIG Can */}
           <div className="relative z-20 flex flex-col items-center justify-center">
-            {/* Ambient Soft Color Glow */}
-            <div
-              className="absolute w-80 h-80 sm:w-[450px] sm:h-[450px] rounded-full blur-3xl opacity-30 pointer-events-none -z-10"
-              style={{ backgroundColor: activeProduct.accentColor }}
-            />
-
-            {/* BIG CAN IMAGE (Responsive Height for Mobile & Landscape) */}
             <div className="relative w-full sm:w-[400px] lg:w-[450px] h-[36vh] sm:h-[45vh] lg:h-[480px] max-h-[420px] min-h-[220px] flex items-center justify-center -mt-2 sm:mt-0">
               <img
                 ref={centerCanRef}
@@ -538,7 +533,7 @@ export default function SearchModal() {
             </div>
           </div>
 
-          {/* Right Companion Can (MID-SIZE, clickable) */}
+          {/* Right Companion Can */}
           <div
             onClick={goToNext}
             className="flank-can relative z-10 hidden sm:flex flex-col items-center cursor-pointer group transition-all duration-300 opacity-60 hover:opacity-100 pb-3"
@@ -554,96 +549,59 @@ export default function SearchModal() {
           </div>
         </div>
 
-        {/* Details Shelf with SQUARE ORDER BUTTON and REDUCED FONT WEIGHTS */}
+        {/* Details Shelf with font-asul titles & numbers, font-poppins description */}
         <div
           ref={detailsCardRef}
-          className="relative z-30 mt-10 sm:-mt-2 w-[94%] sm:w-full max-w-xl mx-auto bg-white/90 backdrop-blur-xl border border-white/90 rounded-none p-3 sm:p-5 shadow-[0_12px_36px_rgba(0,0,0,0.06)] flex flex-col sm:flex-row items-center text-center sm:text-left justify-between gap-3 sm:gap-4"
+          className="relative z-30 mt-8 sm:-mt-2 w-[94%] sm:w-full max-w-xl mx-auto bg-white/95 border border-neutral-300 rounded-none p-4 sm:p-5 shadow-xl flex flex-col sm:flex-row items-center text-center sm:text-left justify-between gap-3 sm:gap-4"
         >
-          {/* Flavor Details in Refined Medium Weights */}
+          {/* Flavor Details */}
           <div className="text-center sm:text-left">
             <div className="flex items-center justify-center sm:justify-start gap-2">
-              <span className="px-2 py-0.5 rounded-none text-[9px] font-poppins font-medium uppercase tracking-wider bg-neutral-100 text-neutral-700">
+              <span className="px-2 py-0.5 rounded-none text-[9.5px] sm:text-[10px] font-poppins font-semibold uppercase tracking-wider bg-black text-white">
                 {activeProduct.flavorTag}
               </span>
-              <span className="text-xs font-asal text-neutral-500">
-                EDITION {activeProduct.editionNum}
+              <span className="text-[11px] sm:text-xs font-poppins font-semibold tracking-wider text-neutral-600 uppercase">
+                EDITION <span className="font-asul font-bold text-xs sm:text-sm text-neutral-900">{activeProduct.editionNum}</span>
               </span>
             </div>
 
-            {/* Reduced Font Weight on Product Title */}
-            <h3 className="font-poppins text-xl sm:text-3xl font-semibold text-neutral-900 tracking-tight mt-1 leading-tight">
+            {/* Product Title in font-asul (slightly reduced size) */}
+            <h3 className="font-asul text-lg sm:text-xl md:text-2xl font-bold text-neutral-950 uppercase tracking-tight mt-1 leading-tight">
               {activeProduct.title}
             </h3>
-            <p className="text-[11px] sm:text-xs text-neutral-500 font-poppins font-normal max-w-sm mt-1 leading-relaxed">
+            {/* Description in font-poppins (clean, highly readable) */}
+            <p className="text-xs sm:text-[13px] text-neutral-600 font-poppins font-normal max-w-sm mt-1 leading-relaxed">
               {activeProduct.subtitle}
             </p>
-            <span className="font-poppins text-[9.5px] sm:text-[10px] text-neutral-400 block mt-1 font-normal">
-              {activeProduct.specs}
-            </span>
           </div>
 
-          {/* SQUARE ORDERING BUTTON (Requested: "have square orderings button") */}
+          {/* SQUARE ORDERING BUTTON */}
           <div className="shrink-0 w-full sm:w-auto">
             <button
               type="button"
               onClick={(e) => handleOrderNow(e, activeProduct)}
-              className="touch-target-44 w-full sm:w-auto min-h-[48px] justify-center px-6 sm:px-7 py-3 rounded-none bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-poppins font-medium tracking-wider uppercase shadow-md hover:scale-102 active:scale-98 transition-all cursor-pointer flex items-center gap-2.5"
+              className="touch-target-44 w-full sm:w-auto min-h-[46px] justify-center px-5 sm:px-6 py-2.5 sm:py-3 rounded-none bg-black hover:bg-neutral-800 text-white text-xs font-poppins font-semibold tracking-[0.14em] uppercase shadow-md transition-colors cursor-pointer flex items-center gap-2"
             >
               {addedItem === activeProduct.id ? (
                 <>
                   <svg className="w-3.5 h-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Added ✓</span>
+                  <span>Added</span>
                 </>
               ) : (
                 <>
                   <span>Order Now</span>
-                  <span className="text-neutral-400 font-normal">|</span>
-                  <span className="font-asal font-normal text-sm">{activeProduct.price}</span>
-                  <svg className="w-3.5 h-3.5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
+                  <span className="text-neutral-400 font-poppins">/</span>
+                  <span className="font-asul font-bold text-sm sm:text-base tracking-wide">{activeProduct.price}</span>
+                  <span className="font-poppins">&rarr;</span>
                 </>
               )}
             </button>
           </div>
         </div>
-
-        {/* Carousel Pagination Indicator Dots with Touch Targets */}
-        <div className="flex items-center justify-center gap-1 mt-1 sm:mt-2 pb-1 sm:pb-2">
-          {PRODUCTS.map((p, idx) => (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => animateToSlide(idx, idx > activeIndex ? 1 : -1)}
-              aria-label={`Switch to ${p.title}`}
-              className="touch-target-44 p-2 cursor-pointer flex items-center justify-center"
-            >
-              <span
-                className={`h-1.5 rounded-full transition-all block ${
-                  idx === activeIndex
-                    ? 'w-6 bg-neutral-800'
-                    : 'w-1.5 bg-neutral-300 hover:bg-neutral-500'
-                }`}
-              />
-            </button>
-          ))}
-        </div>
       </div>
 
-      {/* ========================================================= */}
-      {/* 5. BOTTOM WATERMARK */}
-      {/* ========================================================= */}
-      <footer className="relative z-30 w-full px-6 sm:px-12 py-3 hidden sm:flex items-center justify-between text-neutral-400 text-xs select-none">
-        <span className="font-poppins text-[10px] tracking-wider text-neutral-500">
-          Raw Cold-Pressed Extraction • <span className="font-asal text-sm">4</span> Formulations
-        </span>
-
-        <div className="font-poppins text-[9px] tracking-[0.25em] text-neutral-600 uppercase font-medium text-right">
-          <span>CLEAN JUICE • BRIGHTER YOU</span>
-        </div>
-      </footer>
     </div>
   )
 }

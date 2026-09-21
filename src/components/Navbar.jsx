@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger)
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { totalItems, setIsCartOpen, setIsSearchOpen, setIsAccountOpen } = useCart()
+  const { totalItems, setIsCartOpen, setIsSearchOpen, setIsAccountOpen, isCheckingOut } = useCart()
   const { triggerTransition } = usePageTransition()
   
   const navRef = useRef(null)
@@ -252,6 +252,8 @@ export default function Navbar() {
     callback()
   }
 
+  if (isCheckingOut) return null
+
   return (
     <>
       <header
@@ -269,7 +271,7 @@ export default function Navbar() {
         {/* Left Links */}
         <nav
           aria-label="Primary Navigation"
-          className="hidden md:flex items-center gap-7 text-[11px] font-normal tracking-[0.22em] uppercase w-1/3 text-black transition-colors duration-500"
+          className="hidden md:flex items-center gap-7 text-[11px] font-normal tracking-[0.22em] uppercase w-1/3 text-black transition-colors duration-500 font-poppins"
         >
           {['#flavors', '#about'].map((link, i) => (
             <a
@@ -282,7 +284,7 @@ export default function Navbar() {
               className="relative py-1 text-black hover:opacity-75 transition-all duration-300 inline-block cursor-pointer"
             >
               <span>{link === '#flavors' ? 'Our Menu' : 'Our Story'}</span>
-              <span className="nav-line absolute bottom-0 left-0 w-0 h-[2px] bg-black rounded-full pointer-events-none" />
+              <span className="nav-line absolute bottom-0 left-0 w-0 h-[2px] bg-black rounded-none pointer-events-none" />
             </a>
           ))}
         </nav>
@@ -300,15 +302,28 @@ export default function Navbar() {
               <span className="font-asal text-2xl sm:text-3xl lg:text-4xl tracking-wide font-normal text-black transition-colors duration-500">
                 zesty
               </span>
-              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5 -rotate-12 fill-current shrink-0 text-emerald-800 transition-colors duration-500" viewBox="0 0 24 24">
-                <path d="M17 3c-5.523 0-10 4.477-10 10 0 1.25.23 2.45.65 3.55C4.24 18.25 2 21 2 21s6.25-1.25 10.45-3.65c1.1.42 2.3.65 3.55.65 5.523 0 10-4.477 10-10 0-5.523-4.477-10-10-10z" />
+              <svg
+                viewBox="0 0 24 24"
+                className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-emerald-700 shrink-0 self-center -translate-y-0.5 transition-transform group-hover:rotate-6 duration-300"
+                fill="none"
+              >
+                <path
+                  d="M19.8 4.2C15.4 3.8 10.2 5.8 7.1 8.9C4.3 11.7 3.5 16.6 4.4 19.6C7.4 20.5 12.3 19.7 15.1 16.9C18.2 13.8 20.2 8.6 19.8 4.2Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M6.5 17.5C9.5 14.5 13.2 12.3 17.5 11.5"
+                  stroke="#FFFFFF"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                />
               </svg>
             </div>
           </a>
         </div>
 
-        {/* Right Actions: Minimalist Luxury Editorial Icons with 44px Touch Targets */}
-        <div ref={rightIconsRef} className="flex items-center justify-end gap-1 sm:gap-2 shrink-0 md:w-1/3 text-black transition-colors duration-500">
+        {/* Right Actions: Minimalist Luxury Editorial Icons with Square Shapes */}
+        <div ref={rightIconsRef} className="flex items-center justify-end gap-1.5 sm:gap-2.5 shrink-0 md:w-1/3 text-black transition-colors duration-500">
           {/* 1. Quick Search */}
           <button
             ref={searchIconRef}
@@ -317,25 +332,35 @@ export default function Navbar() {
             onMouseEnter={onSearchEnter}
             onMouseLeave={onSearchLeave}
             aria-label="Search Flavors & Story"
-            className="touch-target-44 w-11 h-11 rounded-full flex items-center justify-center text-black hover:bg-black/10 transition-colors cursor-pointer"
+            className="touch-target-44 w-8 h-8 rounded-full border border-black/15 bg-white/40 hover:bg-black hover:text-white flex items-center justify-center text-black transition-all cursor-pointer shadow-2xs"
           >
-            <svg className="w-4 h-4 sm:w-[18px] sm:h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
             </svg>
           </button>
 
-          {/* 2. Account */}
+          {/* 2. Account (Ultra-Clean Luxury Line-Art Vector Icon) */}
           <button
             ref={accountIconRef}
             type="button"
             onClick={() => onBtnClick(accountIconRef, () => setIsAccountOpen(true))}
             onMouseEnter={onAccountEnter}
             onMouseLeave={onAccountLeave}
-            aria-label="Clean Club VIP Account"
-            className="touch-target-44 w-11 h-11 rounded-full flex items-center justify-center text-black hover:bg-black/10 transition-colors cursor-pointer"
+            aria-label="Account"
+            className="touch-target-44 w-8 h-8 rounded-full border border-black/15 bg-white/40 hover:bg-black hover:text-white flex items-center justify-center text-black transition-all cursor-pointer shadow-2xs"
           >
-            <svg className="w-4 h-4 sm:w-[18px] sm:h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7 0 3.75 3.75 0 017 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+            <svg
+              className="w-3.5 h-3.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.8}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+              />
             </svg>
           </button>
 
@@ -347,13 +372,13 @@ export default function Navbar() {
             onMouseEnter={onBagEnter}
             onMouseLeave={onBagLeave}
             aria-label={`View Bag (${totalItems} items)`}
-            className="touch-target-44 relative w-11 h-11 rounded-full flex items-center justify-center text-black hover:bg-black/10 transition-colors cursor-pointer"
+            className="touch-target-44 relative w-8 h-8 rounded-full border border-black/15 bg-white/40 hover:bg-black hover:text-white flex items-center justify-center text-black transition-all cursor-pointer shadow-2xs"
           >
-            <svg className="w-4 h-4 sm:w-[18px] sm:h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
             {totalItems > 0 && (
-              <span className="absolute top-1.5 right-1.5 min-w-[16px] h-4 px-1 bg-black text-white text-[9px] font-semibold rounded-full flex items-center justify-center shadow-xs border border-white/20">
+              <span className="absolute -top-1 -right-1 min-w-[15px] h-[15px] px-1 bg-black text-white text-[8px] font-poppins font-bold rounded-full flex items-center justify-center shadow-xs border border-white/60 tabular-nums pointer-events-none">
                 {totalItems}
               </span>
             )}
@@ -364,11 +389,11 @@ export default function Navbar() {
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? 'Close Menu' : 'Open Menu'}
-            className="touch-target-44 flex md:hidden! relative w-11 h-11 flex-col items-center justify-center gap-[4.5px] p-2 z-50 cursor-pointer rounded-full hover:bg-black/5 transition-colors text-black"
+            className="touch-target-44 flex md:hidden! relative w-8 h-8 flex-col items-center justify-center gap-[3.5px] p-1.5 z-50 cursor-pointer rounded-full border border-black/15 bg-white/40 hover:bg-black/5 transition-colors text-black"
           >
-            <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'translate-y-[6.5px] rotate-45' : ''}`} />
-            <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'}`} />
-            <span className={`w-5 h-[2px] bg-current rounded-full transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'translate-y-[-6.5px] -rotate-45' : ''}`} />
+            <span className={`w-3.5 h-[1.75px] bg-current rounded-none transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'translate-y-[5.25px] rotate-45' : ''}`} />
+            <span className={`w-3.5 h-[1.75px] bg-current rounded-none transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'}`} />
+            <span className={`w-3.5 h-[1.75px] bg-current rounded-none transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${isMobileMenuOpen ? 'translate-y-[-5.25px] -rotate-45' : ''}`} />
           </button>
         </div>
       </div>
