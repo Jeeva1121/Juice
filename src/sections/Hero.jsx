@@ -709,10 +709,10 @@ export default function Hero() {
             className="absolute inset-0 w-full h-full pointer-events-none"
             style={{ zIndex: 5, opacity: 0, display: 'none' }}
           >
-            {/* Cherry Piece 1: Top Left (shifted up on web alone) */}
+            {/* Cherry Piece 1: Top Left (shifted slightly up on laptop/web view alone) */}
             <div
               ref={cherryPiece1Ref}
-              className="absolute top-[16%] sm:top-[14%] md:top-[12%] lg:top-[13%] left-[4%] sm:left-[2%] md:left-[3%] lg:left-[4%] w-22 sm:w-48 md:w-36 lg:w-40 pointer-events-none"
+              className="absolute top-[16%] sm:top-[14%] md:top-[12%] lg:top-[9%] xl:top-[9%] left-[4%] sm:left-[2%] md:left-[3%] lg:left-[4%] w-22 sm:w-48 md:w-36 lg:w-40 pointer-events-none"
             >
               <div className="">
                 <img
