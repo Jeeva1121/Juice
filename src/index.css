@@ -58,17 +58,14 @@
     --color-cobalt-light: #EBF2FC;
     --color-cobalt-text: #132E59;
 
-    /* Checkout Editorial White & Electric Blue Theme Variables */
-    --checkout-bg: #FFFFFF;
+    /* Checkout Editorial Web UI Theme Variables */
+    --checkout-bg: #FAF5EA;
     --checkout-surface: #FFFFFF;
-    --checkout-surface-subtle: #F8FAFD;
-    --checkout-blue: #1E25E8;
-    --checkout-blue-dark: #1217B0;
-    --checkout-blue-light: #EFF4FF;
-    --checkout-blue-border: rgba(30, 37, 232, 0.2);
-    --checkout-blue-border-strong: rgba(30, 37, 232, 0.45);
-    --checkout-text: #0A0F38;
-    --checkout-text-muted: #535E85;
+    --checkout-surface-subtle: #FAF8F5;
+    --checkout-border: #E5E0D8;
+    --checkout-border-strong: #1C1917;
+    --checkout-text: #1C1917;
+    --checkout-text-muted: #78716C;
 
     /* 8px Grid System Rhythm */
     --space-1: 8px;

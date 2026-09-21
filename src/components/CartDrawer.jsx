@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useCart } from "../context/CartContext";
 import { usePageTransition } from "../context/PageTransitionContext";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { GsapCounter } from "./GsapText";
 import confetti from "canvas-confetti";
 
@@ -373,6 +374,62 @@ export default function CartDrawer() {
       document.body.classList.remove("checkout-active");
     }
   }, [isCheckingOut]);
+
+  // Modern GSAP Animations for Checkout — triggered via useEffect for reliability
+  useEffect(() => {
+    if (!isCheckingOut) return;
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline();
+      // 1. Full page slide in from right
+      tl.fromTo(
+        '#checkout-root',
+        { x: '100%', opacity: 0 },
+        { x: '0%', opacity: 1, duration: 0.65, ease: 'expo.out' }
+      );
+      // 2. Header drops in from top
+      tl.fromTo(
+        '#checkout-root header',
+        { y: -40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' },
+        '-=0.35'
+      );
+      // 3. Headline reveal
+      tl.fromTo(
+        '#checkout-root .checkout-headline',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out' },
+        '-=0.3'
+      );
+      // 4. Cards stagger up
+      tl.fromTo(
+        '#checkout-root .checkout-stagger-item',
+        { y: 40, opacity: 0, scale: 0.97 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.1, ease: 'expo.out' },
+        '-=0.25'
+      );
+    });
+    return () => ctx.revert();
+  }, [isCheckingOut]);
+
+  // Modern GSAP Animation for Order Confirmed
+  useEffect(() => {
+    if (!orderConfirmed) return;
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline();
+      tl.fromTo(
+        '#order-confirmed-root',
+        { opacity: 0, scale: 0.92, y: 30 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: 'expo.out' }
+      );
+      tl.fromTo(
+        '#order-confirmed-root .receipt-stagger',
+        { opacity: 0, x: -20 },
+        { opacity: 1, x: 0, duration: 0.45, stagger: 0.07, ease: 'power3.out' },
+        '-=0.3'
+      );
+    });
+    return () => ctx.revert();
+  }, [orderConfirmed]);
 
   // High-performance GSAP Close Animation (Smooth return from Cart to Hero page with NO LAG)
   const closeCartWithAnimation = (callback) => {
@@ -983,16 +1040,23 @@ export default function CartDrawer() {
       mobikwik: "MobiKwik ZIP",
     };
 
-    let paymentLabel = "UPI";
+    let paymentLabel = "UPI Direct";
     if (paymentTab === "card") {
       const last4 = cardData.number
         ? cardData.number.replace(/\s+/g, "").slice(-4)
         : "8921";
-      paymentLabel = `Card (**** ${last4})`;
+      paymentLabel = `Card (•••• ${last4})`;
     } else if (paymentTab === "netbanking") {
       paymentLabel = `Net Banking (${bankNames[selectedBank] || "HDFC Bank"})`;
+    } else if (paymentTab === "cod") {
+      paymentLabel = "Cash on Delivery";
     } else if (paymentTab === "wallets") {
       paymentLabel = `Wallet (${walletNames[selectedWallet] || "Paytm Wallet"})`;
+    } else {
+      const selectedAppObj = UPI_APPS.find((a) => a.id === selectedUpiApp);
+      const appName = selectedAppObj?.name || "UPI";
+      const vpaStr = customUpiId.trim();
+      paymentLabel = vpaStr ? `UPI (${selectedAppObj?.shortName || "UPI"} - ${vpaStr})` : `UPI (${selectedAppObj?.shortName || "UPI"})`;
     }
 
     setIsProcessingPayment(true);
@@ -1002,6 +1066,8 @@ export default function CartDrawer() {
       );
     } else if (paymentTab === "card") {
       setProcessingMessage("Authenticating 3D-Secure 2.0 with bank issuer...");
+    } else if (paymentTab === "cod") {
+      setProcessingMessage("Generating Instant Cash-On-Delivery Order Verification...");
     } else if (paymentTab === "wallets") {
       setProcessingMessage(
         `Authorizing payment with ${walletNames[selectedWallet] || "Wallet"}...`,
@@ -1023,7 +1089,7 @@ export default function CartDrawer() {
           discountAmount,
         });
       });
-    }, 1000);
+    }, 850);
   };
 
   return (
@@ -1599,7 +1665,7 @@ export default function CartDrawer() {
         </div>
       )}
 
-      {/* Modern High-Impact Payment Interface matching User's Mockup */}
+      {/* Square-like Web UI Payment Interface */}
       {isCheckingOut && (
         <div
           id="checkout-root"
@@ -1608,48 +1674,48 @@ export default function CartDrawer() {
           data-lenis-prevent="true"
           onWheel={(e) => e.stopPropagation()}
           onTouchMove={(e) => e.stopPropagation()}
-          className="fixed inset-0 z-60 w-full h-dvh bg-linear-to-br from-[#EBF5FB] via-[#E1EEF8] to-[#D5E6F5] text-[#0A1931] overflow-y-auto flex flex-col justify-between select-none"
+          className="fixed inset-0 z-60 w-full h-dvh bg-[#0D0D0D] text-white overflow-y-auto flex flex-col justify-between select-none"
         >
-          {/* Top Real-time Scroll Progress Bar driven by GSAP */}
+          {/* Top Real-time Scroll Progress Bar */}
           <div
             ref={checkoutScrollProgressRef}
-            className="fixed top-0 left-0 right-0 h-1 bg-[#1E25E8] origin-left z-70 pointer-events-none scale-x-0"
+            className="fixed top-0 left-0 right-0 h-1 bg-black origin-left z-70 pointer-events-none scale-x-0"
           />
 
           {isProcessingPayment && (
-            <div className="fixed inset-0 bg-[#EBF5FB]/90 backdrop-blur-md z-80 flex flex-col items-center justify-center text-center p-6">
-              <div className="w-14 h-14 border-4 border-blue-200 border-t-[#1E25E8] rounded-none animate-spin mb-4" />
-              <h4 className="text-base font-bold uppercase tracking-wider text-[#0A1931] mb-1 font-poppins">
+            <div className="fixed inset-0 bg-[#FAF5EA]/95 backdrop-blur-xs z-80 flex flex-col items-center justify-center text-center p-6">
+              <div className="w-12 h-12 border-2 border-black/20 border-t-black rounded-none animate-spin mb-4" />
+              <h4 className="text-sm font-bold uppercase tracking-widest text-neutral-900 mb-1 font-asul">
                 Processing Payment
               </h4>
-              <p className="text-xs text-neutral-500 font-mono tracking-wider">
+              <p className="text-xs text-neutral-600 font-mono tracking-wider">
                 {processingMessage || "Connecting securely to payment gateway..."}
               </p>
             </div>
           )}
 
-          {/* Top Minimal Bar with Center Logo & Return Button */}
-          <header className="w-full px-4 sm:px-8 lg:px-12 py-3 sm:py-4 flex items-center justify-between z-10 shrink-0">
-            {/* Left: Return Button */}
+          {/* Top Minimal Header Bar with Brand Logo & Square Return Button */}
+          <header className="w-full px-4 sm:px-8 lg:px-12 py-3.5 sm:py-4 flex items-center justify-between border-b border-white/10 bg-white/5 backdrop-blur-sm z-10 shrink-0">
+            {/* Left: Square Return Button */}
             <div className="flex items-center justify-start">
               <button
                 type="button"
                 onClick={() => triggerTransition(() => setIsCheckingOut(false))}
-                className="flex items-center gap-1.5 text-[11px] sm:text-xs font-medium uppercase tracking-wider text-neutral-700 hover:text-black transition-colors cursor-pointer bg-white/90 hover:bg-white border border-neutral-300/80 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-xs font-poppins shrink-0 active:scale-95"
+                className="flex items-center gap-2 text-xs font-asul font-bold uppercase tracking-wider text-white hover:bg-white hover:text-black transition-all duration-200 cursor-pointer bg-white/10 border border-white/20 px-3.5 py-2 rounded-none active:scale-95"
               >
-                <span className="font-light text-xs sm:text-sm">&larr;</span>
-                <span className="font-medium tracking-wide">Return</span>
+                <span className="font-light text-sm">&larr;</span>
+                <span>Return to Cart</span>
               </button>
             </div>
 
-            {/* Center: Brand Logo centered with neat leaf */}
+            {/* Center: Brand Logo with authentic leaf icon */}
             <div className="flex items-center justify-center gap-1.5">
-              <span className="font-asal text-xl sm:text-2xl lg:text-3xl tracking-wide text-neutral-900 font-normal">
+              <span className="font-asul text-xl sm:text-2xl tracking-wide text-white font-bold uppercase">
                 zesty
               </span>
               <svg
                 viewBox="0 0 24 24"
-                className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-emerald-700 shrink-0 self-center -translate-y-0.5"
+                className="w-4 h-4 text-emerald-800 shrink-0 self-center -translate-y-0.5"
                 fill="none"
               >
                 <path
@@ -1665,359 +1731,419 @@ export default function CartDrawer() {
               </svg>
             </div>
 
-            {/* Right: Balance spacer */}
-            <div className="w-[72px] sm:w-[90px] shrink-0" aria-hidden="true" />
+            {/* Right: Empty spacer for flex alignment */}
+            <div className="flex items-center justify-end">
+            </div>
           </header>
 
-          {/* Main Stage Grid: Left Brand + Can Showcase, Right Mobile Responsive Payment Card */}
-          <main className="flex-1 w-full max-w-[1580px] mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-6 flex items-center justify-center">
-            <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 xl:gap-10 items-center">
-              
-              {/* LEFT COLUMN: Brand Statement & 3D Juice Can Spotlight */}
-              <div className="hidden lg:flex lg:col-span-4 xl:col-span-3 flex-col justify-between items-start h-full py-4 relative">
-                <div ref={checkoutHeadlineRef} className="space-y-3 z-10 pt-2">
-                  <h1 className="text-4xl xl:text-5xl font-light text-[#0A1931]/60 uppercase tracking-wide leading-[1.15] font-asul">
-                    Good<br />Things<br />Deliver<br />Happiness
-                  </h1>
+          {/* Main Stage: Square-like Web Checkout Grid */}
+          <main className="flex-1 w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 flex flex-col justify-center">
+            {/* Title Header matching Web UI Editorial Vagnola */}
+            <div ref={checkoutHeadlineRef} className="checkout-headline mb-6 pb-4 border-b border-white/15 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+              <div>
+                <span className="font-poppins text-xs uppercase tracking-widest text-white/50 block mb-1">
+                  CHECKOUT STEP 2 OF 2
+                </span>
+                <h1 className="font-vagnola text-3xl sm:text-4xl lg:text-5xl font-bold uppercase text-white tracking-tight leading-none">
+                  Secure Payment
+                </h1>
+              </div>
+              <p className="font-poppins text-xs text-white/50 sm:text-right max-w-xs leading-relaxed">
+                Review your order and select your payment method to complete checkout.
+              </p>
+            </div>
+
+            {/* Two-Column Clean Square Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+
+              {/* LEFT COLUMN: Square Payment Options & Inputs (7 cols) */}
+              <div ref={checkoutCardRef} className="lg:col-span-7 w-full bg-white border border-neutral-300 rounded-none p-5 sm:p-7 shadow-xs">
+                <div className="mb-5 pb-3 border-b border-neutral-200">
+                  <span className="font-asul font-bold text-xs uppercase tracking-wider text-neutral-500 block mb-1">
+                    Select Payment Method
+                  </span>
+                  <p className="font-poppins text-xs text-neutral-600">
+                    Encrypted and securely processed. Choose how you would like to pay.
+                  </p>
                 </div>
 
-                {/* 3D Juice Can Spotlight with GSAP Idle Float & Parallax (Shifted slightly left) */}
-                <div 
-                  ref={checkoutCanRef}
-                  className="relative w-full max-w-sm mr-auto flex items-center justify-start -translate-x-6 sm:-translate-x-10 lg:-translate-x-12 my-auto pt-6 will-change-transform"
-                >
-                  <img
-                    src={items[0]?.image || "/assets/orange-can-hero.png"}
-                    alt="Zesty Valencia Orange Juice Can"
-                    className="w-auto h-[350px] xl:h-[400px] object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500 will-change-transform"
-                  />
+                {/* Square Segmented Payment Tabs */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6 checkout-stagger-item">
+                  {[
+                    { id: 'card', label: 'Card' },
+                    { id: 'upi', label: 'UPI Direct' },
+                    { id: 'netbanking', label: 'Net Banking' },
+                    { id: 'cod', label: 'Cash on Del.' },
+                  ].map((tab) => (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setPaymentTab(tab.id)}
+                      className={`py-3 px-2 text-xs font-bricage font-bold uppercase tracking-wider rounded-none border text-center transition-all cursor-pointer ${
+                        paymentTab === tab.id
+                          ? 'bg-black text-white border-black shadow-xs'
+                          : 'bg-[#FAF8F5] text-neutral-700 border-neutral-300 hover:border-black hover:bg-neutral-100'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Tab Body */}
+                <div className="checkout-tab-body">
+                  {/* TAB 1: CARD PAYMENT */}
+                  {paymentTab === 'card' && (
+                    <div className="space-y-4">
+                      {/* Card Number */}
+                      <div className="space-y-1.5 checkout-stagger-item">
+                        <label className="block text-xs font-asul font-bold uppercase text-neutral-700 tracking-wider">
+                          Card Number
+                        </label>
+                        <div className="flex items-center border border-neutral-300 focus-within:border-black bg-white rounded-none px-3.5 py-3 transition-colors">
+                          <div className="flex items-center -space-x-1 mr-3 shrink-0">
+                            <span className="w-4 h-4 rounded-full bg-[#EB001B] inline-block opacity-90" />
+                            <span className="w-4 h-4 rounded-full bg-[#F79E1B] inline-block opacity-90" />
+                          </div>
+                          <input
+                            type="text"
+                            maxLength={19}
+                            value={cardData.number}
+                            onChange={(e) => {
+                              let val = e.target.value.replace(/\D/g, '').slice(0, 16);
+                              val = val.replace(/(\d{4})/g, '$1 ').trim();
+                              setCardData({ ...cardData, number: val });
+                            }}
+                            placeholder="0000 0000 0000 0000"
+                            className="w-full bg-transparent font-mono text-sm tracking-wider text-neutral-900 focus:outline-none placeholder:text-neutral-400 tabular-nums"
+                          />
+                          {cardData.number && (
+                            <button
+                              type="button"
+                              onClick={() => setCardData({ ...cardData, number: '' })}
+                              className="text-xs font-mono font-bold text-neutral-400 hover:text-black shrink-0 ml-2 cursor-pointer"
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Expiry Date & CVV */}
+                      <div className="grid grid-cols-2 gap-4 checkout-stagger-item">
+                        <div className="space-y-1.5">
+                          <label className="block text-xs font-asul font-bold uppercase text-neutral-700 tracking-wider">
+                            Expiry (MM / YY)
+                          </label>
+                          <div className="flex items-center border border-neutral-300 focus-within:border-black bg-white rounded-none px-3.5 py-3 transition-colors">
+                            <input
+                              type="text"
+                              maxLength={2}
+                              value={cardData.expiryMM}
+                              onChange={(e) =>
+                                setCardData({ ...cardData, expiryMM: e.target.value.replace(/\D/g, '').slice(0, 2) })
+                              }
+                              placeholder="MM"
+                              className="w-1/2 text-center font-mono text-sm text-neutral-900 focus:outline-none tabular-nums"
+                            />
+                            <span className="text-neutral-400 font-mono px-1">/</span>
+                            <input
+                              type="text"
+                              maxLength={2}
+                              value={cardData.expiryYY}
+                              onChange={(e) =>
+                                setCardData({ ...cardData, expiryYY: e.target.value.replace(/\D/g, '').slice(0, 2) })
+                              }
+                              placeholder="YY"
+                              className="w-1/2 text-center font-mono text-sm text-neutral-900 focus:outline-none tabular-nums"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="block text-xs font-asul font-bold uppercase text-neutral-700 tracking-wider">
+                            CVV
+                          </label>
+                          <div className="flex items-center border border-neutral-300 focus-within:border-black bg-white rounded-none px-3.5 py-3 transition-colors">
+                            <input
+                              type="password"
+                              maxLength={4}
+                              value={cardData.cvv}
+                              onChange={(e) =>
+                                setCardData({ ...cardData, cvv: e.target.value.replace(/\D/g, '').slice(0, 4) })
+                              }
+                              placeholder="•••"
+                              className="w-full bg-transparent font-mono text-sm tracking-widest text-neutral-900 focus:outline-none tabular-nums"
+                            />
+                            <svg className="w-4 h-4 text-neutral-400 shrink-0 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Cardholder Name */}
+                      <div className="space-y-1.5 checkout-stagger-item">
+                        <label className="block text-xs font-asul font-bold uppercase text-neutral-700 tracking-wider">
+                          Cardholder Full Name
+                        </label>
+                        <input
+                          type="text"
+                          value={cardData.name}
+                          onChange={(e) => setCardData({ ...cardData, name: e.target.value })}
+                          placeholder="Name on card"
+                          className="w-full bg-white border border-neutral-300 focus:border-black px-3.5 py-3 text-sm text-neutral-900 focus:outline-none rounded-none transition-colors font-poppins"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* TAB 2: UPI DIRECT */}
+                  {paymentTab === 'upi' && (
+                    <div className="space-y-4">
+                      {/* UPI App Selection */}
+                      <div className="space-y-1.5 checkout-stagger-item">
+                        <label className="block text-xs font-asul font-bold uppercase text-neutral-700 tracking-wider">
+                          Choose UPI Application
+                        </label>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                          {UPI_APPS.map((app) => (
+                            <button
+                              key={app.id}
+                              type="button"
+                              onClick={() => setSelectedUpiApp(app.id)}
+                              className={`p-3 flex flex-col items-center justify-center gap-2 rounded-none border transition-all cursor-pointer min-h-[70px] ${
+                                selectedUpiApp === app.id
+                                  ? 'bg-[#FAF8F5] border-black ring-1 ring-black shadow-xs'
+                                  : 'bg-white border-neutral-200 hover:border-neutral-400'
+                              }`}
+                            >
+                              <div className="w-8 h-8 flex items-center justify-center pointer-events-none shrink-0">
+                                {app.icon}
+                              </div>
+                              <span className={`text-xs font-bricage font-bold uppercase tracking-wider text-center ${
+                                selectedUpiApp === app.id ? 'text-black' : 'text-neutral-600'
+                              }`}>
+                                {app.shortName}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Real-time UPI ID Input */}
+                      <div className="space-y-1.5 checkout-stagger-item">
+                        <label className="block text-xs font-bricage font-bold uppercase text-neutral-700 tracking-wider">
+                          Enter UPI ID / VPA
+                        </label>
+                        <div className="flex items-center border border-neutral-300 focus-within:border-black bg-white rounded-none px-3.5 py-3 transition-colors">
+                          <input
+                            type="text"
+                            value={customUpiId}
+                            onChange={(e) => setCustomUpiId(e.target.value)}
+                            placeholder={
+                              selectedUpiApp === 'gpay'
+                                ? 'e.g. mobile@okhdfcbank'
+                                : selectedUpiApp === 'phonepe'
+                                ? 'e.g. mobile@ybl'
+                                : selectedUpiApp === 'paytm'
+                                ? 'e.g. mobile@paytm'
+                                : 'e.g. username@upi'
+                            }
+                            className="w-full bg-transparent font-mono text-sm text-neutral-900 focus:outline-none placeholder:text-neutral-400"
+                          />
+                          {customUpiId.trim().length > 3 && customUpiId.includes('@') && (
+                            <span className="text-[10px] font-mono font-bold text-emerald-700 uppercase shrink-0 ml-2 px-1.5 py-0.5 bg-emerald-50 border border-emerald-300">
+                              Verified ✓
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* TAB 3: NET BANKING */}
+                  {paymentTab === 'netbanking' && (
+                    <div className="space-y-3 checkout-stagger-item">
+                      <label className="block text-xs font-asul font-bold uppercase text-neutral-700 tracking-wider">
+                        Select Your Bank
+                      </label>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                        {BANK_OPTIONS.map((bank) => (
+                          <button
+                            key={bank.id}
+                            type="button"
+                            onClick={() => setSelectedBank(bank.id)}
+                            className={`p-3 flex items-center gap-2.5 rounded-none border text-left transition-all cursor-pointer ${
+                              selectedBank === bank.id
+                                ? 'bg-[#FAF8F5] border-black ring-1 ring-black shadow-xs'
+                                : 'bg-white border-neutral-200 hover:border-neutral-400'
+                            }`}
+                          >
+                            <div className="w-6 h-6 shrink-0 flex items-center justify-center">
+                              {bank.logo}
+                            </div>
+                            <span className="text-xs font-asul font-bold uppercase tracking-wider text-neutral-900 truncate">
+                              {bank.name}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* TAB 4: CASH ON DELIVERY */}
+                  {paymentTab === 'cod' && (
+                    <div className="p-4 bg-[#FAF8F5] border border-neutral-300 rounded-none space-y-2 checkout-stagger-item">
+                      <div className="flex items-center gap-2 text-neutral-900 font-asul font-bold text-xs uppercase tracking-wider">
+                        <svg className="w-4 h-4 text-neutral-800" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span>Cash or UPI on Delivery</span>
+                      </div>
+                      <p className="font-poppins text-xs text-neutral-600 leading-relaxed">
+                        Pay ₹{finalTotal || 99} in cash or via instant QR scan directly to our cold-chain delivery executive upon doorstep arrival.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Delivery Information Review Strip */}
+                <div className="mt-6 pt-4 border-t border-neutral-200">
+                  <div className="p-3.5 bg-[#FAF8F5] border border-neutral-200 rounded-none flex items-start justify-between gap-3 text-xs">
+                    <div className="space-y-1">
+                      <span className="font-mono text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">
+                        Delivering To
+                      </span>
+                      {userProfile?.fullName || userProfile?.phone ? (
+                        <>
+                          <p className="font-bricage font-bold uppercase text-neutral-900">
+                            {userProfile?.fullName || 'Customer'} &bull; {userProfile?.phone}
+                          </p>
+                          <p className="font-poppins text-neutral-600 text-[11px]">
+                            {userProfile?.address || ''}, {userProfile?.city || 'Bengaluru'} {userProfile?.pincode ? `- ${userProfile.pincode}` : ''}
+                          </p>
+                          <p className="font-mono text-[10px] text-neutral-500">
+                            Slot: Dawn Express (6 AM - 9 AM)
+                          </p>
+                        </>
+                      ) : (
+                        <p className="font-poppins text-neutral-500 text-[11px] italic py-1">
+                          No delivery details provided. Please add an address to continue.
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsAccountOpen(true)}
+                      className="text-[10px] font-bricage font-bold uppercase tracking-wider text-neutral-600 hover:text-black border-b border-neutral-400 shrink-0 cursor-pointer"
+                    >
+                      {userProfile?.fullName || userProfile?.phone ? 'Change' : 'Add Details'}
+                    </button>
+                  </div>
                 </div>
               </div>
 
-              {/* RIGHT COLUMN: Mobile Responsive White Payment Card */}
-              <div className="lg:col-span-8 xl:col-span-9 w-full">
-                <div 
-                  ref={checkoutCardRef}
-                  className="w-full bg-white border border-neutral-200/90 rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-7 lg:p-10 xl:p-12 text-neutral-900 font-jakarta flex flex-col justify-between"
-                >
-                  {/* CARD HEADER */}
-                  <div className="mb-4 pb-3 sm:mb-6 sm:pb-4 border-b border-neutral-100 checkout-stagger-item">
-                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-neutral-400 block mb-1 font-jakarta">
-                      CHECKOUT
+              {/* RIGHT COLUMN: Square Order Summary & Confirmation (5 cols) */}
+              <div className="lg:col-span-5 w-full space-y-4">
+                <div className="bg-white border border-neutral-300 rounded-none p-5 sm:p-7 shadow-xs space-y-4">
+                  {/* Order Summary Header */}
+                  <div className="flex items-center justify-between pb-3 border-b border-neutral-200">
+                    <span className="font-asul font-bold text-sm uppercase tracking-wider text-neutral-900">
+                      Order Summary
                     </span>
-                    <h2 className="text-2xl sm:text-3xl lg:text-[2.65rem] font-bold text-[#0A1931] tracking-tight uppercase leading-tight sm:leading-none font-asul">
-                      Secure <span className="text-[#1E25E8]">Payment</span>
-                    </h2>
-                    <p className="text-xs sm:text-sm text-neutral-500 mt-1 sm:mt-2 leading-relaxed font-jakarta">
-                      Your order is almost done. Complete the payment to confirm.
+                    <span className="font-mono text-xs text-neutral-500">
+                      {items.length || 1} {items.length === 1 ? 'Item' : 'Items'}
+                    </span>
+                  </div>
+
+                  {/* Selected Items List with Square Thumbnails */}
+                  <div className="space-y-2.5 max-h-[220px] overflow-y-auto pr-1">
+                    {(items.length > 0 ? items : [{ id: 'orange', title: 'Valencia Orange', pack: 'single', packName: '500ml Single Can', totalPrice: 99, image: '/assets/orange-can-hero.png' }]).map((item, idx) => (
+                      <div key={`${item.id}-${item.pack}-${idx}`} className="p-2.5 bg-[#FAF8F5] border border-neutral-200 rounded-none flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="w-12 h-12 bg-white border border-neutral-200 rounded-none p-1 shrink-0 flex items-center justify-center">
+                            <img
+                              src={item.image || "/assets/orange-can-hero.png"}
+                              alt={item.title || "Juice"}
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="font-bricage font-bold text-xs uppercase text-neutral-900 truncate">
+                              {item.title}
+                            </p>
+                            <span className="font-poppins text-[11px] text-neutral-500 block">
+                              {item.packName || item.pack || "500ml Single Can"} {item.quantity ? `× ${item.quantity}` : ''}
+                            </span>
+                          </div>
+                        </div>
+                        <span className="font-asul font-bold text-sm text-neutral-900 shrink-0 tabular-nums">
+                          ₹{item.totalPrice || item.price || 99}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Price Breakdown */}
+                  <div className="space-y-2 pt-2 border-t border-neutral-200 text-xs font-poppins">
+                    <div className="flex justify-between items-center text-neutral-600">
+                      <span>Subtotal</span>
+                      <span className="font-mono font-medium text-neutral-900">₹{subtotal || 99}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-neutral-600">
+                      <span>Express Chilled Shipping</span>
+                      <span className="font-mono font-medium text-neutral-900">
+                        {isFreeShipping ? 'FREE' : `₹${shippingFee}`}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center text-neutral-600">
+                      <span>Estimated Taxes (5% GST)</span>
+                      <span className="font-mono font-medium text-neutral-900">₹{taxAmount || 5}</span>
+                    </div>
+                    {discountAmount > 0 && (
+                      <div className="flex justify-between items-center text-emerald-700 font-medium">
+                        <span>Promo Discount ({discountPercent}%)</span>
+                        <span className="font-mono">-₹{discountAmount}</span>
+                      </div>
+                    )}
+
+                    {/* Total Row */}
+                    <div className="flex justify-between items-baseline pt-3 border-t-2 border-black">
+                      <span className="font-asul font-bold uppercase text-neutral-900 text-sm">
+                        Total Amount
+                      </span>
+                      <span className="font-asul text-2xl sm:text-3xl font-bold text-neutral-900 tabular-nums">
+                        ₹{finalTotal || 104}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Primary Pay Button */}
+                  <button
+                    type="button"
+                    onClick={handleCheckoutSubmit}
+                    disabled={isProcessingPayment}
+                    className="w-full py-4 px-6 bg-black hover:bg-neutral-800 active:scale-[0.99] text-white font-asul font-bold uppercase tracking-widest text-xs sm:text-sm rounded-none shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2 mt-4 disabled:opacity-50"
+                  >
+                    <span>{paymentTab === 'cod' ? 'CONFIRM ORDER' : 'PAY'}</span>
+                    <span className="tabular-nums">₹{finalTotal || 104}</span>
+                    <span>{paymentTab === 'cod' ? '(CASH ON DELIVERY)' : 'NOW'}</span>
+                    <span className="text-base font-light">&rarr;</span>
+                  </button>
+
+                  {/* Trust Signals */}
+                  <div className="pt-2 text-[11px] font-poppins text-neutral-500 space-y-1 text-center border-t border-neutral-100">
+                    <p className="flex items-center justify-center gap-1.5">
+                      <svg className="w-3.5 h-3.5 text-emerald-700 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                      <span>100% Secure Checkout &bull; Encrypted via 3D Secure</span>
+                    </p>
+                    <p className="text-[10px] text-neutral-400">
+                      Cold-pressed within 4 hours of shipment &bull; Zero preservatives
                     </p>
                   </div>
-
-                  {/* TWO-COLUMN GRID: LEFT FORM, RIGHT SUMMARY */}
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-5 lg:gap-8 items-start">
-                    
-                    {/* SUB-COL 1 (6 cols on lg/xl): SECURE PAYMENT FORM */}
-                    <div className="md:col-span-6 lg:col-span-6 flex flex-col justify-between">
-                      {/* Minimal Payment Mode Tabs */}
-                      <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4 sm:mb-6 checkout-stagger-item">
-                        <button
-                          type="button"
-                          onClick={() => setPaymentTab("card")}
-                          className={`py-2.5 sm:py-3.5 px-3 sm:px-5 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all cursor-pointer rounded-xl sm:rounded-none border text-center font-jakarta ${
-                            paymentTab === "card"
-                              ? "bg-[#1E25E8] text-white border-[#1E25E8] shadow-xs"
-                              : "bg-white text-neutral-600 border-neutral-300 hover:bg-neutral-50"
-                          }`}
-                        >
-                          Card Payment
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setPaymentTab("upi")}
-                          className={`py-2.5 sm:py-3.5 px-3 sm:px-5 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all cursor-pointer rounded-xl sm:rounded-none border text-center font-jakarta ${
-                            paymentTab === "upi"
-                              ? "bg-[#1E25E8] text-white border-[#1E25E8] shadow-xs"
-                              : "bg-white text-neutral-600 border-neutral-300 hover:bg-neutral-50"
-                          }`}
-                        >
-                          UPI Direct
-                        </button>
-                      </div>
-
-                      {/* TAB CONTENT WRAPPER */}
-                      <div className="checkout-tab-body">
-                        {/* TAB 1: CARD PAYMENT */}
-                        {paymentTab === "card" && (
-                          <div className="space-y-3 sm:space-y-4">
-                            {/* Card Number Input */}
-                            <div className="space-y-1.5 checkout-stagger-item">
-                              <label className="block text-[11px] sm:text-xs font-medium text-neutral-600 font-outfit uppercase tracking-wider">
-                                Card Number
-                              </label>
-                              <div className="relative flex items-center border border-neutral-300 focus-within:border-[#1E25E8] bg-white rounded-lg sm:rounded-none px-3 sm:px-4 py-2.5 sm:py-3.5 transition-colors">
-                                <div className="flex items-center -space-x-1.5 mr-2.5 sm:mr-3.5 shrink-0">
-                                  <span className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 rounded-full bg-[#EB001B] inline-block" />
-                                  <span className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 rounded-full bg-[#F79E1B]/90 inline-block" />
-                                </div>
-                                <input
-                                  type="text"
-                                  maxLength={19}
-                                  value={cardData.number}
-                                  onChange={(e) => {
-                                    let val = e.target.value.replace(/\D/g, '').slice(0, 16);
-                                    val = val.replace(/(\d{4})/g, '$1 ').trim();
-                                    setCardData({ ...cardData, number: val });
-                                  }}
-                                  placeholder="0000 0000 0000 0000"
-                                  className="w-full bg-transparent font-bricolage text-xs sm:text-sm md:text-base tracking-wider text-neutral-900 focus:outline-none placeholder:text-neutral-400 tabular-nums"
-                                />
-                                {cardData.number && (
-                                  <button
-                                    type="button"
-                                    onClick={() => setCardData({ ...cardData, number: '' })}
-                                    className="text-[10px] sm:text-xs font-medium text-neutral-400 hover:text-neutral-700 shrink-0 ml-2 cursor-pointer font-outfit uppercase tracking-wider"
-                                  >
-                                    Clear
-                                  </button>
-                                )}
-                              </div>
-                            </div>
-
-                            {/* Expiry Date & CVV Row */}
-                            <div className="grid grid-cols-2 gap-2.5 sm:gap-4 checkout-stagger-item">
-                              <div className="space-y-1.5">
-                                <label className="block text-[11px] sm:text-xs font-medium text-neutral-600 font-outfit uppercase tracking-wider">
-                                  Expiry Date
-                                </label>
-                                <div className="flex items-center border border-neutral-300 focus-within:border-[#1E25E8] bg-white rounded-lg sm:rounded-none px-2.5 sm:px-3.5 py-2.5 sm:py-3.5 transition-colors">
-                                  <input
-                                    type="text"
-                                    maxLength={2}
-                                    value={cardData.expiryMM}
-                                    onChange={(e) =>
-                                      setCardData({ ...cardData, expiryMM: e.target.value.replace(/\D/g, '').slice(0, 2) })
-                                    }
-                                    placeholder="MM"
-                                    className="w-1/2 text-center font-bricolage text-xs sm:text-sm md:text-base text-neutral-900 focus:outline-none tabular-nums"
-                                  />
-                                  <span className="text-neutral-400 font-mono px-1">/</span>
-                                  <input
-                                    type="text"
-                                    maxLength={2}
-                                    value={cardData.expiryYY}
-                                    onChange={(e) =>
-                                      setCardData({ ...cardData, expiryYY: e.target.value.replace(/\D/g, '').slice(0, 2) })
-                                    }
-                                    placeholder="YY"
-                                    className="w-1/2 text-center font-bricolage text-xs sm:text-sm md:text-base text-neutral-900 focus:outline-none tabular-nums"
-                                  />
-                                </div>
-                              </div>
-
-                              <div className="space-y-1.5">
-                                <label className="block text-[11px] sm:text-xs font-medium text-neutral-600 font-outfit uppercase tracking-wider">
-                                  CVV
-                                </label>
-                                <div className="relative flex items-center border border-neutral-300 focus-within:border-[#1E25E8] bg-white rounded-lg sm:rounded-none px-2.5 sm:px-3.5 py-2.5 sm:py-3.5 transition-colors">
-                                  <input
-                                    type="password"
-                                    maxLength={4}
-                                    value={cardData.cvv}
-                                    onChange={(e) =>
-                                      setCardData({ ...cardData, cvv: e.target.value.replace(/\D/g, '').slice(0, 4) })
-                                    }
-                                    placeholder="CVV"
-                                    className="w-full bg-transparent font-bricolage text-xs sm:text-sm md:text-base tracking-widest text-neutral-900 focus:outline-none tabular-nums"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Cardholder Name */}
-                            <div className="space-y-1.5 checkout-stagger-item">
-                              <label className="block text-[11px] sm:text-xs font-medium text-neutral-600 font-outfit uppercase tracking-wider">
-                                Cardholder Name
-                              </label>
-                              <input
-                                type="text"
-                                value={cardData.name}
-                                onChange={(e) => setCardData({ ...cardData, name: e.target.value })}
-                                placeholder="Enter cardholder full name"
-                                className="w-full bg-white border border-neutral-300 focus:border-[#1E25E8] px-3 sm:px-4 py-2.5 sm:py-3.5 text-xs sm:text-sm md:text-base text-neutral-900 focus:outline-none rounded-lg sm:rounded-none transition-colors font-outfit"
-                              />
-                            </div>
-                          </div>
-                        )}
-
-                        {/* TAB 2: UPI PAYMENT WITH NEAT GPAY & AUTHENTIC APP LOGOS */}
-                        {paymentTab === "upi" && (
-                          <div className="space-y-3 sm:space-y-4">
-                            {/* UPI App Selection */}
-                            <div className="space-y-1.5 checkout-stagger-item">
-                              <label className="block text-[11px] sm:text-xs font-medium text-neutral-600 font-outfit uppercase tracking-wider">
-                                Select UPI App
-                              </label>
-                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-                                {[
-                                  { id: 'gpay', name: 'Google Pay', shortLabel: 'GPay', logo: '/gpay-logo.png' },
-                                  { id: 'phonepe', name: 'PhonePe', shortLabel: 'PhonePe', logo: '/phonepe-logo.png' },
-                                  { id: 'paytm', name: 'Paytm', shortLabel: 'Paytm', logo: '/paytm-logo.png' },
-                                  { id: 'bhim', name: 'BHIM', shortLabel: 'BHIM', logo: '/bhim-logo.png' },
-                                ].map((app) => (
-                                  <button
-                                    key={app.id}
-                                    type="button"
-                                    onClick={() => setSelectedUpiApp(app.id)}
-                                    className={`py-2 sm:py-3 px-2 sm:px-3 flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-lg sm:rounded-none border transition-all cursor-pointer min-h-[64px] sm:min-h-[78px] group ${
-                                      selectedUpiApp === app.id
-                                        ? 'bg-blue-50/70 border-[#1E25E8] ring-1 ring-[#1E25E8] shadow-xs'
-                                        : 'bg-white border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50'
-                                    }`}
-                                  >
-                                    <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center pointer-events-none shrink-0">
-                                      <img
-                                        src={app.logo}
-                                        alt={app.name}
-                                        className="max-w-full max-h-full object-contain transition-transform group-hover:scale-105"
-                                      />
-                                    </div>
-                                    <span className={`text-[10px] sm:text-xs font-semibold tracking-wider uppercase text-center whitespace-nowrap font-outfit ${
-                                      selectedUpiApp === app.id ? 'text-[#1E25E8]' : 'text-neutral-700'
-                                    }`}>
-                                      {app.shortLabel}
-                                    </span>
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-
-                            {/* Real-time UPI ID Input */}
-                            <div className="space-y-1.5 checkout-stagger-item">
-                              <label className="block text-[11px] sm:text-xs font-medium text-neutral-600 font-outfit uppercase tracking-wider">
-                                UPI ID / VPA
-                              </label>
-                              <div className="relative flex items-center border border-neutral-300 focus-within:border-[#1E25E8] bg-white rounded-lg sm:rounded-none px-3 sm:px-4 py-2.5 sm:py-3.5 transition-colors">
-                                <input
-                                  type="text"
-                                  value={customUpiId}
-                                  onChange={(e) => setCustomUpiId(e.target.value)}
-                                  placeholder={
-                                    selectedUpiApp === 'gpay'
-                                      ? 'Enter GPay UPI ID (e.g. mobile@okhdfcbank)'
-                                      : selectedUpiApp === 'phonepe'
-                                      ? 'Enter PhonePe UPI ID (e.g. mobile@ybl)'
-                                      : selectedUpiApp === 'paytm'
-                                      ? 'Enter Paytm UPI ID (e.g. mobile@paytm)'
-                                      : 'Enter UPI ID (e.g. username@upi)'
-                                  }
-                                  className="w-full bg-transparent font-bricolage text-xs sm:text-sm md:text-base text-neutral-900 focus:outline-none placeholder:text-neutral-400 placeholder:font-outfit"
-                                />
-                                {customUpiId.trim().length > 3 && customUpiId.includes('@') && (
-                                  <span className="text-[10px] sm:text-xs font-bold text-emerald-600 uppercase font-outfit shrink-0 ml-2">
-                                    Verified
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                    </div>
-
-                    {/* SUB-COL 2 (6 cols on lg/xl): ORDER SUMMARY */}
-                    <div className="md:col-span-6 lg:col-span-6 flex flex-col justify-between space-y-4 sm:space-y-6 border-t md:border-t-0 md:border-l border-neutral-100 md:pl-6 lg:pl-8 pt-4 md:pt-0 font-jakarta">
-                      
-                      {/* Order Summary Header */}
-                      <div className="space-y-3 sm:space-y-4 checkout-stagger-item">
-                        <div className="flex items-center justify-between pb-2 border-b border-neutral-100">
-                          <div className="flex items-center gap-1.5">
-                            <svg className="w-4 h-4 text-neutral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                            </svg>
-                            <span className="font-bold text-sm sm:text-base text-neutral-900 font-jakarta">Your Order</span>
-                          </div>
-                          <span className="text-[11px] sm:text-xs text-neutral-400 font-jakarta font-medium">
-                            {items.length || 1} {items.length === 1 ? 'Item' : 'Items'}
-                          </span>
-                        </div>
-
-                        {/* Selected Items List */}
-                        <div className="space-y-2 max-h-[160px] sm:max-h-[220px] overflow-y-auto pr-0.5">
-                          {(items.length > 0 ? items : [{ id: 'orange', title: 'Valencia Orange', pack: 'single', packName: '500ml Single Can', totalPrice: 99, image: '/assets/orange-can-hero.png' }]).map((item, idx) => (
-                            <div key={`${item.id}-${item.pack}-${idx}`} className="p-2.5 sm:p-3 bg-neutral-50 border border-neutral-200 rounded-lg sm:rounded-none flex items-center justify-between gap-2.5 sm:gap-3.5">
-                              <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0 flex-1">
-                                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white border border-neutral-200 p-1 shrink-0 rounded-md sm:rounded-none flex items-center justify-center">
-                                  <img
-                                    src={item.image || "/assets/orange-can-hero.png"}
-                                    alt={item.title || "Valencia Orange"}
-                                    className="w-full h-full object-contain"
-                                  />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-xs sm:text-sm font-bold uppercase tracking-tight text-neutral-900 leading-snug whitespace-nowrap font-poppins">
-                                    {item.title}
-                                  </p>
-                                  <span className="text-[10px] sm:text-[11px] text-neutral-500 font-poppins whitespace-nowrap block mt-0.5">
-                                    {item.packName || item.pack || "500ml Single Can"}
-                                    {item.quantity ? ` × ${item.quantity}` : ''}
-                                  </span>
-                                </div>
-                              </div>
-                              <span className="font-bricolage font-bold text-xs sm:text-sm md:text-base text-neutral-900 shrink-0 tabular-nums pl-2">
-                                &#8377;{item.totalPrice || item.price || 99}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Breakdown */}
-                        <div className="space-y-2 pt-1 sm:pt-2">
-                          <div className="flex justify-between items-center">
-                            <span className="font-outfit text-xs sm:text-sm font-medium tracking-wide text-neutral-500 uppercase">Subtotal</span>
-                            <span className="font-bricolage text-neutral-900 font-bold tabular-nums text-xs sm:text-sm md:text-base">&#8377;{subtotal || 99}</span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="font-outfit text-xs sm:text-sm font-medium tracking-wide text-neutral-500 uppercase">Shipping</span>
-                            <span className="font-bricolage text-neutral-900 font-bold tabular-nums text-xs sm:text-sm md:text-base">
-                              {isFreeShipping ? 'FREE' : `₹${shippingFee}`}
-                            </span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="font-outfit text-xs sm:text-sm font-medium tracking-wide text-neutral-500 uppercase">Taxes</span>
-                            <span className="font-bricolage text-neutral-900 font-bold tabular-nums text-xs sm:text-sm md:text-base">&#8377;{taxAmount || 5}</span>
-                          </div>
-                          <div className="flex justify-between items-baseline pt-2 sm:pt-3 border-t border-neutral-200">
-                            <span className="font-outfit text-xs sm:text-base font-bold uppercase tracking-wider text-neutral-900">Total</span>
-                            <span className="font-bricolage text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1E25E8] tabular-nums">
-                              &#8377;{finalTotal || 104}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* PRIMARY PAY BUTTON */}
-                        <button
-                          type="button"
-                          onClick={paymentTab === "card" ? handleCardPaymentSubmit : handleUpiPaymentSubmit}
-                          disabled={isProcessingPayment}
-                          className="w-full py-3.5 sm:py-4.5 px-4 sm:px-6 bg-[#1E25E8] hover:bg-[#1217B0] active:scale-[0.99] text-white font-bold uppercase tracking-wider text-xs sm:text-sm md:text-base rounded-xl sm:rounded-none shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 font-outfit mt-4 sm:mt-5"
-                        >
-                          <span className="tracking-wider">
-                            {paymentTab === "card" ? 'PAY ' : 'PAY '}
-                          </span>
-                          <span className="font-bricolage font-extrabold text-sm sm:text-lg tracking-normal tabular-nums">
-                            ₹{finalTotal || 488}
-                          </span>
-                          <span className="tracking-wider">
-                            {paymentTab === "card" ? ' NOW' : ' VIA UPI'}
-                          </span>
-                          <span className="text-base sm:text-lg ml-1 font-light">&rarr;</span>
-                        </button>
-                      </div>
-
-                    </div>
-                  </div>
-
                 </div>
               </div>
 
@@ -2026,154 +2152,191 @@ export default function CartDrawer() {
         </div>
       )}
 
-      {/* Order Confirmed Screen - Compact Card in Mobile & Desktop View */}
+      {/* Square-like Payment Successful Screen (Receipt Layout) */}
       {orderConfirmed && (
         <div
           id="order-confirmed-root"
-          className="fixed inset-0 z-70 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs"
+          className="fixed inset-0 z-70 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-xs"
           data-lenis-prevent="true"
           onWheel={(e) => e.stopPropagation()}
         >
-          <div className="relative w-full max-w-[350px] sm:max-w-[420px] bg-[#F9F9F8] border border-neutral-200 rounded-2xl z-10 text-neutral-900 shadow-2xl flex flex-col text-left overflow-hidden">
-
-            {/* Header bar: checkmark + title + close */}
-            <div className="flex items-center justify-between px-3.5 pt-3 pb-2 sm:px-4 sm:pt-4 sm:pb-2.5 border-b border-neutral-100">
+          <div className="relative w-full max-w-[480px] bg-white border border-neutral-300 rounded-none shadow-2xl flex flex-col text-left overflow-hidden text-neutral-900">
+            {/* Receipt Header Bar */}
+            <div className="flex items-center justify-between px-5 py-3.5 bg-[#FAF8F5] border-b border-neutral-200">
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#D8F3DC] border border-[#B7E4C7] flex items-center justify-center shrink-0">
-                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 text-[#2D6A4F]" fill="none" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-poppins text-[9px] text-neutral-400 font-mono leading-none mb-0.5">Order #{orderConfirmed.orderId}</p>
-                  <h2 className="font-poppins text-xs sm:text-sm font-bold text-neutral-900 leading-tight">
-                    Order <span className="text-[#2D6A4F]">placed</span> — congrats!
-                  </h2>
-                </div>
+                <span className="font-asul text-base font-bold uppercase tracking-wide text-neutral-900">
+                  zesty
+                </span>
+                <span className="font-mono text-[10px] uppercase text-neutral-500 tracking-wider">
+                  // ORDER CONFIRMATION
+                </span>
               </div>
               <button
                 type="button"
                 onClick={() => { setOrderConfirmed(null); setIsCartOpen(false); setIsCheckingOut(false); }}
                 aria-label="Close"
-                className="w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-neutral-200/80 hover:bg-neutral-300 text-neutral-500 hover:text-black flex items-center justify-center transition-colors cursor-pointer shrink-0 active:scale-95 text-[9px] font-bold"
+                className="w-7 h-7 rounded-none border border-neutral-300 bg-white hover:bg-black hover:text-white flex items-center justify-center text-neutral-700 text-xs font-mono font-bold transition-colors cursor-pointer"
               >
                 &#10005;
               </button>
             </div>
 
-            {/* Body */}
-            <div className="px-3.5 py-2.5 sm:px-4 sm:py-3 space-y-2 sm:space-y-2.5">
-              {/* While waiting card */}
-              <div className="bg-white border border-neutral-200 rounded-xl p-2.5 sm:p-3">
-                <p className="font-poppins text-[9px] font-bold text-neutral-400 uppercase tracking-wider mb-1.5">While you're waiting</p>
-                <div className="space-y-1">
-                  {["Cold-pressed organic extraction", "Chilled nitrogen packaging", "Express delivery in 25–35 mins"].map((txt) => (
-                    <div key={txt} className="flex items-center gap-1.5">
-                      <svg className="w-2.5 h-2.5 text-[#2D6A4F] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span className="font-poppins text-[10px] sm:text-[11px] text-neutral-700">{txt}</span>
-                    </div>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => { setOrderConfirmed(null); setIsCartOpen(false); setIsCheckingOut(false); setIsAccountOpen(true); }}
-                  className="mt-2 px-2.5 py-0.5 bg-[#D8F3DC] hover:bg-[#B7E4C7] text-[#1B4332] text-[9px] font-poppins font-semibold rounded-full transition-colors cursor-pointer inline-block"
-                >
-                  View in Account
-                </button>
+            {/* Hero Success Badge */}
+            <div className="px-6 py-5 border-b border-neutral-200 bg-white">
+              <div className="w-11 h-11 rounded-none bg-[#EAF7EE] border border-emerald-400 text-emerald-800 flex items-center justify-center mb-3">
+                <svg viewBox="0 0 24 24" className="w-5 h-5 text-emerald-700" fill="none" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
               </div>
+              <h2 className="font-vagnola text-2xl sm:text-3xl font-bold uppercase tracking-tight text-neutral-900 leading-none">
+                Payment Successful
+              </h2>
+              <p className="font-poppins text-xs text-neutral-600 mt-1.5 leading-relaxed">
+                Your order is placed and confirmed. We've started cold-pressing and packing your signature bottles.
+              </p>
 
-              {/* CTA row */}
-              <div>
-                <p className="font-poppins text-[10px] sm:text-[11px] font-semibold text-neutral-700 mb-1.5">Questions about your order?</p>
-                <div className="flex gap-2">
-                  <a
-                    href="#footer"
-                    onClick={() => { setOrderConfirmed(null); setIsCartOpen(false); setIsCheckingOut(false); }}
-                    className="flex-1 text-center px-2 py-1.5 sm:py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-poppins font-medium text-[10px] sm:text-[11px] rounded-full transition-colors cursor-pointer"
-                  >
-                    Contact Support
-                  </a>
-                  <button
-                    type="button"
-                    onClick={() => { setOrderConfirmed(null); setIsCartOpen(false); setIsCheckingOut(false); }}
-                    className="flex-1 px-2 py-1.5 sm:py-2 bg-black hover:bg-neutral-800 text-white font-poppins font-semibold text-[10px] sm:text-[11px] rounded-full transition-colors cursor-pointer"
-                  >
-                    Continue Shopping
-                  </button>
+              {/* Order Reference Box */}
+              <div className="bg-[#FAF8F5] border border-neutral-200 rounded-none p-3 mt-3 flex items-center justify-between font-mono text-xs text-neutral-700">
+                <div>
+                  <span className="text-[10px] text-neutral-400 block uppercase">Order Number</span>
+                  <span className="font-bold text-neutral-900">#{orderConfirmed.orderId}</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] text-neutral-400 block uppercase">Status</span>
+                  <span className="font-bold text-emerald-700 uppercase">Confirmed ✓</span>
                 </div>
               </div>
+            </div>
+
+            {/* Order Items List */}
+            <div className="px-6 py-3.5 max-h-40 overflow-y-auto space-y-2 border-b border-neutral-200 bg-[#FAF8F5]/30">
+              <span className="font-mono text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">
+                Items Ordered
+              </span>
+              {(orderConfirmed.items && orderConfirmed.items.length > 0 ? orderConfirmed.items : [{ id: 'juice', title: 'Valencia Orange', packName: '500ml Single Can', price: 99 }]).map((item, idx) => (
+                <div key={idx} className="p-2 bg-white border border-neutral-200 rounded-none flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-9 h-9 bg-[#FAF8F5] border border-neutral-200 rounded-none p-0.5 shrink-0 flex items-center justify-center">
+                      <img
+                        src={item.image || '/assets/orange-can-hero.png'}
+                        alt={item.title || 'Juice'}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-asul text-xs font-bold uppercase text-neutral-900 truncate">
+                        {item.title || item.name}
+                      </p>
+                      <span className="font-poppins text-[10px] text-neutral-500 block">
+                        {item.packName || item.pack || '500ml Single Can'} {item.quantity ? `× ${item.quantity}` : ''}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="font-asul font-bold text-xs text-neutral-900 shrink-0 tabular-nums">
+                    ₹{item.totalPrice || item.price || 99}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Payment & Delivery Summary */}
+            <div className="px-6 py-3.5 space-y-2 text-xs font-poppins border-b border-neutral-200 bg-[#FAF8F5]">
+              <div className="flex justify-between items-center text-neutral-600">
+                <span>Payment Method:</span>
+                <span className="font-mono font-medium text-neutral-900">{orderConfirmed.customerDetails?.paymentLabel || 'Card / UPI'}</span>
+              </div>
+              <div className="flex justify-between items-center text-neutral-600">
+                <span>Delivery Slot:</span>
+                <span className="font-mono font-medium text-neutral-900">{orderConfirmed.deliverySlot || 'Dawn Express (6 AM - 9 AM)'}</span>
+              </div>
+              <div className="flex justify-between items-center text-neutral-600">
+                <span>Recipient:</span>
+                <span className="font-mono font-medium text-neutral-900 truncate max-w-[220px]">
+                  {orderConfirmed.customerDetails?.fullName || 'Customer'} ({orderConfirmed.customerDetails?.phone || '+91 98765 43210'})
+                </span>
+              </div>
+              <div className="flex justify-between items-baseline pt-2 border-t border-neutral-300">
+                <span className="font-asul font-bold uppercase text-neutral-900">Total Paid:</span>
+                <span className="font-asul text-base font-bold text-neutral-900 tabular-nums">
+                  ₹{orderConfirmed.customerDetails?.finalTotal || orderConfirmed.subtotal || 99}
+                </span>
+              </div>
+            </div>
+
+            {/* Square Action Buttons */}
+            <div className="px-6 py-4 bg-white flex flex-col sm:flex-row gap-2.5">
+              <button
+                type="button"
+                onClick={() => { setOrderConfirmed(null); setIsCartOpen(false); setIsCheckingOut(false); setIsAccountOpen(true); }}
+                className="flex-1 py-3 px-4 bg-neutral-100 hover:bg-neutral-200 text-neutral-900 font-asul font-bold text-xs uppercase tracking-wider rounded-none border border-neutral-300 text-center transition-colors cursor-pointer"
+              >
+                Track in Account
+              </button>
+              <button
+                type="button"
+                onClick={() => { setOrderConfirmed(null); setIsCartOpen(false); setIsCheckingOut(false); }}
+                className="flex-1 py-3 px-4 bg-black hover:bg-neutral-800 text-white font-asul font-bold text-xs uppercase tracking-wider rounded-none text-center transition-colors cursor-pointer"
+              >
+                Continue Shopping
+              </button>
             </div>
           </div>
         </div>
       )}
 
-
+      {/* Square Promo Unlock Popup */}
       {showPromoPopup && (
         <div
-          className="fixed inset-0 z-80 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-black/60 backdrop-blur-xs"
+          className="fixed inset-0 z-80 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-xs"
           data-lenis-prevent="true"
           onWheel={(e) => e.stopPropagation()}
         >
           <div
             ref={promoPopupRef}
-            className="relative w-full max-w-[400px] bg-linear-to-b from-[#4C1D95] via-[#5B21B6] to-[#6D28D9] rounded-t-[28px] sm:rounded-[28px] z-10 text-center shadow-2xl text-white overflow-hidden flex flex-col p-6 sm:p-7"
+            className="relative w-full max-w-[420px] bg-white border border-neutral-300 rounded-none z-10 text-center shadow-2xl text-neutral-900 overflow-hidden flex flex-col p-6 sm:p-8"
           >
-            {/* Top Right Circular Close 'X' Button */}
+            {/* Square Close Button */}
             <button
               type="button"
               onClick={() => setShowPromoPopup(false)}
               aria-label="Close"
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition-colors cursor-pointer z-20 active:scale-95"
+              className="absolute top-4 right-4 w-7 h-7 rounded-none border border-neutral-300 bg-white hover:bg-black hover:text-white flex items-center justify-center text-xs font-mono font-bold transition-colors cursor-pointer z-20"
             >
-              <svg
-                className="w-4 h-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2.5}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
+              &#10005;
             </button>
 
-            {/* Top Clean Promo Badge */}
+            {/* Top Square Promo Badge */}
             <div className="pt-2 pb-1 flex items-center justify-center">
-              <span className="px-3.5 py-1 rounded-full bg-amber-400/20 border border-amber-300/40 text-amber-300 text-xs font-bricolage font-extrabold uppercase tracking-wider">
+              <span className="px-3 py-1 rounded-none bg-[#FAF8F5] border border-neutral-300 text-neutral-900 text-xs font-mono font-bold uppercase tracking-wider">
                 {discountPercent}% OFF APPLIED
               </span>
             </div>
 
             {/* Headline */}
-            <h3 className="font-vagnola text-2xl sm:text-3xl font-bold text-white tracking-tight mt-2 mb-1">
-              {discountPercent}% Discount Unlocked!
+            <h3 className="font-vagnola text-2xl sm:text-3xl font-bold text-neutral-900 uppercase tracking-tight mt-2 mb-1">
+              Discount Unlocked!
             </h3>
 
             {/* Subtitle */}
-            <p className="font-poppins text-xs text-purple-200/90 font-medium mb-3">
-              Promo code <span className="font-bold text-amber-300 uppercase">{appliedPromoCode}</span> is active
+            <p className="font-poppins text-xs text-neutral-600 font-medium mb-3">
+              Promo code <span className="font-bold text-neutral-900 uppercase">{appliedPromoCode}</span> is active
             </p>
 
-            {/* Central 3D Box Illustration (Clean, NO BASE SHADOW LINE) */}
+            {/* Central Product Delivery Box Illustration */}
             <div className="relative w-full py-1 flex flex-col items-center justify-center">
               <img
                 src="/empty-cart-box.png"
                 alt="Zesty Fresh Delivery Box"
-                className="w-48 sm:w-56 max-h-[170px] sm:max-h-[190px] object-contain drop-shadow-2xl mx-auto select-none pointer-events-none"
+                className="w-44 sm:w-48 max-h-[160px] object-contain drop-shadow-md mx-auto select-none pointer-events-none"
               />
             </div>
 
-            {/* Full-width Black Pill Button at Bottom */}
+            {/* Full-width Square Button at Bottom */}
             <div className="pt-4 w-full">
               <button
                 type="button"
                 onClick={() => setShowPromoPopup(false)}
-                className="w-full py-3.5 bg-black hover:bg-neutral-900 text-white font-poppins font-bold text-xs uppercase tracking-widest rounded-full transition-all cursor-pointer shadow-xl active:scale-98 text-center"
+                className="w-full py-3.5 bg-black hover:bg-neutral-800 text-white font-asul font-bold text-xs uppercase tracking-widest rounded-none transition-all cursor-pointer shadow-xs text-center"
               >
                 Continue Shopping
               </button>

@@ -87,8 +87,21 @@ export function CartProvider({ children }) {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isAccountOpen, setIsAccountOpen] = useState(false)
   const [toastMessage, setToastMessage] = useState(null)
-  const [isCheckingOut, setIsCheckingOut] = useState(false)
-  const [orderConfirmed, setOrderConfirmed] = useState(null)
+  const [isCheckingOut, setIsCheckingOut] = useState(() => {
+    try {
+      return sessionStorage.getItem('zesty_is_checking_out_v1') === 'true'
+    } catch {
+      return false
+    }
+  })
+  const [orderConfirmed, setOrderConfirmed] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem('zesty_order_confirmed_v1')
+      return saved ? JSON.parse(saved) : null
+    } catch {
+      return null
+    }
+  })
 
   // Persist cart
   useEffect(() => {
@@ -98,6 +111,23 @@ export function CartProvider({ children }) {
       // Storage unavailable fallback
     }
   }, [items])
+
+  // Persist checkout states
+  useEffect(() => {
+    try {
+      sessionStorage.setItem('zesty_is_checking_out_v1', isCheckingOut)
+    } catch {}
+  }, [isCheckingOut])
+
+  useEffect(() => {
+    try {
+      if (orderConfirmed) {
+        sessionStorage.setItem('zesty_order_confirmed_v1', JSON.stringify(orderConfirmed))
+      } else {
+        sessionStorage.removeItem('zesty_order_confirmed_v1')
+      }
+    } catch {}
+  }, [orderConfirmed])
 
   // Clear toast timeout
   useEffect(() => {
