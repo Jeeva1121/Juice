@@ -5,13 +5,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import { CartProvider } from './context/CartContext'
 import { PageTransitionProvider } from './context/PageTransitionContext'
-import SquareBlockTransition from './components/SquareBlockTransition'
 import Navbar from './components/Navbar'
 import CartDrawer from './components/CartDrawer'
 import SearchModal from './components/SearchModal'
 import AccountModal from './components/AccountModal'
 import ScrollProgress from './components/ScrollProgress'
 import TinyTrails404 from './components/TinyTrails404'
+import ModernPageTransition from './components/ModernPageTransition'
 import Hero from './sections/Hero'
 import Gallery from './sections/Gallery'
 import BrandManifesto from './sections/BrandManifesto'
@@ -135,11 +135,9 @@ export default function App() {
 
   return (
     <PageTransitionProvider>
+      <ModernPageTransition />
       <CartProvider>
         <div className="relative min-h-screen bg-(--color-surface) text-(--color-ink) selection:bg-(--color-coral) selection:text-white font-poppins">
-          {/* GSAP Modern Square Blocks Page Transition Overlay */}
-          <SquareBlockTransition />
-
           {/* Global Scroll Progress Bar */}
           <ScrollProgress />
 

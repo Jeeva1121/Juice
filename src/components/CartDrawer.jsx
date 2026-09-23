@@ -375,37 +375,77 @@ export default function CartDrawer() {
     }
   }, [isCheckingOut]);
 
+  const handleProceedToCheckout = () => {
+    if (drawerPanelRef.current) {
+      gsap.to(drawerPanelRef.current, {
+        x: -40,
+        opacity: 0,
+        duration: 0.35,
+        ease: "power2.inOut",
+        onComplete: () => {
+          setIsCheckingOut(true);
+        },
+      });
+    } else {
+      setIsCheckingOut(true);
+    }
+  };
+
+  const handleReturnToCart = () => {
+    const root = document.getElementById("checkout-root");
+    if (root) {
+      gsap.to(root, {
+        x: "100%",
+        opacity: 0,
+        duration: 0.35,
+        ease: "power3.in",
+        onComplete: () => {
+          setIsCheckingOut(false);
+          if (drawerPanelRef.current) {
+            gsap.fromTo(
+              drawerPanelRef.current,
+              { x: -40, opacity: 0 },
+              { x: 0, opacity: 1, duration: 0.4, ease: "power3.out" }
+            );
+          }
+        },
+      });
+    } else {
+      setIsCheckingOut(false);
+    }
+  };
+
   // Modern GSAP Animations for Checkout — triggered via useEffect for reliability
   useEffect(() => {
     if (!isCheckingOut) return;
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       // 1. Full page slide in from right
       tl.fromTo(
         '#checkout-root',
         { x: '100%', opacity: 0 },
-        { x: '0%', opacity: 1, duration: 0.65, ease: 'expo.out' }
+        { x: '0%', opacity: 1, duration: 0.5, ease: 'expo.out' }
       );
       // 2. Header drops in from top
       tl.fromTo(
         '#checkout-root header',
-        { y: -40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' },
-        '-=0.35'
+        { y: -30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.45 },
+        '-=0.3'
       );
       // 3. Headline reveal
       tl.fromTo(
         '#checkout-root .checkout-headline',
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out' },
-        '-=0.3'
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.45 },
+        '-=0.25'
       );
       // 4. Cards stagger up
       tl.fromTo(
         '#checkout-root .checkout-stagger-item',
-        { y: 40, opacity: 0, scale: 0.97 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.1, ease: 'expo.out' },
-        '-=0.25'
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, stagger: 0.08, ease: 'expo.out' },
+        '-=0.2'
       );
     });
     return () => ctx.revert();
@@ -973,16 +1013,14 @@ export default function CartDrawer() {
     setTimeout(() => {
       setProcessingMessage("Payment Authorized: Verified by Card Network!");
       setTimeout(() => {
-        triggerTransition(() => {
-          setIsProcessingPayment(false);
-          completeOrder({
-            ...formData,
-            fullName: cardData.name || userProfile?.fullName || formData.fullName || "Customer",
-            paymentLabel,
-            paymentMethod: "card",
-            finalTotal: finalTotal || 488,
-            discountAmount: discountAmount || 0,
-          });
+        setIsProcessingPayment(false);
+        completeOrder({
+          ...formData,
+          fullName: cardData.name || userProfile?.fullName || formData.fullName || "Customer",
+          paymentLabel,
+          paymentMethod: "card",
+          finalTotal: finalTotal || 488,
+          discountAmount: discountAmount || 0,
         });
       }, 500);
     }, 1000);
@@ -999,16 +1037,14 @@ export default function CartDrawer() {
     setTimeout(() => {
       setProcessingMessage("NPCI Gateway: Instant payment approved ✓");
       setTimeout(() => {
-        triggerTransition(() => {
-          setIsProcessingPayment(false);
-          completeOrder({
-            ...formData,
-            fullName: userProfile?.fullName || cardData.name || formData.fullName || "Customer",
-            paymentLabel: vpaStr ? `UPI (${selectedAppObj?.shortName || "UPI"} - ${vpaStr})` : `UPI (${selectedAppObj?.shortName || "UPI"})`,
-            paymentMethod: "upi",
-            finalTotal: finalTotal || 488,
-            discountAmount: discountAmount || 0,
-          });
+        setIsProcessingPayment(false);
+        completeOrder({
+          ...formData,
+          fullName: userProfile?.fullName || cardData.name || formData.fullName || "Customer",
+          paymentLabel: vpaStr ? `UPI (${selectedAppObj?.shortName || "UPI"} - ${vpaStr})` : `UPI (${selectedAppObj?.shortName || "UPI"})`,
+          paymentMethod: "upi",
+          finalTotal: finalTotal || 488,
+          discountAmount: discountAmount || 0,
         });
       }, 500);
     }, 1000);
@@ -1079,15 +1115,13 @@ export default function CartDrawer() {
     }
 
     setTimeout(() => {
-      triggerTransition(() => {
-        setIsProcessingPayment(false);
-        completeOrder({
-          ...formData,
-          paymentLabel,
-          paymentMethod: paymentTab,
-          finalTotal,
-          discountAmount,
-        });
+      setIsProcessingPayment(false);
+      completeOrder({
+        ...formData,
+        paymentLabel,
+        paymentMethod: paymentTab,
+        finalTotal,
+        discountAmount,
       });
     }, 850);
   };
@@ -1633,9 +1667,7 @@ export default function CartDrawer() {
                   <button
                     ref={checkoutBtnRef}
                     type="button"
-                    onClick={() =>
-                      triggerTransition(() => setIsCheckingOut(true))
-                    }
+                    onClick={handleProceedToCheckout}
                     className="w-full h-12 sm:h-14 pl-5 sm:pl-6 pr-1.5 sm:pr-2 rounded-none bg-neutral-950 hover:bg-black text-white flex items-center justify-between transition-all duration-300 cursor-pointer shadow-md hover:shadow-xl active:scale-98"
                   >
                     <span className="font-vagnola text-sm sm:text-base font-bold tracking-wider uppercase text-white">
@@ -1674,6 +1706,11 @@ export default function CartDrawer() {
           data-lenis-prevent="true"
           onWheel={(e) => e.stopPropagation()}
           onTouchMove={(e) => e.stopPropagation()}
+          style={{
+            transform: "translateX(100%)",
+            opacity: 0,
+            willChange: "transform, opacity",
+          }}
           className="fixed inset-0 z-60 w-full h-dvh bg-[#0D0D0D] text-white overflow-y-auto flex flex-col justify-between select-none"
         >
           {/* Top Real-time Scroll Progress Bar */}
@@ -1700,7 +1737,7 @@ export default function CartDrawer() {
             <div className="flex items-center justify-start">
               <button
                 type="button"
-                onClick={() => triggerTransition(() => setIsCheckingOut(false))}
+                onClick={handleReturnToCart}
                 className="flex items-center gap-2 text-xs font-asul font-bold uppercase tracking-wider text-white hover:bg-white hover:text-black transition-all duration-200 cursor-pointer bg-white/10 border border-white/20 px-3.5 py-2 rounded-none active:scale-95"
               >
                 <span className="font-light text-sm">&larr;</span>
